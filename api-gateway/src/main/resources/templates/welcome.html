@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<!-- HTML head -->
+<div th:replace="fragments/header::header-htmlhead" />
+</head>
+<body>
+
+    <!-- Header with navbar -->
+    <div th:replace="fragments/header::header-commons" />
+
+    <!-- Container -->
+    <div class="container-fluid">
+
+        <div class="jumbotron">
+            <h2>
+            <span th:text="${@environment.getProperty('api-gateway.console.banner-text')}">Edge Server Admin Console</span>
+            </h2>
+            <h6 sec:authorize="isAnonymous()">Please <a th:href="@{/console/login}">login</a> to access the administrative features</h6>
+            <h6 sec:authorize="isAuthenticated()">Please go to the <a th:href="@{/console/private/admin}">Admin Console</a> page to access the administrative features</h6>
+            <span class="label label-default">Service Instance</span><span th:text="${F_INSTANCE_ID}" class="label label-success">F_INSTANCE_ID</span>
+        </div>
+
+    </div>
+
+    <!-- Footer : tagline -->
+    <div th:replace="fragments/footer::footer-tagline" />
+
+    <!-- Footer : scripts -->
+    <div th:replace="fragments/footer::footer-scripts" />
+
+    <!-- Page specific scripts -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        $(document).ready(function() {
+
+            // --------------
+            // Onload Actions
+            // --------------
+
+            // Navbar actions
+            $("#navbar-btn-home").addClass('active');
+
+        })
+
+
+        /*]]>*/
+    </script>
+
+</body>
+</html>

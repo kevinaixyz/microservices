@@ -1,0 +1,86 @@
+info:
+  component: Service Discovery Server with Netflix Eureka [Build-@pom.version@-@timestamp@]
+# Bespoke settings
+eureka-server:
+  peer:
+    hostname: ${PEER_HOSTNAME:localhost}
+    port: ${PEER_PORT:0}
+# Spring
+spring:
+  application:
+    name: eureka-server-${spring.profiles.active}
+  profiles:
+    active: dev
+server:
+  session:
+    cookie.name: ${spring.application.name}
+  compression:
+    enabled: true
+# Logbook
+logbook:
+    filter.enabled: true
+    format.style: http
+    obfuscate:
+        headers:
+            - Authorization
+            - X-Secret
+        parameters:
+            - access_token
+            - password
+    write:
+        category: http.wire-log
+        level: INFO
+        chunk-size: 1000
+# Jasypt password encryption
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:haitong}
+    stringOutputType: hexadecimal
+# Spring Management and Endpoints
+management:
+  security:
+    enabled: false
+  context-path: /manage
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+# Netflix Eureka
+eureka:
+  instance:
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://${eureka-server.peer.hostname}:${eureka-server.peer.port}/eureka
+---
+# DEV profile
+spring:
+  profiles: dev
+server:
+  port: ${SERVER_PORT:9900}
+---
+# SIT profile
+spring:
+  profiles: sit
+server:
+  port: ${SERVER_PORT:9900}
+---
+# UAT profile
+spring:
+  profiles: uat
+server:
+  port: ${SERVER_PORT:9900}
+---
+# PROD profile
+spring:
+  profiles: prod
+server:
+  port: ${SERVER_PORT:9900}

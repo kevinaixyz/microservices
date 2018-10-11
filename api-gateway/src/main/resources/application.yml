@@ -1,0 +1,243 @@
+info:
+  component: Edge Sever
+# Bespoke settings
+api-gateway:
+  console:
+    banner-text: Edge Server Admin Console
+  users:
+    admin:
+      username: admin
+      password: f0c60d502e2afe7030855e1cc567c4f665e4c647335e4e085313aa3b917b2149d9d45d001a36ec0a
+  trace:
+    history: 1000
+# Jasypt password encryption (default to: haitong)
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:haitong}
+    stringOutputType: hexadecimal
+# Spring
+spring:
+  application:
+    name: edge-server-${spring.profiles.active}
+  profiles:
+    active: dev
+server:
+  context-path: /edge
+  session:
+    cookie.name: ${spring.application.name}
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 128
+  jetty:
+    max-http-post-size: 1000000
+  undertow:
+    max-http-post-size: 1000000
+# Logbook
+logbook:
+    filter.enabled: true
+    format.style: http
+    obfuscate:
+        headers:
+            - Authorization
+            - X-Secret
+        parameters:
+            - access_token
+            - password
+    write:
+        category: http.wire-log
+        level: INFO
+        chunk-size: 1000
+# Spring Management and Endpoints
+management:
+  security:
+    enabled: false
+  context-path: /manage
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+# Netflix Eureka (Service Discovery)
+eureka:
+  instance:
+    secureVirtualHostName: ${spring.application.name}
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+    statusPageUrl: ${HTTP_PROTOCOL:https}://${HOSTNAME:spring.cloud.client.ipAddress}:${server.port}${server.context-path}${management.context-path}/info
+    healthCheckUrl: ${HTTP_PROTOCOL:https}://${HOSTNAME:spring.cloud.client.ipAddress}:${server.port}${server.context-path}${management.context-path}/health
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+  client:
+    registryFetchIntervalSeconds: 5
+    instanceInfoReplicationIntervalSeconds: 5
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    fetchRegistry: true
+    healthcheck:
+      enabled: true
+# Netflix Ribbon (Load-balancing)
+ribbon:
+  eureka:
+    enabled: true
+  restclient:
+    enabled: true
+  retry:
+    enabled: true
+  eager-load:
+    enabled: true
+  IsSecure: true
+  TrustStore: keystore.p12
+  TrustStorePassword : haitong
+  ReadTimeout: 180000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 10
+  OkToRetryOnAllOperations: true
+  ServerListRefreshInterval: 5000
+# Netflix Zuul (Routing)
+zuul:
+  prefix: /api
+  sensitive-headers: # Blank, i.e.: pass thru all headers
+  ignoreSecurityHeaders: false
+  ignoredServices: '*'
+  retryable: true
+  ribbon:
+    eager-load:
+      enabled: true
+  # Routes
+  routes:
+    # Re-direct to a redefined URL in case of unknown service invocation
+    unknown-service-redirect:
+      path: /redirect/**
+      url: http://google.com
+    # Security Service
+    security-service:
+      path: /security-service/**
+      serviceId: security-service-${spring.profiles.active}
+      retryable: true
+    # Entitlement Service
+    entitlement-service:
+      path: /entitlement-service/**
+      serviceId: entitlement-service-${spring.profiles.active}
+      retryable: true
+    # Auditlog Service
+    auditlog-service:
+      path: /auditlog-service/**
+      serviceId: auditlog-service-${spring.profiles.active}
+      retryable: true
+    # Mock Service (as an example)
+    mock-service:
+      path: /mock-service/**
+      serviceId: mock-service-${spring.profiles.active}
+      retryable: true
+      ipWhitelist: 0:0:0:0:0:0:0:1
+    # CRM PWM Service
+    crmpwm-service:
+      path: /crmpwm-service/**
+      serviceId: crmpwm-service-${spring.profiles.active}
+      retryable: true
+#      ipWhitelist: 10.168.55.38
+#      serverPortWhitelist: 80
+#      localPortWhitelist: 8009
+#      ipWhitelist: 10.168.55.39
+#      serverPortWhitelist: 9906
+#      localPortWhitelist: 9906
+    # CEN service
+    cen-service:
+      path: /cen-service/**
+      serviceId: cen-service-${spring.profiles.active}
+      retryable: true
+    # Report Server
+    report-server:
+      path: /report-server/**
+      serviceId: report-server-${spring.profiles.active}
+      retryable: true
+    # CDMS Data Extraction
+    cdms-data-extraction:
+      path: /cdms-data-extraction/**
+      serviceId: cdms-data-extraction-${spring.profiles.active}
+      retryable: true
+    cmm-service:
+      path: /cmm-service/**
+      serviceId: cmm-service-${spring.profiles.active}
+      retryable: true
+    rmm-service:
+      path: /rmm-service/**
+      serviceId: rmm-service-${spring.profiles.active}
+      retryable: true   
+# Netflix Hystrix (Circuit Breaker)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 180000
+    report-server:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 180000
+---
+# DEV profile
+spring:
+  profiles: dev
+server:
+  port: ${SERVER_PORT:9906}
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: haitong
+    keyStoreType: PKCS12
+    keyAlias: microservices
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+---
+# SIT profile
+spring:
+  profiles: sit
+server:
+  port: ${SERVER_PORT:9906}
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: haitong
+    keyStoreType: PKCS12
+    keyAlias: microservices
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+---
+# UAT profile
+spring:
+  profiles: uat
+server:
+  port: ${SERVER_PORT:9906}
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: haitong
+    keyStoreType: PKCS12
+    keyAlias: microservices
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+---
+# PROD profile
+spring:
+  profiles: prod
+server:
+  port: ${SERVER_PORT:9906}
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: haitong
+    keyStoreType: PKCS12
+    keyAlias: microservices
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}

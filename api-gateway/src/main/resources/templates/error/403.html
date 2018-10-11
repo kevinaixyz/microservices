@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- HTML head -->
+<div th:replace="fragments/header::header-htmlhead" />
+</head>
+<body>
+
+    <!-- Header with navbar -->
+    <div th:replace="fragments/header::header-commons" />
+
+    <!-- Container -->
+    <div class="container-fluid">
+
+        <div class="alert alert-danger alert-dismissible">
+            <div th:inline="text">
+                <strong>Access is denied</strong> You are not allowed to access this page.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer : tagline -->
+    <div th:replace="fragments/footer::footer-tagline" />
+
+    <!-- Footer : scripts -->
+    <div th:replace="fragments/footer::footer-scripts" />
+
+</body>
+</html>

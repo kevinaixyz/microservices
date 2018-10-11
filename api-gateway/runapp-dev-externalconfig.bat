@@ -1,0 +1,1 @@
+java -Xms256m -Xmx512m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Dspring.config.location=/etc/microservices/edge-server/application.yml -Dspring.profiles.active=dev -jar .\target\edge-server-0.0.1-SNAPSHOT.jar

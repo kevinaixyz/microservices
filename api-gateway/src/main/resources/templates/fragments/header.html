@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+
+<!-- HTML head -->
+<div th:fragment="header-htmlhead">
+
+<title th:text="${@environment.getProperty('api-gateway.console.banner-text')}">Edge Server Admin Console</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" th:href="@{/public/bootstrap/3.3.7/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/public/bootstrap/3.3.7/css/bootstrap-dialog.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/public/bootstrap-table/css/bootstrap-table.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/public/lightbox2/css/lightbox.min.css}" />
+<link rel="stylesheet" th:href="@{/public/custom/css/webapp-light-theme.css}" />
+
+</div>
+
+</head>
+<body>
+
+    <!-- Common header -->
+    <div th:fragment="header-commons">
+
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <!-- Navbar : responsive button group -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Navbar : Logo -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/console/}">
+                        <img
+                        alt="Haitong International Securities Group Limited"
+                        th:src="@{/public/img/haitong_logo.png}">
+                        </img>
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <!-- Navbar : Left-side -->
+                    <ul class="nav navbar-nav">
+                        <li id="navbar-btn-home" sec:authorize="isAnonymous()"><a th:href="@{/console/}">Home</a></li>
+                        <li id="navbar-btn-admin" sec:authorize="isAuthenticated()"><a th:href="@{/console/private/admin}">Admin Console</a></li>
+                    </ul>
+                    <!-- Navbar : Right-side -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li sec:authorize="isAnonymous()">
+                            <button id="btn-navbar-login" class="btn btn-primary" onclick="goToLoginPage()" >
+                            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login
+                            </button>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <button id="btn-navbar-logout" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout <span sec:authentication="name"></span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Common bootstrap modals -->
+        <div th:replace="fragments/modals::modals-commons" />
+
+        <!-- Logout form -->
+        <form id="form-navbar-logout" th:action="@{/logout}" method="post" hidden="true">
+            <input type="submit" value="Logout"/>
+        </form>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- HTML head -->
+<div th:replace="fragments/header::header-htmlhead" />
+</head>
+<body>
+
+    <!-- Header with navbar -->
+    <div th:replace="fragments/header::header-commons" />
+
+    <!-- Container -->
+    <div class="container-fluid">
+
+        <div class="jumbotron">
+            <h2>
+            <span th:text="${@environment.getProperty('api-gateway.console.banner-text')}">Edge Server Admin Console</span>
+            </h2>
+            <h6 sec:authorize="isAnonymous()">Please <a th:href="@{/console/login}">login</a> to access the administrative features</h6>
+            <h6 sec:authorize="isAuthenticated()">Please go to the <a th:href="@{/console/private/admin}">Admin Console</a> page to access the administrative features</h6>
+            <span class="label label-default">Service Instance</span><span th:text="${F_INSTANCE_ID}" class="label label-success">F_INSTANCE_ID</span>
+        </div>
+
+        <h4><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Please login <small>(To access the protected resources)</small></h4>
+
+        <form th:action="@{/console/login}" method="post">
+            <fieldset>
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">
+                        <h4>Failed!</h4>
+                        Invalid username / password.
+                    </div>
+                </div>
+                <div th:if="${param.logout}">
+                    <div class="alert alert-success">
+                        <h4>Goodbye!</h4>
+                        You have been logged out.
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input type="text"
+                        name="username"
+                        id="username"
+                        class="form-control input-lg"
+                        placeholder="User name"
+                        required="true" autofocus="true" />
+                </div>
+                <p/>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input type="password"
+                        name="password"
+                        id="password"
+                        class="form-control input-lg"
+                        placeholder="Password"
+                        required="true" />
+                </div>
+                <p/>
+                <div>
+                    <input type="submit" class="btn btn-primary" value="Login" />
+                </div>
+            </fieldset>
+        </form>
+
+        <p/>
+
+    </div>
+
+    <!-- Footer : tagline -->
+    <div th:replace="fragments/footer::footer-tagline" />
+
+    <!-- Footer : scripts -->
+    <div th:replace="fragments/footer::footer-scripts" />
+
+</body>
+</html>

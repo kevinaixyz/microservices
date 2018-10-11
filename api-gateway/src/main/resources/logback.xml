@@ -1,0 +1,34 @@
+<configuration>
+
+    <appender name="DAILY_LOGFILE"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/temp/logs/microservice/api-gateway.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>/temp/logs/microservice/api-gateway.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ}][%thread][%-5level][%logger{30}] %replace(%msg){'"password": "\S+"', '"password": "***obfuscated***"'}%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ}][%thread][%-5level][%logger{30}] %replace(%msg){'"password": "\S+"', '"password": "***obfuscated***"'}%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.netflix" level="error"/>
+    <logger name="com.netflix.discovery.TimedSupervisorTask" level="off"/>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="DAILY_LOGFILE" />
+    </root>
+
+</configuration>
