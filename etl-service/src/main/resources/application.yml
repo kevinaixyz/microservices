@@ -1,0 +1,181 @@
+info:
+  component: Rpt Service [Build-@pom.version@-@timestamp@]
+# Schedule Job
+ficc:
+  report:
+    immediate: false
+    cron: 0 20 11 * * ?
+inv:
+  report:
+    immediate: true
+    cron: 0 20 11 * * ?
+    folderPath: /mnt/cdms-inv/   
+    loadAllData: false
+# Bespoke setting
+rpt-service: 
+  trust-self-signed-certs: true
+  users:
+    admin:
+      username: admin
+      password: ENC(1FB407ACD493F6FB7274F06B80BDB57238F080C530C78386)
+    apiClient:
+      username: apiClient
+      password: ENC(1FB407ACD493F6FB7274F06B80BDB57238F080C530C78386)
+# Jasypt password encryption (default to: prototype)
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:prototype}
+    stringOutputType: hexadecimal
+# Spring
+spring:
+  application:
+    name: rpt-service-${spring.profiles.active}
+  profiles:
+    active: dev
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 128
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: ENC(6811B3C24F5A0328E55993B55B107E1A)
+    keyStoreType: PKCS12
+    keyAlias: microservices        
+# Spring Management and Endpoints
+management:
+  security:
+    enabled: false
+  context-path: /manage
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+# Netflix Eureka
+eureka:
+  instance:
+    preferIpAddress: true
+    statusPageUrl: ${HTTP_PROTOCOL:https}://${spring.cloud.client.ipAddress:localhost}:${server.port}${management.context-path}/info
+    healthCheckUrl: ${HTTP_PROTOCOL:https}://${spring.cloud.client.ipAddress:localhost}:${server.port}${management.context-path}/health
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+      retryable: true
+---
+# DEV profile
+p125:
+  fireprice:
+    fileNamePattern: Imagine_FairPrice_
+    schedule-job: 
+      immediate: false
+      cron: 0 */30 * * * ? 
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:oracle:thin:@U1CDM601:1521/cdmsta
+    username: crmcofdc
+    password: ENC(CDC34B34E33FD4FE9F212987EB85B04B8A673CC2EE8C093B) # Jasypt encrypted!
+    driver-class-name: oracle.jdbc.OracleDriver
+  datasource-cdms:
+    url: jdbc:oracle:thin:@U1CDM601:1521/cdmsta
+    username: ctim
+    password: ENC(CDC34B34E33FD4FE9F212987EB85B04B8A673CC2EE8C093B) # Jasypt encrypted!
+    driver-class-name: oracle.jdbc.OracleDriver
+  http:
+    multipart:
+        max-file-size: 10MB
+        max-request-size: 10MB   
+server:
+  port: ${SERVER_PORT:9101}
+# Netflix Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+    eureka-connection-idle-timeout-seconds: 60 
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+config:
+  configFilePath: ${CONFIG_FILE_PATH:\\10.168.51.101\Scan\rpt_report\}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:rpt_config} ## Notice: the extension of the config file must be .json
+---
+# SIT profile
+spring:
+  profiles: sit
+server:
+  port: ${SERVER_PORT:0}
+# Netflix Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}      
+config:
+  configFilePath: ${CONFIG_FILE_PATH:\home\oracle\home\config\cdms\report\}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:rpt_config} ## Notice: the extension of the config file must be .json
+---
+# UAT profile
+p125:
+  fireprice:
+    fileNamePattern: Imagine_FairPrice_
+    schedule-job: 
+      immediate: true
+      cron: 0 18 30 * * MON-FRI 
+spring:
+  profiles: uat
+server:
+  port: ${SERVER_PORT:0}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+config:
+  configFilePath: ${CONFIG_FILE_PATH:\home\oracle\home\config\cdms\report\}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:rpt_config} ## Attn: the extension of the config file must be .json    
+---
+# PROD profile
+p125:
+  fireprice:
+    fileNamePattern: Imagine_FairPrice_
+    schedule-job: 
+      immediate: false
+      cron: 0 18 30 * * MON-FRI 
+spring:
+  profiles: prod
+  datasource-cdms:
+    url: jdbc:oracle:thin:@p1cdm601scan.tfprod.taifook.com:1521/cdmspa
+    username: ctim
+    password: ENC(EC946AD55382A41D9C3AD0565062EC036394FA3E68ADC10E) # Jasypt encrypted!
+    driver-class-name: oracle.jdbc.OracleDriver
+server:
+  port: ${SERVER_PORT:9101}
+# Netflix Eureka  
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}  
+config:
+  configFilePath: ${CONFIG_FILE_PATH:/home/oracle/home/config/tr}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:rpt_config} ## Notice: the extension of the config file must be .json

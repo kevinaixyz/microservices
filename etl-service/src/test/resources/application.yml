@@ -1,0 +1,79 @@
+# Unit test specific settings
+info:
+  component: CRM for PWM Backend Service [Build-@pom.version@-@timestamp@]
+# Bespoke setting
+crmpwm-service:
+  trust-self-signed-certs: true
+  users:
+    admin:
+      username: admin
+      password: ENC(5B84A7F387CBA69DC68730D6C50754A6C18EF84F4CEE3819)
+    apiClient:
+      username: apiClient
+      password: ENC(5B84A7F387CBA69DC68730D6C50754A6C18EF84F4CEE3819)
+# Jasypt password encryption (default to: prototype)
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:prototype}
+    stringOutputType: hexadecimal
+spring:
+  application:
+    name: crmpwm-service-${spring.profiles.active}
+  profiles:
+    active: test
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+  datasource:
+    url: jdbc:oracle:thin:@U1CDM601:1521/cdmsta
+    username: crmpwmut
+    password: ENC(B356A67A6AB0A478F79B63F2027C5505230155C578AC47FC)
+    driver-class-name: oracle.jdbc.OracleDriver
+  datasource-cdms:
+    url: jdbc:oracle:thin:@U1CDM601:1521/cdmsta
+    username: cdms
+    password: ENC(FCBA88135C534057931AE370EC85901062BDDCB772209690)
+    driver-class-name: oracle.jdbc.OracleDriver
+server:
+  port: ${SERVER_PORT:9999}
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: ENC(5C34A47FC19B0D9543D7B443935BF863)
+    keyStoreType: PKCS12
+    keyAlias: microservices
+management:
+  security:
+    enabled: true
+  context-path: /manage
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+eureka:
+  client:
+    enabled: false
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9000/eureka}
+  instance:
+    preferIpAddress: true
+    statusPageUrl: ${HTTP_PROTOCOL:https}://${spring.cloud.client.ipAddress:localhost}:${server.port}${management.context-path}/info
+    healthCheckUrl: ${HTTP_PROTOCOL:https}://${spring.cloud.client.ipAddress:localhost}:${server.port}${management.context-path}/health
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+# Netflix Hystrix (Circuit Breaker)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 5000
+---
+# TEST profile
+spring:
+  profiles: test
+config:
+  filePath: ${CONFIG_FILE:\\PC003703\Scan\rpt_report\config.json}

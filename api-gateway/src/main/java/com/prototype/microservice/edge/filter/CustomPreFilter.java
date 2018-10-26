@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
-import com.haitong.microservice.commons.utils.JsonUtils;
+import com.prototype.microservice.commons.utils.JsonUtils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 

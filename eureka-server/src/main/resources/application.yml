@@ -34,7 +34,7 @@ logbook:
 # Jasypt password encryption
 jasypt:
   encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD:haitong}
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:prototype}
     stringOutputType: hexadecimal
 # Spring Management and Endpoints
 management:

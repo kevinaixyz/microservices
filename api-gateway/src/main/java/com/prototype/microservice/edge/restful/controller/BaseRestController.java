@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.haitong.microservice.commons.json.ErrorResponseJson;
-import com.haitong.microservice.commons.json.ResponseJson;
+import com.prototype.microservice.commons.json.ErrorResponseJson;
+import com.prototype.microservice.commons.json.ResponseJson;
 
 public class BaseRestController {
 

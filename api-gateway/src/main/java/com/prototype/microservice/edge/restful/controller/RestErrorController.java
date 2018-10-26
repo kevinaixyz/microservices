@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.haitong.microservice.commons.json.ErrorResponseJson;
-import com.haitong.microservice.commons.utils.JsonUtils;
+import com.prototype.microservice.commons.json.ErrorResponseJson;
+import com.prototype.microservice.commons.utils.JsonUtils;
 
 /**
  * The framework level controller for error handling

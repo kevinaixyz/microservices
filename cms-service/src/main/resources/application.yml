@@ -1,0 +1,267 @@
+info:
+  component: CMS Service
+# Bespoke settings
+cms-service:
+  credentials:
+    users:
+      admin:
+        username: admin
+        password: ENC(1FB407ACD493F6FB7274F06B80BDB57238F080C530C78386)
+      apiClient:
+        username: apiClient
+        password: ENC(1FB407ACD493F6FB7274F06B80BDB57238F080C530C78386)
+# Jasypt password encryption (default to: prototype)
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:prototype}
+    stringOutputType: hexadecimal
+# Spring
+spring:
+  application:
+    name: cms-service-${spring.profiles.active}
+  profiles:
+    active: dev
+  cache:
+    jcache.config: classpath:cache/ehcache.xml
+  batch:
+    job:
+      enabled: false # Stop jobs from being executed on app startup
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        enable_lazy_load_no_trans: true
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 128
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: ENC(6811B3C24F5A0328E55993B55B107E1A)
+    keyStoreType: PKCS12
+    keyAlias: microservices
+# Logbook
+logbook:
+    filter.enabled: true
+    format.style: http
+    obfuscate:
+        headers:
+            - Authorization
+            - X-Secret
+        parameters:
+            - access_token
+            - password
+    write:
+        category: http.wire-log
+        level: INFO
+        chunk-size: 1000
+# Spring Management and Endpoints
+management:
+  security:
+    enabled: false
+  context-path: /manage
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+# Netflix Eureka
+eureka:
+  instance:
+    preferIpAddress: true
+    statusPageUrl: ${HTTP_PROTOCOL:https}://${spring.cloud.client.ipAddress:localhost}:${server.port}${management.context-path}/info
+    healthCheckUrl: ${HTTP_PROTOCOL:https}://${spring.cloud.client.ipAddress:localhost}:${server.port}${management.context-path}/health
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+      retryable: true
+---
+# DEV profile
+spring:
+  profiles: dev
+  activemq:
+    broker-url: failover:(tcp://localhost:61616,tcp://localhost:61617)?initialReconnectDelay=100&startupMaxReconnectAttempts=5&warnAfterReconnectAttempts=1
+    user: admin
+    password: ENC(4A89037C0B443137B9F6F8328823BFD4)
+    pool:
+      enabled: true
+      max-connections: 50
+  datasource:
+    url: jdbc:oracle:thin:@U1CDM601:1521/cdmsta
+    username: cms
+    password: ENC(5A57FC702CA938062B9E38007014E25D68DD3356F89E8318)
+    driver-class-name: oracle.jdbc.OracleDriver
+    connection-test-query: SELECT 1 FROM DUAL
+    test-while-idle: true
+    test-on-borrow: true
+    tomcat:
+      max-active: 5    
+server:
+  port: ${SERVER_PORT:9107}
+cms-service:
+  baseDate: 2018-03-28
+  systemDate: ${SYS_DATE:20180119}
+  batch: 
+    schedule: 
+      trade-job: 0 */30 10-22 * * MON-FRI
+      entity-job: 0 0 23 * * *
+    file: 
+      path: \\\\PC003428\\test\\Kevin\\Raw Data
+      datePattern: yyyyMMdd
+      pattern: FileName ${cms-service.batch.file.datePattern}
+      tradeDateFormat: dd/M/yyyy
+      titleRowIndex: 2
+      descnRowIndex: 0
+      descnColIndex: 0
+# Netflix Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+    eureka-connection-idle-timeout-seconds: 60  
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+---
+# SIT profile
+spring:
+  profiles: sit
+  datasource:
+    url: jdbc:oracle:thin:@U1CDM601:1522/cdmsua
+    username: cms
+    password: Sur6W1ns
+    driver-class-name: oracle.jdbc.OracleDriver
+    connection-test-query: SELECT 1 FROM DUAL
+    test-while-idle: true
+    test-on-borrow: true
+    tomcat:
+      max-active: 5  
+server:
+  port: ${SERVER_PORT:9107}
+cms-service:  
+  baseDate: 2018-04-01
+  batch: 
+    schedule: 
+      trade-job: 0 */30 10-22 * * MON-FRI
+      entity-job: 0 0 23 * * *
+    file: 
+      path: /logs/service/microservice/cms/
+      datePattern: yyyyMMdd
+      pattern: FileName ${cms-service.batch.file.datePattern}
+      tradeDateFormat: dd/M/yyyy
+      titleRowIndex: 2
+      descnRowIndex: 0
+      descnColIndex: 0
+    test: 
+      isTest: ${IS_TEST:false}
+      systemDate: ${SYS_DATE:20180119}
+      isContinue: ${IS_TEST_CONTINUE:false}  
+# Netflix Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}      
+---
+# UAT profile
+spring:
+  profiles: uat
+  datasource:
+    url: jdbc:oracle:thin:@U1CDM601:1522/cdmsua
+    username: cms
+    password: Sur6W1ns
+    driver-class-name: oracle.jdbc.OracleDriver
+    connection-test-query: SELECT 1 FROM DUAL
+    test-while-idle: true
+    test-on-borrow: true
+    tomcat:
+      max-active: 5     
+server:
+  port: ${SERVER_PORT:9107}
+cms-service:  
+  baseDate: 2018-08-01
+  batch: 
+    schedule: 
+      trade-job: 0 */30 10-22 * * MON-FRI
+      entity-job: 0 0 23 * * *
+    file: 
+      path: /logs/service/microservice/cms/
+      datePattern: yyyyMMdd
+      pattern: FileName ${cms-service.batch.file.datePattern}
+      tradeDateFormat: dd/M/yyyy
+      titleRowIndex: 2
+      descnRowIndex: 0
+      descnColIndex: 0
+    test: 
+      isTest: ${IS_TEST:false}
+      systemDate: ${SYS_DATE:20180119}
+      isContinue: ${IS_TEST_CONTINUE:false}  
+# Netflix Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+---
+# PROD profile
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:oracle:thin:@U1CDM601:1522/cdmsua
+    username: cms
+    password: Sur6W1ns
+    driver-class-name: oracle.jdbc.OracleDriver
+    connection-test-query: SELECT 1 FROM DUAL
+    test-while-idle: true
+    test-on-borrow: true
+    tomcat:
+      max-active: 5  
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
+        enable_lazy_load_no_trans: true     
+server:
+  port: ${SERVER_PORT:9107}
+cms-service:  
+  baseDate: 2018-08-01
+  batch: 
+    schedule: 
+      trade-job: 0 */30 10-22 * * MON-FRI
+      entity-job: 0 0 23 * * *
+    file: 
+      path: /mnt/cdms-cms/
+      datePattern: yyyyMMdd
+      pattern: FileName ${cms-service.batch.file.datePattern}
+      tradeDateFormat: dd/M/yyyy
+      titleRowIndex: 2
+      descnRowIndex: 0
+      descnColIndex: 0
+    test: 
+      isTest: ${IS_TEST:false}
+      systemDate: ${SYS_DATE:20180119}
+      isContinue: ${IS_TEST_CONTINUE:false}  
+# Netflix Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}

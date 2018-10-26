@@ -2,8 +2,8 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.haitong.microservice</groupId>
-    <artifactId>commons</artifactId>
+    <groupId>com.prototype.microservice</groupId>
+    <artifactId>prototype-commons</artifactId>
     <version>1.0.0-RELEASE</version>
     <packaging>jar</packaging>
 

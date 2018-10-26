@@ -10,10 +10,10 @@ api-gateway:
       password: f0c60d502e2afe7030855e1cc567c4f665e4c647335e4e085313aa3b917b2149d9d45d001a36ec0a
   trace:
     history: 1000
-# Jasypt password encryption (default to: haitong)
+# Jasypt password encryption (default to: prototype)
 jasypt:
   encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD:haitong}
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:prototype}
     stringOutputType: hexadecimal
 # Spring
 spring:
@@ -89,7 +89,7 @@ ribbon:
     enabled: true
   IsSecure: true
   TrustStore: keystore.p12
-  TrustStorePassword : haitong
+  TrustStorePassword : prototype
   ReadTimeout: 180000
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 10
@@ -189,7 +189,7 @@ server:
   port: ${SERVER_PORT:9906}
   ssl:
     key-store: classpath:keystore.p12
-    key-store-password: haitong
+    key-store-password: prototype
     keyStoreType: PKCS12
     keyAlias: microservices
 eureka:
@@ -204,7 +204,7 @@ server:
   port: ${SERVER_PORT:9906}
   ssl:
     key-store: classpath:keystore.p12
-    key-store-password: haitong
+    key-store-password: prototype
     keyStoreType: PKCS12
     keyAlias: microservices
 eureka:
@@ -219,7 +219,7 @@ server:
   port: ${SERVER_PORT:9906}
   ssl:
     key-store: classpath:keystore.p12
-    key-store-password: haitong
+    key-store-password: prototype
     keyStoreType: PKCS12
     keyAlias: microservices
 eureka:
@@ -234,7 +234,7 @@ server:
   port: ${SERVER_PORT:9906}
   ssl:
     key-store: classpath:keystore.p12
-    key-store-password: haitong
+    key-store-password: prototype
     keyStoreType: PKCS12
     keyAlias: microservices
 eureka:
