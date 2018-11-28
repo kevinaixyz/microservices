@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.prototype.microservice.etl.meta.ColumnMetaInfo;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -14,26 +15,20 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.prototype.microservice.commons.error.CheckedException;
-import com.prototype.microservice.etl.utils.RptMessageHelper;
 
 @Component
-public class ExcelFileParser extends RptFileParser {
-	public static final String SUFFIX_XLS=".xls";
-	public static final String SUFFIX_XLSX=".xlsx";
+public class ExcelFileParser extends EtlFileParser {
+//	public static final String SUFFIX_XLS=".xls";
+//	public static final String SUFFIX_XLSX=".xlsx";
 	
 	private Workbook workbook;
 	private Sheet sheet;
 	private int currentSheetIndex=0;
-	@Autowired
-	RptRepository rptRepository;
-	@Autowired
-	SqlAssembler columnAssembler;
-	@Autowired
-	private RptMessageHelper msgHelper;
+
+
 	@Override
 	public void init() {
 //		rptLogger = LoggerFactory
@@ -45,16 +40,7 @@ public class ExcelFileParser extends RptFileParser {
 		if (configInfo.getColumns() == null || configInfo.getColumns().size() <= 0) {
 			return;
 		}
-//		if((file==null||!file.exists())&&in==null){
-//			rptLogger.error(
-//					MessageFormat.format("{0} Cannot found file : {1} under {2}", new Object[] { "[ExcelFileParser]", configInfo.getFileNamePattern(), configInfo.getFilePath()}));
-//			return;
-//		}
 		try {
-//			if(file!=null&&file.exists()){
-//				rptLogger.info("Parsing excel file: "+file.getCanonicalPath());
-//				this.workbook = WorkbookFactory.create(file);		
-//			}else 
 			if(in!=null){
 				this.workbook = WorkbookFactory.create(in);
 			}
@@ -77,32 +63,23 @@ public class ExcelFileParser extends RptFileParser {
         if (rptLogger.isDebugEnabled()) {
         	rptLogger.debug("Opening sheet " + sheet.getSheetName() + ".");
         }
-        
         if (rptLogger.isDebugEnabled()) {
         	rptLogger.debug("Openend sheet " + sheet.getSheetName() + ", with " + sheet.getPhysicalNumberOfRows() + " rows.");
         }
 	}
 	@Override
-	public void execNativeSql(String tableName,  List<ColumnMetaInfo> columnsInfo, List<String> values, Map<String, String> sysColValMap) throws Exception{
-		String sql = columnAssembler.genNativeInsertSqlByColumnHeader(tableName, columnsInfo, values, sysColValMap, configInfo.getNullValFilter());
+	public void execNativeSql(String tableName, List<ColumnMetaInfo> columnsInfo, List<String> values, Map<String, String> sysColValMap){
+		String sql = sqlAssembler.genNativeInsertSqlByColumnHeader(tableName, columnsInfo, values, sysColValMap, configInfo.getNullValFilter());
 		System.out.println(sql);
 		try{
 			if(sql!=null){
-				rptRepository.execUpdate(sql);							
+				etlCommonRepository.execUpdate(sql);
 			}
 		}catch(Exception e){
 			String msg = msgHelper.getMessage("RPT-ERR-003",new Object[]{"[ExcelFileParser]",sql, e.getMessage()});
-			RuntimeException e1 =  new RuntimeException(msg);
-			throw e1;
+			throw new RuntimeException(msg);
 		}
 		//return sql;
-	}
-	public String exceParamiterlizedSql(String tableName,  List<ColumnMetaInfo> columnsInfo, List<String> values){
-		String sql = columnAssembler.genInsertSqlWithParam(tableName, columnsInfo);
-		System.out.println(sql);
-		List<Object> valueObjList = columnAssembler.parseValues(columnsInfo, values);
-		rptRepository.insertDataByParams(sql, valueObjList);
-		return sql;
 	}
 	
 	public void setSheetIndex(int sheetIndex){
@@ -110,14 +87,14 @@ public class ExcelFileParser extends RptFileParser {
 	}
 	
 	@Override
-	public List<Integer> getColumnIndices() throws Exception{
-		List<Integer> indices = new ArrayList<Integer>();
+	public List<Integer> getColumnIndices(){
+		List<Integer> indices = new ArrayList<>();
 		List<ColumnMetaInfo> columns = configInfo.getColumns();
 		Row header=sheet.getRow(configInfo.getHeaderRowIndex());
 		if(header!=null&&columns!=null&&header.getLastCellNum()>0&&columns.size()>0){
 			for(ColumnMetaInfo col : columns){
 				for(int i=0;i<header.getLastCellNum();i++){
-					if(col.getColName().equalsIgnoreCase(header.getCell(i).getStringCellValue())){
+					if(col.getFileColName().equalsIgnoreCase(header.getCell(i).getStringCellValue())){
 						indices.add(i);
 					}
 				}
@@ -129,8 +106,8 @@ public class ExcelFileParser extends RptFileParser {
 	}
 	@Override
 	public List<String> parseColumnValues(Object r, List<ColumnMetaInfo> columns) throws Exception{
-		List<String> valueStrList = new ArrayList<String>();
-		if(r!=null&&r instanceof Row){
+		List<String> valueStrList = new ArrayList<>();
+		if(r instanceof Row){
 			Row row = (Row) r;
 			for(int i=0;i<row.getLastCellNum();i++){
 				if(columnIndices.contains(i)){
@@ -139,7 +116,7 @@ public class ExcelFileParser extends RptFileParser {
 						valueStrList.add(row.getCell(i).getStringCellValue());
 					}
 					else if(HSSFDateUtil.isCellDateFormatted(row.getCell(i))){
-						valueStrList.add(rptHelper.formatRawDate(row.getCell(i).getDateCellValue(), columns.get(i).getFormat()));
+						valueStrList.add(baseHelper.formatRawDate(row.getCell(i).getDateCellValue(), columns.get(i).getFormat()));
 					}else if(cellType==CellType.FORMULA){
 						valueStrList.add(row.getCell(i).getCellFormula());
 					}else if (cellType == CellType.NUMERIC){
@@ -158,14 +135,12 @@ public class ExcelFileParser extends RptFileParser {
 	@Override
 	public boolean isBlankRow(Object r) {
 		boolean isBlank=true;
-		if(r!=null&&r instanceof Row){
+		if(r instanceof Row){
 			Row row = (Row) r;
-			if(row!=null){
-				for(Cell cell:row){
-					if(cell.getCellTypeEnum()!=CellType.BLANK){
-						isBlank = false;
-						break;
-					}
+			for(Cell cell:row){
+				if(cell.getCellTypeEnum()!=CellType.BLANK){
+					isBlank = false;
+					break;
 				}
 			}
 		}
@@ -173,15 +148,11 @@ public class ExcelFileParser extends RptFileParser {
 	}
 	@Override
 	public boolean hasNextRow() {
-		if(currentRowIndex<=sheet.getPhysicalNumberOfRows()-configInfo.getEndRowIndexFromBottom()){
-			return true;
-		}
-		return false;
+		return currentRowIndex <= sheet.getPhysicalNumberOfRows() - configInfo.getEndRowIndexFromBottom();
 	}
 	@Override
 	public Object getRow() {
-		Row row=sheet.getRow(currentRowIndex);
-		return row;
+		return sheet.getRow(currentRowIndex);
 	}
 
 	@Override

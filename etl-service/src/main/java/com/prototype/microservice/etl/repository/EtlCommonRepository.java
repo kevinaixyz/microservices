@@ -1,4 +1,4 @@
-package com.prototype.microservice.etl.data;
+package com.prototype.microservice.etl.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class RptRepository {
+public class EtlCommonRepository {
 	@Autowired
 	@PersistenceContext
 	protected EntityManager entityManager;

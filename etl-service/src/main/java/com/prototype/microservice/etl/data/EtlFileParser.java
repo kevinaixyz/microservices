@@ -7,14 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.prototype.microservice.etl.meta.ColumnMetaInfo;
+import com.prototype.microservice.etl.meta.CommonConfigInfo;
+import com.prototype.microservice.etl.repository.EtlCommonRepository;
+import com.prototype.microservice.etl.utils.EtlMessageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.prototype.microservice.commons.error.CheckedException;
-import com.prototype.microservice.etl.utils.EtlHelper;
+import com.prototype.microservice.etl.utils.BaseHelper;
 
-public abstract class RptFileParser {
+public abstract class EtlFileParser {
 	protected final static String SYS_COL_FILE_DATE="FILE_DATE";
 	protected final static String SYS_COL_CRE_DATE="CRE_DATE";
 	protected InputStream in;
@@ -24,11 +28,13 @@ public abstract class RptFileParser {
 	protected Charset charset;
 	protected Logger rptLogger;
 	@Autowired
-	protected EtlHelper rptHelper;
+	protected BaseHelper baseHelper;
 	@Autowired
 	protected SqlAssembler sqlAssembler;
 	@Autowired
-	protected RptRepository rptRepository;
+	protected EtlCommonRepository etlCommonRepository;
+	@Autowired
+	protected EtlMessageHelper msgHelper;
 	protected abstract void init();
 	protected abstract void clean();
 	protected abstract Charset getFileEncoding();
@@ -57,7 +63,7 @@ public abstract class RptFileParser {
 	}
 	public void setConfigInfo(CommonConfigInfo configInfo) {
 		this.configInfo = configInfo;
-		this.rptLogger = LoggerFactory.getLogger(EtlHelper.getLoggerName(configInfo.getFileNamePattern(), EtlHelper.getCurrentDateStr()));
+		this.rptLogger = LoggerFactory.getLogger(BaseHelper.getLoggerName(configInfo.getFileNamePattern(), BaseHelper.getCurrentDateStr()));
 	}
 	public Logger getRptLogger() {
 		return rptLogger;
@@ -73,9 +79,9 @@ public abstract class RptFileParser {
 		return recNum;
 	}
 	
-	public int parseRows(Map<String, String> sysColValMap) throws Exception {
+	private int parseRows(Map<String, String> sysColValMap) throws Exception {
 		int totalRowNum=0;
-		columnIndices = getColumnIndices();
+		this.columnIndices = getColumnIndices();
 		while (hasNextRow()) {
 			if (currentRowIndex < configInfo.getStartRowIndex()) { // skip the first line (table header)
 				currentRowIndex++;
@@ -88,13 +94,7 @@ public abstract class RptFileParser {
 					continue;
 				}
 				List<String> valueStrList = parseColumnValues(row, configInfo.getColumns());
-				Map<String, String> sysColVal = null;
-				sysColVal = genSysColVal(configInfo.getSystemColumns(), sysColValMap);	
-//				if(sysColValMap!=null){
-//				}
-//				else{
-//					sysColVal = genSysColVal(configInfo.getSystemColumns());
-//				}
+				Map<String, String> sysColVal = genSysColVal(configInfo.getSystemColumns(), sysColValMap);
 				execNativeSql(configInfo.getDbTableName(), configInfo.getColumns(), valueStrList, sysColVal);
 				currentRowIndex++;
 				totalRowNum++;
@@ -103,28 +103,35 @@ public abstract class RptFileParser {
 				throw e;
 			} catch (Exception e) {
 				rptLogger.error(MessageFormat.format("{0}Parse line error at line number:{1}",
-						new Object[] { "[RptFileParser]", (currentRowIndex + 1) }));
+						"[EtlFileParser]", (currentRowIndex + 1)));
 				rptLogger.error(e.getMessage());
 				e.printStackTrace();
-				continue;
+
 			}
 		}
 		return totalRowNum;
 	}
-	public Map<String, String> genSysColVal(List<ColumnMetaInfo> sysColInfo, Map<String,String> colValMap){
-		Map<String, String> map = new HashMap<String, String>();
+	private Map<String, String> genSysColVal(List<ColumnMetaInfo> sysColInfo, Map<String, String> colValMap){
+		Map<String, String> map = new HashMap<>();
 		if(sysColInfo==null||colValMap==null||sysColInfo.size()!=colValMap.size()){
 			return map;
 		}
-		for(int i=0;i<sysColInfo.size();i++){
-			String key = sysColInfo.get(i).getTableColName();
+		for (ColumnMetaInfo aSysColInfo : sysColInfo) {
+			String key = aSysColInfo.getTableColName();
 			String sqlVal = null;
-			if(colValMap.containsKey(key)){
-				sqlVal = RptColumnParser.parseColumnValueForNative(colValMap.get(key), sysColInfo.get(i), configInfo.getNullValFilter());
+			if (colValMap.containsKey(key)) {
+				sqlVal = EtlColumnParser.parseColumnValueForNative(colValMap.get(key), aSysColInfo, configInfo.getNullValFilter());
 			}
 			map.put(key, sqlVal);
 		}
 		return map;
+	}
+	public String execParamiterlizedSql(String tableName,  List<ColumnMetaInfo> columnsInfo, List<String> values){
+		String sql = sqlAssembler.genInsertSqlWithParam(tableName, columnsInfo);
+		System.out.println(sql);
+		List<Object> valueObjList = sqlAssembler.parseValues(columnsInfo, values);
+		etlCommonRepository.insertDataByParams(sql, valueObjList);
+		return sql;
 	}
 //	public Map<String, String> genSysColVal(List<ColumnMetaInfo> sysColInfo){
 //		Map<String, String> map = new HashMap<String, String>();

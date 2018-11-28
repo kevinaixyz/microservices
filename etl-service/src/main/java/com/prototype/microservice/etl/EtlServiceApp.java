@@ -14,8 +14,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class})
-
 @EntityScan(
         basePackageClasses = {EtlServiceApp.class, Jsr310JpaConverters.class}
 )

@@ -6,54 +6,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 
+import com.prototype.microservice.etl.meta.CommonConfigInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
-import com.prototype.microservice.etl.cdms.domain.RptJobStatus;
-import com.prototype.microservice.etl.cdms.repository.impl.RptJobRepository;
+import com.prototype.microservice.etl.domain.RptJobStatus;
+import com.prototype.microservice.etl.repository.RptJobRepository;
 import com.prototype.microservice.etl.constant.AppConstant;
-import com.prototype.microservice.etl.utils.EtlHelper;
+import com.prototype.microservice.etl.utils.BaseHelper;
 
 @Component
 public class FileExtractor {
 	@Autowired
 	private RptJobRepository rptJobRepository;
 	@Autowired
-	MsRequestProcessor msRequestProcessor;	
+    WebRequestProcessor webRequestProcessor;
 	@Async
 	public Future<RptJobStatus> readFileAsync(RptJobStatus jobStatus, List<CommonConfigInfo> configList, InputStream in, Map<String, String> sysColMap){
-		List<Integer> recNumList = new ArrayList<Integer>();
+		List<Integer> recNumList = null;
 		try{
-			if(configList!=null&&configList.size()>0){
-				for(CommonConfigInfo c:configList){
-					msRequestProcessor.setConfigInfo(c);
-					msRequestProcessor.setIn(in);
-					msRequestProcessor.setSysColValMap(sysColMap);
-					int recNum = msRequestProcessor.process();
-					recNumList.add(recNum);
-				}
-				rptJobRepository.update(jobStatus);
-			}
+			recNumList = processFile(configList, in, sysColMap);
+			rptJobRepository.update(jobStatus);
 			jobStatus.setResultList(recNumList.toString());
-			jobStatus.setStatus(AppConstant.RPT_JOB_STATUS_SUCCESS);
-			jobStatus.setEndDatetime(EtlHelper.getCurrentDateTime());
+			jobStatus.setStatus(AppConstant.ETL_JOB_STATUS_SUCCESS);
+			jobStatus.setEndDatetime(BaseHelper.getCurrentDateTime());
 		}catch(Exception e){
 			jobStatus.setResultList(recNumList.toString());
-			jobStatus.setStatus(AppConstant.RPT_JOB_STATUS_FAILED);
-			jobStatus.setEndDatetime(EtlHelper.getCurrentDateTime());
+			jobStatus.setStatus(AppConstant.ETL_JOB_STATUS_FAILED);
+			jobStatus.setEndDatetime(BaseHelper.getCurrentDateTime());
 		}
 		return new AsyncResult<RptJobStatus>(jobStatus);
 	}
 	public List<Integer> readFileSync(List<CommonConfigInfo> configList, InputStream in, Map<String, String> sysColMap) throws Exception{
+		return processFile(configList, in, sysColMap);
+	}
+	public List<Integer> processFile(List<CommonConfigInfo> configList, InputStream in, Map<String, String> sysColMap) throws Exception {
 		List<Integer> recNumList = new ArrayList<Integer>();
 		if(configList!=null&&configList.size()>0){
 			for(CommonConfigInfo c:configList){
-				msRequestProcessor.setConfigInfo(c);
-				msRequestProcessor.setIn(in);
-				msRequestProcessor.setSysColValMap(sysColMap);
-				int recNum = msRequestProcessor.process();
+				webRequestProcessor.setConfigInfo(c);
+				webRequestProcessor.setIn(in);
+				webRequestProcessor.setSysColValMap(sysColMap);
+				int recNum = webRequestProcessor.process();
 				recNumList.add(recNum);
 			}
 		}

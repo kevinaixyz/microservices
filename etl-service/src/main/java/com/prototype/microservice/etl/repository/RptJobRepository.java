@@ -1,9 +1,8 @@
-package com.prototype.microservice.etl.cdms.repository.impl;
+package com.prototype.microservice.etl.repository;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.data.domain.Example;
@@ -14,12 +13,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.prototype.microservice.etl.cdms.domain.RptJobStatus;
+import com.prototype.microservice.etl.domain.RptJobStatus;
 
 @Repository
 public class RptJobRepository implements JpaRepository<RptJobStatus, String> {
 	
-	@PersistenceContext(unitName = "cdms")
 	private EntityManager em;
 	
 	@Override

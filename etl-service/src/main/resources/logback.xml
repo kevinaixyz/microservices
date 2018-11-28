@@ -1,6 +1,6 @@
 <configuration>
 	<property name="log.filePath" value="/logs/microservice/" />
-	<property name="log.fileNamePattern" value="rpt-service.log.%d{yyyy-MM-dd}" />
+	<property name="log.fileNamePattern" value="etl-service.log.%d{yyyy-MM-dd}" />
     <appender name="DAILY_LOGFILE"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/log/microservice/crmwpm-service.log</file>

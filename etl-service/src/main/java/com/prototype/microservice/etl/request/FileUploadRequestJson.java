@@ -1,4 +1,4 @@
-package com.prototype.microservice.etl.json;
+package com.prototype.microservice.etl.request;
 
 
 public class FileUploadRequestJson   extends BaseRequestJson {

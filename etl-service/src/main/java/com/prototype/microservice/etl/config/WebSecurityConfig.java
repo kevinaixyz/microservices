@@ -29,19 +29,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final static Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-	@Value("${rpt-service.trust-self-signed-certs:false}")
+	@Value("${etl-service.trust-self-signed-certs:false}")
 	private boolean trustSelfSignedCerts;
 
-	@Value("${rpt-service.users.admin.username:admin}")
+	@Value("${etl-service.users.admin.username:admin}")
 	private String adminUsername;
 
-	@Value("${rpt-service.users.admin.password}")
+	@Value("${etl-service.users.admin.password}")
 	private String adminPassword;
 
-	@Value("${rpt-service.users.apiClient.username:apiClient}")
+	@Value("${etl-service.users.apiClient.username:apiClient}")
 	private String apiClientUsername;
 
-	@Value("${rpt-service.users.apiClient.password}")
+	@Value("${etl-service.users.apiClient.password}")
 	private String apiClientPassword;
 
 	@Override

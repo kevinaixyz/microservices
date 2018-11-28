@@ -1,18 +1,12 @@
 info:
-  component: Rpt Service [Build-@pom.version@-@timestamp@]
+  component: ETL Service [Build-@pom.version@-@timestamp@]
 # Schedule Job
-ficc:
-  report:
-    immediate: false
-    cron: 0 20 11 * * ?
-inv:
-  report:
-    immediate: true
-    cron: 0 20 11 * * ?
-    folderPath: /mnt/cdms-inv/   
-    loadAllData: false
+Schedule:
+  immediate: false
+  cron: 0 20 11 * * ?
+
 # Bespoke setting
-rpt-service: 
+etl-service: 
   trust-self-signed-certs: true
   users:
     admin:
@@ -29,16 +23,23 @@ jasypt:
 # Spring
 spring:
   application:
-    name: rpt-service-${spring.profiles.active}
+    name: etl-service-${spring.profiles.active}
   profiles:
     active: dev
   jpa:
-    database-platform: org.hibernate.dialect.Oracle12cDialect
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         show_sql: false
         use_sql_comments: true
         format_sql: true
+h2:
+  console:
+    enabled: true
+    path: /console
+    settings:
+      trace: false
+      web-allow-others: false
 server:
   compression:
     enabled: true
@@ -81,15 +82,11 @@ p125:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:oracle:thin:@U1CDM601:1521/cdmsta
-    username: crmcofdc
+    url: jdbc:h2:~/prototype
+    username: prototype
     password: ENC(CDC34B34E33FD4FE9F212987EB85B04B8A673CC2EE8C093B) # Jasypt encrypted!
-    driver-class-name: oracle.jdbc.OracleDriver
-  datasource-cdms:
-    url: jdbc:oracle:thin:@U1CDM601:1521/cdmsta
-    username: ctim
-    password: ENC(CDC34B34E33FD4FE9F212987EB85B04B8A673CC2EE8C093B) # Jasypt encrypted!
-    driver-class-name: oracle.jdbc.OracleDriver
+    driver-class-name: org.h2.Driver
+
   http:
     multipart:
         max-file-size: 10MB
@@ -107,8 +104,8 @@ eureka:
     metadataMap:
       instanceId: ${spring.application.name}:${server.port}
 config:
-  configFilePath: ${CONFIG_FILE_PATH:\\10.168.51.101\Scan\rpt_report\}
-  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:rpt_config} ## Notice: the extension of the config file must be .json
+  configFilePath: ${CONFIG_FILE_PATH:./}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:etl-service} ## Notice: the extension of the config file must be .request
 ---
 # SIT profile
 spring:
@@ -125,8 +122,8 @@ eureka:
     metadataMap:
       instanceId: ${spring.application.name}:${server.port}      
 config:
-  configFilePath: ${CONFIG_FILE_PATH:\home\oracle\home\config\cdms\report\}
-  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:rpt_config} ## Notice: the extension of the config file must be .json
+  configFilePath: ${CONFIG_FILE_PATH:./}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:etl-service} ## Notice: the extension of the config file must be .request
 ---
 # UAT profile
 p125:
@@ -148,8 +145,8 @@ eureka:
     metadataMap:
       instanceId: ${spring.application.name}:${server.port}
 config:
-  configFilePath: ${CONFIG_FILE_PATH:\home\oracle\home\config\cdms\report\}
-  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:rpt_config} ## Attn: the extension of the config file must be .json    
+  configFilePath: ${CONFIG_FILE_PATH:./}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:etl-service} ## Attn: the extension of the config file must be .request
 ---
 # PROD profile
 p125:
@@ -177,5 +174,5 @@ eureka:
     metadataMap:
       instanceId: ${spring.application.name}:${server.port}  
 config:
-  configFilePath: ${CONFIG_FILE_PATH:/home/oracle/home/config/tr}
-  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:rpt_config} ## Notice: the extension of the config file must be .json
+  configFilePath: ${CONFIG_FILE_PATH:./}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:etl_config} ## Notice: the extension of the config file must be .request

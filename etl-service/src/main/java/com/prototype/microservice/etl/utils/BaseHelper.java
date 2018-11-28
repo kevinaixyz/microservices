@@ -26,18 +26,18 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.prototype.microservice.etl.constant.AppConstant;
-import com.prototype.microservice.etl.data.ColumnMetaInfo;
-import com.prototype.microservice.etl.data.CommonConfigInfo;
-import com.prototype.microservice.etl.data.RptOverallConfig;
+import com.prototype.microservice.etl.meta.ColumnMetaInfo;
+import com.prototype.microservice.etl.meta.CommonConfigInfo;
+import com.prototype.microservice.etl.meta.OverallConfig;
 
 @Component
 @DependsOn("overallConfig")
-public class EtlHelper {
+public class BaseHelper {
 	private static final String REGEX_NUMBER = "^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$";
 	@Autowired
-	private RptOverallConfig overallConfig;
+	private OverallConfig overallConfig;
 	
-	public RptOverallConfig getOverallConfig(){
+	public OverallConfig getOverallConfig(){
 		return overallConfig;
 	}
 	public String getTableName(CommonConfigInfo configInfo){
@@ -195,7 +195,7 @@ public class EtlHelper {
 		return configList;
 	}
 	
-	public List<CommonConfigInfo> getConfigByFileNameinPattern(String fileName){
+	public List<CommonConfigInfo> getConfigByFileNameInPattern(String fileName){
 		List<CommonConfigInfo> configList = new ArrayList<CommonConfigInfo>();
 		if(overallConfig!=null&&overallConfig.getConfigList()!=null){
 			overallConfig.getConfigList().forEach(c->{
@@ -357,7 +357,7 @@ public class EtlHelper {
 	}
 	
 	public static String genRptJobId(){
-		String jobId = LocalDateTime.now().format(DateTimeFormatter.ofPattern(AppConstant.RPT_JOB_ID_PATTERN));
+		String jobId = LocalDateTime.now().format(DateTimeFormatter.ofPattern(AppConstant.ETL_JOB_ID_PATTERN));
 		return jobId;
 	}
 }

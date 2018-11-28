@@ -4,12 +4,13 @@ package com.prototype.microservice.etl.data;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.prototype.microservice.etl.meta.ColumnMetaInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import com.prototype.microservice.etl.constant.AppConstant;
-import com.prototype.microservice.etl.utils.EtlHelper;
+import com.prototype.microservice.etl.utils.BaseHelper;
 
-public class RptColumnParser {
+public class EtlColumnParser {
 	public static String parseColumnValueForNative(String raw, ColumnMetaInfo columnInfo, List<String> nullValFilter){
 		String value=null;
 		if(StringUtils.isBlank(raw)||columnInfo==null){
@@ -25,23 +26,23 @@ public class RptColumnParser {
 		if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_TIMESTAMP)){
 			String format = columnInfo.getFormat();
 			if(StringUtils.isNotBlank(format)){
-				value = EtlHelper.formatLocalDateTime(raw, format);
+				value = BaseHelper.formatLocalDateTime(raw, format);
 			}
-			value = EtlHelper.timestampFieldToNativeSql(value, AppConstant.SQL_TIMESTAMP_PATTERN);
+			value = BaseHelper.timestampFieldToNativeSql(value, AppConstant.SQL_TIMESTAMP_PATTERN);
 			return value;
 		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_DATE)){
 			String format = columnInfo.getFormat();
 			if(StringUtils.isNotBlank(format)){
-				value = EtlHelper.formatLocalDate(raw, format);
+				value = BaseHelper.formatLocalDate(raw, format);
 			}
-			value = EtlHelper.dateFieldToNativeSql(value, AppConstant.SQL_DATE_PATTERN);
+			value = BaseHelper.dateFieldToNativeSql(value, AppConstant.SQL_DATE_PATTERN);
 			return value;
 		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_CHAR)){
 			value = escapeSpecialChar(raw.trim());
 			value = "'"+value+"'";
 			return value;
 		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_NUMBER)){
-			BigDecimal b = EtlHelper.stringToBigDecimal(raw);
+			BigDecimal b = BaseHelper.stringToBigDecimal(raw);
 			if(b!=null){
 				value = b.toString();
 			}else{
@@ -77,13 +78,13 @@ public class RptColumnParser {
 		if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_TIMESTAMP)){
 			String format = columnInfo.getFormat();
 			if(StringUtils.isNotBlank(format)){
-				value = EtlHelper.parseDatetime(raw, format);
+				value = BaseHelper.parseDatetime(raw, format);
 			}
 			return value;
 		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_DATE)){
 			String format = columnInfo.getFormat();
 			if(StringUtils.isNotBlank(format)){
-				value = EtlHelper.parseDate(raw, format);
+				value = BaseHelper.parseDate(raw, format);
 			}
 			return value;
 		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_NUMBER)){

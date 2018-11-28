@@ -2,7 +2,7 @@
 	"fileDateFormat":"yyyyMMdd",
 	"execOnDate":"",
 	"filePath": "\\\\PC003703\\Scan\\rpt_report\\",
-	"fileNamePattern":"Imagine_FairPrice_{fileDateFormat}.csv",
+	"fileNamePattern":"Imagine_FairPrice_{fileDateFormat}",
 	"fileType":"CSV",
 	"logFilePath":"\\\\PC003703\\Scan\\rpt_report\\log\\",
 	"logFileNamePattern":"rpt-service-error(P125_Imagine_FairPrice).log.%d{yyyy-MM-dd}",

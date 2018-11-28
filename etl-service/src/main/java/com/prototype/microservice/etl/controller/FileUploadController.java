@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prototype.microservice.commons.json.ResponseJson;
-import com.prototype.microservice.etl.json.FileUploadRequestJson;
-import com.prototype.microservice.etl.json.FileUploadStatusRequestJson;
+import com.prototype.microservice.etl.request.FileUploadRequestJson;
+import com.prototype.microservice.etl.request.FileUploadStatusRequestJson;
 import com.prototype.microservice.etl.service.EtlService;
 
 @RestController

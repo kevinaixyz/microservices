@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import com.prototype.microservice.etl.data.CommonConfigInfo;
-import com.prototype.microservice.etl.data.RptOverallConfig;
-import com.prototype.microservice.etl.utils.EtlHelper;
+import com.prototype.microservice.etl.meta.CommonConfigInfo;
+import com.prototype.microservice.etl.meta.OverallConfig;
+import com.prototype.microservice.etl.utils.BaseHelper;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
@@ -27,7 +27,7 @@ import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 @DependsOn("overallConfig")
 public class RptLoggerConfig {
 	@Autowired
-	RptOverallConfig overallConfig;
+	OverallConfig overallConfig;
 	
 	Map<String, Logger> loggerMap = null;
 	
@@ -41,7 +41,7 @@ public class RptLoggerConfig {
 //				LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 //				lc.putProperty("log.filePath", configInfo.getLogFilePath());
 //				lc.putProperty("log.fileNamePattern", configInfo.getLogFileNamePattern());
-				String loggerName = EtlHelper.getLoggerName(configInfo.getFileNamePattern(), EtlHelper.getCurrentDateStr());
+				String loggerName = BaseHelper.getLoggerName(configInfo.getFileNamePattern(), BaseHelper.getCurrentDateStr());
 				Logger logger = createLogger(loggerName, configInfo.getLogFilePath(), configInfo.getLogFileNamePattern(), Level.DEBUG);
 				loggerMap.put(loggerName, logger);
 //				Logger logger = lc.getLogger(AppConstant.RPT_LOGGER_NAME);

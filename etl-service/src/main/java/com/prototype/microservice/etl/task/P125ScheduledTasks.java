@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.prototype.microservice.etl.data.CommonConfigInfo;
-import com.prototype.microservice.etl.data.RptOverallConfig;
-import com.prototype.microservice.etl.utils.EtlHelper;
+import com.prototype.microservice.etl.meta.CommonConfigInfo;
+import com.prototype.microservice.etl.meta.OverallConfig;
+import com.prototype.microservice.etl.utils.BaseHelper;
 
 @Component
 public class P125ScheduledTasks {
@@ -24,9 +24,9 @@ public class P125ScheduledTasks {
 	@Value("${p125.fireprice.schedule-job.cron}")
 	private String p125CronSchedule;
 	@Autowired
-	private EtlHelper rptHelper;
+	private BaseHelper rptHelper;
 	@Autowired
-	RptBatchJobHelper rptBatchJobHelper;
+	EtlBatchJobHelper etlBatchJobHelper;
 	
 	@PostConstruct
 	public void init() {
@@ -49,14 +49,14 @@ public class P125ScheduledTasks {
 		logger.info("Processing fireprice data");
 		System.out.println("==============Read fireprice Data===========");
 
-		RptOverallConfig overallConfig = rptHelper.getOverallConfig();
+		OverallConfig overallConfig = rptHelper.getOverallConfig();
 		if (overallConfig != null && overallConfig.getConfigList() != null
 				&& overallConfig.getConfigList().size() > 0) {
 
 			for (CommonConfigInfo configInfo : overallConfig.getConfigList()) {
 				try {
-					if(RptBatchJobHelper.isFileNamePatternMatch(p125FirepriceFileNamePattern, configInfo)){
-						rptBatchJobHelper.loadConfig(configInfo);						
+					if(EtlBatchJobHelper.isFileNamePatternMatch(p125FirepriceFileNamePattern, configInfo)){
+						etlBatchJobHelper.loadConfig(configInfo);
 					}
 				} catch (Exception e) {
 					System.out.println(e.getMessage());

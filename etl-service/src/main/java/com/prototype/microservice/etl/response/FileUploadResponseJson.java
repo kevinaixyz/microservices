@@ -1,4 +1,4 @@
-package com.prototype.microservice.etl.json;
+package com.prototype.microservice.etl.response;
 
 import java.util.List;
 

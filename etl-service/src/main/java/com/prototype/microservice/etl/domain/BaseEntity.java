@@ -21,21 +21,7 @@ public class BaseEntity implements java.io.Serializable {
 	private Date createDatetime;
 	private String modifyBy;
 	private Date modifyDatetime;
-
-
 	private Integer version;
-
-
-	private String currentUser;
-
-	public void setCurrentUser(String user) {
-		currentUser = user;
-	}
-
-	@Transient
-	public String getCurrentUser() {
-		return this.currentUser;
-	}
 
 	@Column(name = "CREATE_BY", nullable = false, length = 10)
 	public String getCreateBy() {

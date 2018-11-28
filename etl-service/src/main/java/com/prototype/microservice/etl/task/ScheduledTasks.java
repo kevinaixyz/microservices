@@ -3,32 +3,42 @@ package com.prototype.microservice.etl.task;
 
 import javax.annotation.PostConstruct;
 
+import com.prototype.microservice.etl.constant.AppConstant;
+import com.prototype.microservice.etl.data.*;
+import com.prototype.microservice.etl.meta.ColumnMetaInfo;
+import com.prototype.microservice.etl.meta.CommonConfigInfo;
+import com.prototype.microservice.etl.meta.OverallConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import com.prototype.microservice.etl.data.CommonConfigInfo;
-import com.prototype.microservice.etl.data.RptOverallConfig;
-import com.prototype.microservice.etl.utils.EtlHelper;
+import com.prototype.microservice.etl.utils.BaseHelper;
+import org.springframework.stereotype.Component;
 
-//@Component
+import java.io.File;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Component
 public class ScheduledTasks {
 	private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 	
-	@Value("${etl.report.immediate:true}")
+	@Value("${etl.immediate:true}")
 	private boolean fireImmediate = true;
-	@Value("${p125.report.immediate:true}")
-	private boolean p125FireImmediate = true;
-	@Value("${etl.report.cron}")
+	@Value("${etl.cron}")
 	private String cronSchedule;
-	@Value("${p125.report.cron}")
-	private String p125CronSchedule;
+
+	private BatchJobProcessor batchJobProcessor;
+	private OverallConfig overallConfig;
+
 	@Autowired
-	private EtlHelper rptHelper;
-	@Autowired
-	RptBatchJobHelper rptBatchJobHelper;
-	public ScheduledTasks() {
+	public ScheduledTasks(OverallConfig overallConfig, BatchJobProcessor batchJobProcessor) {
+		this.overallConfig = overallConfig;
+		this.batchJobProcessor = batchJobProcessor;
 	}
 	
 	@PostConstruct
@@ -36,55 +46,39 @@ public class ScheduledTasks {
 		logger.info("Application properties:");
 		logger.info("etl.report.immediate={}", fireImmediate);
 		logger.info("etl.report.cron={}", cronSchedule);
-		logger.info("DataSource properties:");
-		logger.info("p125.report.immediate={}", p125FireImmediate);
-		logger.info("p125.report.cron={}", p125CronSchedule);
 
 		if (fireImmediate) {
 			logger.info("Executing startup schedule - etl Report");
-			fetchCsvTxtData();
+			fetchData();
 			logger.info("Completed startup schedule - etl Report");
 		} else {
 			logger.info("Ignoring startup schedule - etl Report");
 		}
-		if(p125FireImmediate){
-			logger.info("Executing startup schedule - P125 Report");
-			fetchExcelData();
-			logger.info("Completed startup schedule - P125 Report");
-		}else {
-			logger.info("Ignoring startup schedule - P125 Report");
-		}
 	}
 
 	@Scheduled(cron = "${etl.report.cron}")
-	public void fetchCsvTxtData() {
-		logger.info("Migrating TR data");
+	public void fetchData() {
 		System.out.println("==============Read CSV/TXT Data===========");
-
-		RptOverallConfig overallConfig = rptHelper.getOverallConfig();
 		if (overallConfig != null && overallConfig.getConfigList() != null
 				&& overallConfig.getConfigList().size() > 0) {
 			for (CommonConfigInfo configInfo : overallConfig.getConfigList()) {
 				try {
-					if(configInfo.getFileType()==null||CommonConfigInfo.FILE_TYPE_CSV.equalsIgnoreCase(configInfo.getFileType())||CommonConfigInfo.FILE_TYPE_TXT.equalsIgnoreCase(configInfo.getFileType())){
-						rptBatchJobHelper.loadConfig(configInfo);						
+					if(configInfo.getFileType()==null||
+							CommonConfigInfo.FILE_TYPE_CSV.equalsIgnoreCase(configInfo.getFileType())||
+							CommonConfigInfo.FILE_TYPE_TXT.equalsIgnoreCase(configInfo.getFileType())){
+						loadConfig(configInfo);
 					}
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 					logger.error(e.getMessage());
 					e.printStackTrace();
-					continue;
 				}
 			}
 		}
 	}
-	@Scheduled(cron = "${p125.report.cron}")
+	//@Scheduled(cron = "${p125.report.cron}")
 	public void fetchExcelData() {
-
-		logger.info("Migrating TR data");
 		System.out.println("==============Read Excel Data===========");
-
-		RptOverallConfig overallConfig = rptHelper.getOverallConfig();
 		if (overallConfig != null && overallConfig.getConfigList() != null
 				&& overallConfig.getConfigList().size() > 0) {
 
@@ -92,16 +86,64 @@ public class ScheduledTasks {
 				try {
 					if (configInfo.getFileType() != null
 							&& CommonConfigInfo.FILE_TYPE_EXCEL.equalsIgnoreCase(configInfo.getFileType())) {
-						rptBatchJobHelper.loadConfig(configInfo);
+						loadConfig(configInfo);
 					}
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 					logger.error(e.getMessage());
 					e.printStackTrace();
-					continue;
 				}
 			}
 		}
 	}
-	
+
+	public boolean isFileNamePatternMatch(String fileNamePattern, CommonConfigInfo configInfo){
+		if(configInfo!=null&&configInfo.getFileNamePattern()!=null&& StringUtils.isNotBlank(fileNamePattern)){
+			return configInfo.getFileNamePattern().contains(fileNamePattern);
+		}
+		return false;
+	}
+
+	private void loadConfig(CommonConfigInfo configInfo) throws Exception{
+		List<File> files;
+		if(configInfo.getIsLoadAll()){
+			files = BaseHelper.getFiles(configInfo);
+		}else{
+			String asOfDate = BaseHelper.formatDate(LocalDate.now(), configInfo.getFileDateFormat()==null? AppConstant.ISO_DATE_PATTERN:configInfo.getFileDateFormat());
+			files = BaseHelper.getFiles(configInfo, asOfDate);
+		}
+
+		if(files==null||files.size()==0){
+			return;
+		}
+		if(configInfo.getFileType()==null){
+			return;
+		}
+		for(File file:files){
+			Map<String, String> sysColValMap = genSysColValue(configInfo, file);
+			batchJobProcessor.setConfigInfo(configInfo);
+			batchJobProcessor.setFile(file);
+			batchJobProcessor.setSysColValMap(sysColValMap);
+			batchJobProcessor.process();
+		}
+	}
+	private Map<String, String> genSysColValue(CommonConfigInfo configInfo, File file){
+		if(configInfo==null||configInfo.getSystemColumns()==null){
+			return null;
+		}
+		List<ColumnMetaInfo> sysCols = configInfo.getSystemColumns();
+		Map<String, String> map = new HashMap<>();
+		for(ColumnMetaInfo sysCol: sysCols){
+			String key = sysCol.getTableColName();
+			if(BatchJobProcessor.SYS_COL_FILE_DATE.equalsIgnoreCase(key)){
+				map.put(key, BaseHelper.getFileDateStr(file, configInfo.getFileDateFormat()));
+			} else if(BatchJobProcessor.SYS_COL_CRE_DATE.equalsIgnoreCase(key)){
+				String createdDate = BaseHelper.getCurrentDateStr();
+				map.put(key, createdDate);
+			} else if(BatchJobProcessor.SYS_COL_FILE_NAME.equalsIgnoreCase(key)){
+                map.put(key, file.getName());
+            }
+		}
+		return map;
+	}
 }

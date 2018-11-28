@@ -8,30 +8,24 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
+import com.prototype.microservice.etl.meta.ColumnMetaInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.parser.txt.CharsetDetector;
 import org.apache.tika.parser.txt.CharsetMatch;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.prototype.microservice.commons.error.CheckedException;
-import com.prototype.microservice.etl.utils.RptMessageHelper;
 
 @Component
-public class CsvFileParser extends RptFileParser {
-	@Autowired
-	private RptRepository rptRepository;
-	@Autowired
-	private SqlAssembler columnAssembler;
-	@Autowired
-	private RptMessageHelper msgHelper;
+public class CsvFileParser extends EtlFileParser {
 	private String colDelimiter;
 	private String currentLine;
 	private int totalLineNum = 0;
-	BufferedReader br = null;
-	public static final String SUFFIX_CSV=".csv";
-	public static final String SUFFIX_TXT=".txt";
+	private BufferedReader br = null;
+//	public static final String SUFFIX_CSV=".csv";
+//	public static final String SUFFIX_TXT=".txt";
 	
 	@Override
 	public void init() {
@@ -79,78 +73,63 @@ public class CsvFileParser extends RptFileParser {
 				totalLineNum = countLines(in);
 				in.reset(); //go back to the first line
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 	@Override
-	public void execNativeSql(String tableName,  List<ColumnMetaInfo> columnsInfo, List<String> values, Map<String, String> sysColValMap) throws Exception{
-		String sql = columnAssembler.genNativeInsertSqlByColumnIndex(tableName, columnsInfo, values, sysColValMap, configInfo.getNullValFilter());
+	public void execNativeSql(String tableName, List<ColumnMetaInfo> columnsInfo, List<String> values, Map<String, String> sysColValMap){
+		String sql = sqlAssembler.genNativeInsertSqlByColumnIndex(tableName, columnsInfo, values, sysColValMap, configInfo.getNullValFilter());
 		//System.out.println(sql);
 		try{
 			if(StringUtils.isNotBlank(sql)){
-				rptRepository.execUpdate(sql);				
+				etlCommonRepository.execUpdate(sql);
 			}
 		}catch(Exception e){
 			String msg = msgHelper.getMessage("RPT-ERR-003", new Object[]{"[CsvFileParser]", sql, e.getMessage()});
-			RuntimeException e1 =  new RuntimeException(msg);
-			throw e1;
+			throw new RuntimeException(msg);
 		}
 		//return sql;
 	}
-	public String exceParamiterlizedSql(String tableName,  List<ColumnMetaInfo> columnsInfo, List<String> values){
-		String sql = columnAssembler.genInsertSqlWithParam(tableName, columnsInfo);
-		System.out.println(sql);
-		List<Object> valueObjList = columnAssembler.parseValues(columnsInfo, values);
-		rptRepository.insertDataByParams(sql, valueObjList);
-		return sql;
-	}
 	
 	@Override
-	public List<Integer> getColumnIndices() throws Exception{
-		List<Integer> indices = new ArrayList<Integer>();
+	public List<Integer> getColumnIndices(){
+		List<Integer> indices = new ArrayList<>();
 		if(configInfo!=null&&configInfo.getColumns()!=null){
-			for(ColumnMetaInfo column:configInfo.getColumns()){
-				indices.add(column.getColIndex());
-			}
+			IntStream.range(0, configInfo.getColumns().size()).forEach(indices::add);
 		}
 		return indices;
 	}
 	@Override
 	public List<String> parseColumnValues(Object row, List<ColumnMetaInfo> columns) throws Exception {
-		List<String> valueStrList = new ArrayList<String>();
-		if(row!=null && row instanceof String && columnIndices!=null){
+		List<String> valueStrList = new ArrayList<>();
+		if(row instanceof String && columnIndices!=null){
 			String line = (String) row;
-			String[] values = line.split("\\"+colDelimiter);
+            String pattern = new StringBuilder().append("\\").append(colDelimiter)
+                    .append("(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)").toString();
+            String[] values = line.split(pattern);
 			for(int i=0;i<values.length;i++){
 				if(columnIndices.contains(i+1)){
 					if(values[i].startsWith("\"")&&values[i].endsWith("\"")){
 						values[i] = values[i].replaceFirst("^\"", "");
 						values[i] = values[i].replaceFirst("\"$", "");
 					}
-					valueStrList.add(values[i]);
+					valueStrList.add(values[i].trim());
 				}
 			}
 			//append null to the end
-			if(values!=null && columnIndices.size()-values.length==1){
+			if(columnIndices.size()-values.length==1){
 				valueStrList.add(null);
 			}
-			if(valueStrList.size()!=columnIndices.size()){
+			if(valueStrList.size()!=columnIndices.size()) {
 				throw new CheckedException(msgHelper.getMessage("RPT-ERR-002", new Object[]{colDelimiter}));
-			}
-			//trim
-			for(String raw:valueStrList){
-				if(raw!=null){
-					raw = raw.trim();
-				}
 			}
 		}
 		return valueStrList;
 	}
 	@Override
 	public boolean isBlankRow(Object row) {
-		if(row!=null&&row instanceof String){
+		if(row instanceof String){
 			String line = (String) row;
 			return StringUtils.isBlank(line.trim());
 		}
@@ -162,7 +141,7 @@ public class CsvFileParser extends RptFileParser {
 			try {
 				if(currentRowIndex<totalLineNum-configInfo.getEndRowIndexFromBottom()){
 					currentLine = br.readLine();
-					return currentLine!=null?true:false;
+					return currentLine != null;
 				}else{
 					return false;
 				}
@@ -192,22 +171,20 @@ public class CsvFileParser extends RptFileParser {
 				e.printStackTrace();
 			}
 		}
-		if(br!=null){
-			try {
-				br.close();
-				br=null;
-			} catch (IOException e) {
-				rptLogger.error("Cannot close buffer reader");
-				rptLogger.error(e.getMessage());
-				e.printStackTrace();
-			}
+		if(br!=null) try {
+			br.close();
+			br = null;
+		} catch (IOException e) {
+			rptLogger.error("Cannot close buffer reader");
+			rptLogger.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	public static int countLines(InputStream in) throws IOException {
+	private static int countLines(InputStream in) throws IOException {
 	    try {
 	        byte[] c = new byte[1024];
 	        int count = 0;
-	        int readChars = 0;
+	        int readChars;
 	        boolean empty = true;
 	        while ((readChars = in.read(c)) != -1) {
 	            empty = false;
@@ -236,6 +213,7 @@ public class CsvFileParser extends RptFileParser {
 				if(in!=null){
 					inForCharset = in;
 				}
+				assert inForCharset != null;
 				inForCharset.mark(0);
 				charsetDetector.setText(in);
 				CharsetMatch match = charsetDetector.detect();
@@ -249,7 +227,6 @@ public class CsvFileParser extends RptFileParser {
 				e.printStackTrace();
 			}
 		}
-		Charset charset = Charset.forName(encoding);
-		return charset;
+		return Charset.forName(encoding);
 	}
 }

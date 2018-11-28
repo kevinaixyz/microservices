@@ -1,4 +1,4 @@
-package com.prototype.microservice.etl.cdms.domain;
+package com.prototype.microservice.etl.domain;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

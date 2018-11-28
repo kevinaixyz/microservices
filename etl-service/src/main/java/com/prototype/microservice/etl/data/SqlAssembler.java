@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import com.prototype.microservice.etl.meta.ColumnMetaInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import com.prototype.microservice.etl.utils.EtlHelper;
+import com.prototype.microservice.etl.utils.BaseHelper;
 
 @Component
 public class SqlAssembler {
@@ -27,7 +28,7 @@ public class SqlAssembler {
 		if(StringUtils.isBlank(tableName)||columns==null||values==null||columns.size()!=values.size()){
 			return null;
 		}
-		StringBuilder sql = new StringBuilder("");
+		StringBuilder sql = new StringBuilder();
 		sql.append(tableName.toUpperCase());
 		sql.append(" WHERE 1=1 ");
 		for(int i=0;i<columns.size();i++){
@@ -35,7 +36,7 @@ public class SqlAssembler {
 			if(column!=null){
 				sql.append(" AND ");
 				sql.append(column.getTableColName().toUpperCase());
-				String v = RptColumnParser.parseColumnValueForNative(values.get(i), columns.get(i), null);
+				String v = EtlColumnParser.parseColumnValueForNative(values.get(i), columns.get(i), null);
 				if(v==null){
 					sql.append(" IS NULL ");
 				}else{
@@ -51,7 +52,7 @@ public class SqlAssembler {
 			return null;
 		}
 		IntStream.range(0, columnsInfo.size()).forEach(i->{
-			String v = RptColumnParser.parseColumnValueForNative(values.get(i), columnsInfo.get(i), nullValFilter);
+			String v = EtlColumnParser.parseColumnValueForNative(values.get(i), columnsInfo.get(i), nullValFilter);
 			values.set(i, v);
 		});
 		List<String> columns = genColumnNames(columnsInfo);
@@ -63,10 +64,8 @@ public class SqlAssembler {
 		columnsStr = columnsStr.replace("]", ")");
 		valuesStr = valuesStr.replace("[", "(");
 		valuesStr = valuesStr.replace("]", ")");
-		sql.append(tableName+" ");
-		sql.append(columnsStr);
-		sql.append(" VALUES "+valuesStr);
-		
+		sql.append(tableName).append(" ").append(columnsStr).append(" VALUES ").append(valuesStr);
+
 		return sql.toString();
 	}
 	public String genNativeInsertSqlByColumnIndex(String tableName, List<ColumnMetaInfo> columnsInfo, List<String> values, Map<String, String> sysColVal, List<String> nullValFilter){
@@ -76,9 +75,9 @@ public class SqlAssembler {
 		List<String> columns = genColumnNames(columnsInfo);
 		List<String> valuesAlignColumnOrder = new ArrayList<String>(values);
 		IntStream.range(0, columnsInfo.size()).forEach(i->{
-			String v = RptColumnParser.parseColumnValueForNative(values.get(i), columnsInfo.get(i), nullValFilter);
-			int index = columnsInfo.get(i).getColIndex();
-			valuesAlignColumnOrder.set(index-1, v);
+			String v = EtlColumnParser.parseColumnValueForNative(values.get(i), columnsInfo.get(i), nullValFilter);
+			//int index = columnsInfo.get(i).getColIndex();
+			valuesAlignColumnOrder.set(i, v);
 		});
 		appendSysColumn(columns, valuesAlignColumnOrder, sysColVal);
 		StringBuilder sql = new StringBuilder("INSERT INTO ");
@@ -88,9 +87,7 @@ public class SqlAssembler {
 		columnsStr = columnsStr.replace("]", ")");
 		valuesStr = valuesStr.replace("[", "(");
 		valuesStr = valuesStr.replace("]", ")");
-		sql.append(tableName+" ");
-		sql.append(columnsStr);
-		sql.append(" VALUES "+valuesStr);
+		sql.append(tableName).append(" ").append(columnsStr).append(" VALUES ").append(valuesStr);
 		
 		return sql.toString();
 	}
@@ -105,19 +102,24 @@ public class SqlAssembler {
 	}
 	public List<Object> parseValues(List<ColumnMetaInfo> columnsInfo, List<String> values){
 		List<Object> valueList = new ArrayList<Object>(values.size());
-		IntStream.range(0, values.size()).forEach(i->{
-			Object v = RptColumnParser.parseColumnForParam(values.get(i), columnsInfo.get(i));
+		int bound = values.size();
+		for (int i = 0; i < bound; i++) {
+			Object v = EtlColumnParser.parseColumnForParam(values.get(i), columnsInfo.get(i));
 			valueList.add(i, v);
-		});
+		}
 		appendSysColumnToValue(valueList);
 		return valueList;
 	}
 	public String genInsertSqlWithParam(String tableName, List<ColumnMetaInfo> columnsInfo){
 		List<String> columns = genColumnNames(columnsInfo);
-		List<String> params = new ArrayList<String>(columns.size());
-		IntStream.range(0, columnsInfo.size()).forEach(i->{
-			params.add(i, "?"+columnsInfo.get(i).getColIndex());
-		});
+		List<String> params = new ArrayList<>(columns.size());
+
+		IntStream.range(0, columnsInfo.size()).forEach(i->params.add(i, String.format("?%d",i)));
+
+//		int bound = columnsInfo.size();
+//		for (int i = 0; i < bound; i++) {
+//			params.add(i, String.format("?%d", columnsInfo.get(i).getColIndex()));
+//		}
 		appendSysColumnToParam(columns, params);
 		StringBuilder sql = new StringBuilder("INSERT INTO ");
 		String columnsStr =columns.toString();
@@ -126,23 +128,23 @@ public class SqlAssembler {
 		columnsStr = columnsStr.replace("]", ")");
 		paramStr = paramStr.replace("[", "(");
 		paramStr = paramStr.replace("]", ")");
-		sql.append(tableName+" ");
-		sql.append(columnsStr);
-		sql.append(" VALUES "+paramStr);
-		
+		sql.append(tableName).append(" ").append(columnsStr).append(" VALUES ").append(paramStr);
+
 		return sql.toString();
 	}
 	public static List<String> genColumnNames(List<ColumnMetaInfo> columns){
 		List<String> columnList = null;
 		if(columns!=null&&columns.size()>0){
-			columnList = new ArrayList<String>();
+			columnList = new ArrayList<>();
 		}
 		for(ColumnMetaInfo column:columns){
 			if(StringUtils.isNotBlank(column.getTableColName())){
 				columnList.add(column.getTableColName());
 			}
 		}
-		columnList.forEach((s)->s=s.trim());
+		if (columnList != null) {
+			columnList.forEach((s)->s=s.trim());
+		}
 		//System.out.print(columnList.toString());
 		return columnList;
 	}
@@ -172,7 +174,7 @@ public class SqlAssembler {
 	}
 	public void appendSysColumnToValue(List<Object> values){
 		if(values instanceof ArrayList){
-			Date value = EtlHelper.getCurrentDate();
+			Date value = BaseHelper.getCurrentDate();
 			values.add(value);
 		}
 	}

@@ -25,7 +25,7 @@
         <jpa.version>1.0.1.Final</jpa.version>
         <apache-commons-io.version>2.5</apache-commons-io.version>
         <jscrypt-spring-boot.version>1.16</jscrypt-spring-boot.version>
-        <oracle-jars.version>12.2.0.1</oracle-jars.version>
+        <h2.version>1.4.197</h2.version>
         <swagger.version>2.7.0</swagger.version>
         <poi.version>3.17</poi.version>
     </properties>
@@ -84,18 +84,12 @@
             <version>${lib.version}</version>
         </dependency>
 
-        <!-- Oracle Database -->
+        <!-- H2 Database -->
         <dependency>
-            <groupId>com.oracle.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>${oracle-jars.version}</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.oracle.jdbc</groupId>
-            <artifactId>ucp</artifactId>
-            <version>${oracle-jars.version}</version>
-        </dependency>
-
         <!-- 3rd Party -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

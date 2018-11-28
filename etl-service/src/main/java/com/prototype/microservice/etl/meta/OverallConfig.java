@@ -1,11 +1,11 @@
-package com.prototype.microservice.etl.data;
+package com.prototype.microservice.etl.meta;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class RptOverallConfig {
+public class OverallConfig {
 	List<CommonConfigInfo> configList;
 
 	public List<CommonConfigInfo> getConfigList() {
