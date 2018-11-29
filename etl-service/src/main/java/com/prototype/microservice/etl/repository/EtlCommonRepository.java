@@ -11,12 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository
+@Repository("etlCommonRepository")
 public class EtlCommonRepository {
-	@Autowired
 	@PersistenceContext
-	protected EntityManager entityManager;
-	
+	protected final EntityManager entityManager;
+
+	@Autowired
+	public EtlCommonRepository(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	@Transactional(readOnly = true)
+	public void test(){
+		String queryStr="select count(1) from warrant";
+		Query query = entityManager.createNativeQuery(queryStr);
+		Object res = query.getSingleResult();
+		BigDecimal recNo = new BigDecimal(String.valueOf(res));
+		System.out.println("==========>Test:"+recNo);
+	}
 	@Transactional(readOnly = true)
 	public BigDecimal execCount(String sql){
 		//System.out.println("===>"+sql);

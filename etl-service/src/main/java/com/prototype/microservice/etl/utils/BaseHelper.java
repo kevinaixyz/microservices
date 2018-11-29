@@ -114,8 +114,8 @@ public class BaseHelper {
 						return fileAttr.isRegularFile() && (filePath.getFileName().toString().matches(fileName + ".xls")
 								|| filePath.getFileName().toString().matches(fileName + ".xlsx"));
 					} else {
-						return fileAttr.isRegularFile() && (filePath.getFileName().toString().matches(fileName)
-								|| filePath.getFileName().toString().matches(fileName));
+						return fileAttr.isRegularFile() && (filePath.getFileName().toString().matches(fileName+".csv")
+								|| filePath.getFileName().toString().matches(fileName+".txt"));
 					}
 
 				}).forEach(p->{files.add(p.toFile());});

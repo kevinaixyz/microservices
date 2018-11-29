@@ -1,0 +1,163 @@
+{
+	"fileDateFormat":"yyyyMMdd",
+	"execOnDate":"",
+	"filePath": "\\\\PC003703\\Scan\\rpt_report\\",
+	"fileNamePattern":"Imagine_FairPrice_{fileDateFormat}",
+	"fileType":"CSV",
+	"logFilePath":"\\\\PC003703\\Scan\\rpt_report\\log\\",
+	"logFileNamePattern":"rpt-service-error(P125_Imagine_FairPrice).log.%d{yyyy-MM-dd}",
+	"dbTableName": "P125_IMG_FAIRPRICE",
+	"colDelimiter": ",",
+	"nullValFilter":["null","-"],
+	"headerRowIndex":-1,
+	"startRowIndex":0,
+	"endRowIndexFromBottom":0,
+	"columns": [{
+			"tableColName": "BB_TICKER",
+			"colIndex": 1,
+			"colName": "BB Ticker",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "LONG_SEC_NAME",
+			"colIndex": 2,
+			"colName": "Long Security Name",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "FAIR_ZC",
+			"colIndex": 3,
+			"colName": "Fair (adj. for ZC)",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "MOD_UPRICE",
+			"colIndex": 4,
+			"colName": "Mod UPrice",
+			"type": "Number",
+			"format": "Integer"
+		}, {
+			"tableColName": "MOD_VOL",
+			"colIndex": 5,
+			"colName": "Mod Vol",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "MOD_DIV_YLD",
+			"colIndex": 6,
+			"colName": "Mod DivYld",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "MOD_FIN_RATE",
+			"colIndex": 7,
+			"colName": "Mod FinRate",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "FAIR",
+			"colIndex": 8,
+			"colName": "Fair",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "SEC",
+			"colIndex": 9,
+			"colName": "Security",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "T_GROUP",
+			"colIndex": 10,
+			"colName": "Group",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "ACCT",
+			"colIndex": 11,
+			"colName": "Acct",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "CUSTOMER",
+			"colIndex": 12,
+			"colName": "Customer",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "TRADER",
+			"colIndex": 13,
+			"colName": "Trader",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "LEGAL_ENTY_NAME",
+			"colIndex": 14,
+			"colName": "Legal Entity Name",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "IMP_VOL",
+			"colIndex": 15,
+			"colName": "Implied Vol",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "ESP_HKD",
+			"colIndex": 16,
+			"colName": "ESP $ (HKD)",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "MOD_VOL2",
+			"colIndex": 17,
+			"colName": "Mod Vol",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "DELTA",
+			"colIndex": 18,
+			"colName": "Delta",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "GAMMA_HKD",
+			"colIndex": 19,
+			"colName": "Gamma (HKD)",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "HOLD_GAMMA_C",
+			"colIndex": 20,
+			"colName": "HoldGamma C",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "VEGA_1_PCT",
+			"colIndex": 21,
+			"colName": "Vega (1%)",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "VEGA_HKD",
+			"colIndex": 22,
+			"colName": "Vega (HKD)",
+			"type": "Number",
+			"format": "Double"
+		}, {
+			"tableColName": "ERR_MSG",
+			"colIndex": 23,
+			"colName": "Error Message",
+			"type": "Char",
+			"format": ""
+		}
+	],
+	"systemColumns":[
+		{
+			"tableColName": "FILE_DATE",
+			"type": "Date",
+			"format":"yyyyMMdd"
+		}
+	],
+	"others": ""
+}

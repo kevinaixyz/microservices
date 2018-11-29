@@ -1,7 +1,7 @@
 info:
   component: ETL Service [Build-@pom.version@-@timestamp@]
 # Schedule Job
-Schedule:
+schedule:
   immediate: false
   cron: 0 20 11 * * ?
 
@@ -11,10 +11,10 @@ etl-service:
   users:
     admin:
       username: admin
-      password: ENC(1FB407ACD493F6FB7274F06B80BDB57238F080C530C78386)
+      password: ENC(69A7B46C7FEBE59121ECCAB7798760542029277579699C06)
     apiClient:
       username: apiClient
-      password: ENC(1FB407ACD493F6FB7274F06B80BDB57238F080C530C78386)
+      password: ENC(69A7B46C7FEBE59121ECCAB7798760542029277579699C06)
 # Jasypt password encryption (default to: prototype)
 jasypt:
   encryptor:
@@ -47,7 +47,7 @@ server:
     min-response-size: 128
   ssl:
     key-store: classpath:keystore.p12
-    key-store-password: ENC(6811B3C24F5A0328E55993B55B107E1A)
+    key-store-password: ENC(CDCDA755EFB15EF83D8E01FDD45276330289D16E15E7DBD9)
     keyStoreType: PKCS12
     keyAlias: microservices        
 # Spring Management and Endpoints
@@ -84,7 +84,7 @@ spring:
   datasource:
     url: jdbc:h2:~/prototype
     username: prototype
-    password: ENC(CDC34B34E33FD4FE9F212987EB85B04B8A673CC2EE8C093B) # Jasypt encrypted!
+    password: ENC(97427F419347BC4226FDF34CFF57BC87840DECFCFBDFCF21) # Jasypt encrypted!
     driver-class-name: org.h2.Driver
 
   http:

@@ -1,0 +1,5 @@
+com\prototype\microservice\repository\EtlRepositoryTest.class
+com\prototype\microservice\aeprotal\AbstractCrmPwmServiceTest.class
+com\prototype\microservice\aeprotal\AbstractCrmPwmRestfulTest.class
+com\prototype\microservice\aeprotal\CrmPwmBaseSpringBootTest.class
+com\prototype\microservice\aeprotal\GenericSpringBootTest.class
