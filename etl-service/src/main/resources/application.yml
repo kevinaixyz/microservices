@@ -73,11 +73,11 @@ eureka:
       retryable: true
 ---
 # DEV profile
-p125:
-  fireprice:
-    fileNamePattern: Imagine_FairPrice_
+etl:
+  warrant:
+    fileNamePattern: dwAQList
     schedule-job: 
-      immediate: false
+      immediate: true
       cron: 0 */30 * * * ? 
 spring:
   profiles: dev
@@ -104,8 +104,8 @@ eureka:
     metadataMap:
       instanceId: ${spring.application.name}:${server.port}
 config:
-  configFilePath: ${CONFIG_FILE_PATH:./}
-  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:etl-service} ## Notice: the extension of the config file must be .request
+  configFilePath: ${CONFIG_FILE_PATH:C:\source\kevin\microservices\etl-service\src\main\resources}
+  configFileNameKeywords: ${CONFIG_FILE_KEYWORD:etl_config} ## Notice: the extension of the config file must be .json
 ---
 # SIT profile
 spring:

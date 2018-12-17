@@ -12,7 +12,11 @@ public class ColumnMetaInfo {
 	public final static String JAVA_TYPE_INTEGER="integer";
 	public final static String JAVA_TYPE_DOUBLE="double";
 	public final static String JAVA_TYPE_BIGDECIMAL="bigdecimal";
-	
+
+	public final static String SYS_COL_FILE_DATE="FILE_DATE";
+	public final static String SYS_COL_FILE_NAME="FILE_NAME";
+	public final static String SYS_COL_CREATE_DATETIME="CREATE_DATETIME";
+
 	private String tableColName;
 	private String fileColName;
 	private String type;

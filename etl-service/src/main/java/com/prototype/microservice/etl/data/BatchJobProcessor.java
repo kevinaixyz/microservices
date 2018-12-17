@@ -10,9 +10,7 @@ import java.util.Map;
 
 @Component
 public class BatchJobProcessor extends EtlProcessorTemplate {
-	public final static String SYS_COL_FILE_DATE="FILE_DATE";
-	public final static String SYS_COL_FILE_NAME="FILE_NAME";
-	public final static String SYS_COL_CRE_DATE="CRE_DATE";
+
 	protected File file;
 	private Map<String, String> sysColValMap;
 	public File getFile() {

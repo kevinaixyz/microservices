@@ -96,7 +96,7 @@ public class CsvFileParser extends EtlFileParser {
 	public List<Integer> getColumnIndices(){
 		List<Integer> indices = new ArrayList<>();
 		if(configInfo!=null&&configInfo.getColumns()!=null){
-			IntStream.range(0, configInfo.getColumns().size()).forEach(indices::add);
+			IntStream.range(0, configInfo.getColumns().size()).forEach(i->indices.add(i+1));
 		}
 		return indices;
 	}

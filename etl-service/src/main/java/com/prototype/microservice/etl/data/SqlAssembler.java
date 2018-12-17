@@ -73,7 +73,7 @@ public class SqlAssembler {
 			return null;
 		}
 		List<String> columns = genColumnNames(columnsInfo);
-		List<String> valuesAlignColumnOrder = new ArrayList<String>(values);
+		List<String> valuesAlignColumnOrder = new ArrayList<>(values);
 		IntStream.range(0, columnsInfo.size()).forEach(i->{
 			String v = EtlColumnParser.parseColumnValueForNative(values.get(i), columnsInfo.get(i), nullValFilter);
 			//int index = columnsInfo.get(i).getColIndex();
@@ -124,12 +124,11 @@ public class SqlAssembler {
 		StringBuilder sql = new StringBuilder("INSERT INTO ");
 		String columnsStr =columns.toString();
 		String paramStr = params.toString();
-		columnsStr = columnsStr.replace("[", "(");
-		columnsStr = columnsStr.replace("]", ")");
-		paramStr = paramStr.replace("[", "(");
-		paramStr = paramStr.replace("]", ")");
+		columnsStr = columnsStr.replaceFirst("^(\\[)", "(");
+		columnsStr = columnsStr.replaceFirst("(\\])$", ")");
+		paramStr = paramStr.replaceFirst("^(\\[)", "(");
+		paramStr = paramStr.replaceFirst("(\\])$", ")");
 		sql.append(tableName).append(" ").append(columnsStr).append(" VALUES ").append(paramStr);
-
 		return sql.toString();
 	}
 	public static List<String> genColumnNames(List<ColumnMetaInfo> columns){

@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=prototype-commons-1.0.0-RELEASE.jar -DgroupId=com.prototype.microservice -DartifactId=prototype-commons -Dversion=1.0.0-RELEASE -Dpackaging=jar

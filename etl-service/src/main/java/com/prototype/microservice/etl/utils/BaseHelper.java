@@ -70,13 +70,12 @@ public class BaseHelper {
 			if (dir.exists() && dir.isDirectory()) {
 				Path startPath = dir.toPath();
 				Files.find(startPath, Integer.MAX_VALUE, (filePath, fileAttr) -> {
-					if (configInfo.getFileType() != null
+					if (StringUtils.isNotBlank(configInfo.getFileType())
 							&& CommonConfigInfo.FILE_TYPE_EXCEL.equalsIgnoreCase(configInfo.getFileType())) {
 						return fileAttr.isRegularFile() && (filePath.getFileName().toString().equalsIgnoreCase(fileName + ".xls")
 								|| filePath.getFileName().toString().equalsIgnoreCase(fileName + ".xlsx"));
 					} else {
-						return fileAttr.isRegularFile() && (filePath.getFileName().toString().equals(fileName)
-								|| filePath.getFileName().toString().equals(fileName));
+						return fileAttr.isRegularFile() && (filePath.getFileName().toString().equals(fileName+"."+configInfo.getFileType().toLowerCase()));
 					}
 
 				}).forEach(p->{files.add(p.toFile());});

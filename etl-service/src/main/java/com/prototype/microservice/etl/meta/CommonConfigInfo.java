@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class CommonConfigInfo {
 	private String fileDateFormat;
 	private boolean isLoadAll;
+	private long scheduleDaysOffset;
 	private String filePath;
 	private String fileNamePattern;
 	private String logFilePath;
@@ -32,10 +33,17 @@ public class CommonConfigInfo {
 		return isLoadAll;
 	}
 
+	public long getScheduleDaysOffset() {
+		return scheduleDaysOffset;
+	}
+
+	public void setScheduleDaysOffset(long scheduleDaysOffset) {
+		this.scheduleDaysOffset = scheduleDaysOffset;
+	}
+
 	public String getFileDateFormat() {
 		return fileDateFormat;
 	}
-
 	public String getFileNamePattern() {
 		return fileNamePattern;
 	}

@@ -1,0 +1,79 @@
+{
+	"fileDateFormat":"yyyyMMdd",
+	"isLoadAll":false,
+	"scheduleDaysOffset":0,
+	"filePath": "C:\\test\\",
+	"fileNamePattern":"dwAQList_{fileDateFormat}",
+	"fileType":"CSV",
+	"logFilePath":"C:\\test\\log",
+	"logFileNamePattern":"rpt-service-error(etl_config).log.%d{yyyy-MM-dd}",
+	"dbTableName": "WARRANT",
+	"colDelimiter": "t",
+	"nullValFilter":["null","-"],
+	"headerRowIndex":7,
+	"startRowIndex":8,
+	"endRowIndexFromBottom":1,
+	"columns": [{
+			"tableColName": "WARRANT_CODE",
+			"colIndex": 1,
+			"colName": "Warrant code",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "WARRANT_NAME",
+			"colIndex": 2,
+			"colName": "Warrant name",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "ISSUER",
+			"colIndex": 3,
+			"colName": "Issuer",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "UNDERLY_CODE",
+			"colIndex": 4,
+			"colName": "Underlying code",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "CALL_PUT",
+			"colIndex": 5,
+			"colName": "Call / Put",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "MATURITY_DATE",
+			"colIndex": 6,
+			"colName": "Maturity date",
+			"type": "Date",
+			"format": "dd-MM-yyyy"
+		}, {
+			"tableColName": "STRIKE_CCY",
+			"colIndex": 7,
+			"colName": "Strike currency",
+			"type": "Char",
+			"format": ""
+		}, {
+			"tableColName": "STRIKE_PRICE",
+			"colIndex": 8,
+			"colName": "Strike price / level",
+			"type": "Number",
+			"format": "Double"
+		}
+	],
+	"systemColumns":[
+		{
+			"tableColName": "CREATE_DATETIME",
+			"type": "Timestamp",
+			"format":""
+		},
+		{
+			"tableColName": "FILE_NAME",
+			"type": "Char",
+			"format":""
+		}
+	],
+	"others": ""
+}

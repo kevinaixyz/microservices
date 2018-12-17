@@ -72,9 +72,9 @@ public abstract class EtlProcessorTemplate {
 		}
 		if(sysColValMap!=null){
 			List<ColumnMetaInfo> sysColumns = configInfo.getSystemColumns();
-			List<String> checkVals = new ArrayList<String>();
+			List<String> checkVals = new ArrayList<>();
 			sysColumns.forEach(s->{
-				if(sysColValMap.containsKey(s.getTableColName())){
+				if(sysColValMap.containsKey(s.getTableColName())&&ColumnMetaInfo.SYS_COL_FILE_NAME.equals(s.getTableColName())){
 					checkVals.add(sysColValMap.get(s.getTableColName()));
 				}
 			});

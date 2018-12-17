@@ -2,6 +2,7 @@ package com.prototype.microservice.etl.config;
 
 import java.io.File;
 import java.io.FileReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +49,9 @@ public class JsonFileConfig {
                 File[] configFiles =
                         directory.listFiles((dir, name) -> StringUtils.isBlank(configFileNameKeywords) || (name.contains(configFileNameKeywords) && name.endsWith(".json")));
                 if (configFiles == null || configFiles.length == 0) {
-                    return null;
+                    throw new RuntimeException(MessageFormat.format("Cannot find any config file under the path: {0}", configFilePath));
                 }
+
                 for (File configFile : configFiles) {
                     if (configFile.isFile()) {
                         CommonConfigInfo configInfo = loadConfig(configFile);

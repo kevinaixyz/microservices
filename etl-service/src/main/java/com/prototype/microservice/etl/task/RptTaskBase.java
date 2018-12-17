@@ -29,7 +29,11 @@ public class RptTaskBase {
         if(configInfo.getIsLoadAll()){
             files = BaseHelper.getFiles(configInfo);
         }else{
-            String asOfDate = BaseHelper.formatDate(LocalDate.now(), configInfo.getFileDateFormat()==null? AppConstant.ISO_DATE_PATTERN:configInfo.getFileDateFormat());
+            LocalDate scheduleFileDate = LocalDate.now();
+            if(configInfo.getScheduleDaysOffset()!=0){
+                scheduleFileDate = LocalDate.now().plusDays(configInfo.getScheduleDaysOffset());
+            }
+            String asOfDate = BaseHelper.formatDate(scheduleFileDate, configInfo.getFileDateFormat()==null? AppConstant.ISO_DATE_PATTERN:configInfo.getFileDateFormat());
             files = BaseHelper.getFiles(configInfo, asOfDate);
         }
 
@@ -56,12 +60,12 @@ public class RptTaskBase {
         Map<String, String> map = new HashMap<>();
         for(ColumnMetaInfo sysCol: sysCols){
             String key = sysCol.getTableColName();
-            if(BatchJobProcessor.SYS_COL_FILE_DATE.equalsIgnoreCase(key)){
+            if(ColumnMetaInfo.SYS_COL_FILE_DATE.equalsIgnoreCase(key)){
                 map.put(key, BaseHelper.getFileDateStr(file, configInfo.getFileDateFormat()));
-            } else if(BatchJobProcessor.SYS_COL_CRE_DATE.equalsIgnoreCase(key)){
-                String createdDate = BaseHelper.getCurrentDateStr();
+            } else if(ColumnMetaInfo.SYS_COL_CREATE_DATETIME.equalsIgnoreCase(key)){
+                String createdDate = BaseHelper.getCurrentDatetimeStr();
                 map.put(key, createdDate);
-            } else if(BatchJobProcessor.SYS_COL_FILE_NAME.equalsIgnoreCase(key)){
+            } else if(ColumnMetaInfo.SYS_COL_FILE_NAME.equalsIgnoreCase(key)){
                 map.put(key, file.getName());
             }
         }

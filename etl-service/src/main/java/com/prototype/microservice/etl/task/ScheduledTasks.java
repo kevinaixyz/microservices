@@ -16,9 +16,9 @@ import javax.annotation.PostConstruct;
 public class ScheduledTasks extends RptTaskBase{
 	private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 	
-	@Value("${schedule.immediate:true}")
+	@Value("${etl.warrant.schedule-job.immediate:true}")
 	private boolean fireImmediate = true;
-	@Value("${schedule.cron}")
+	@Value("${etl.warrant.schedule-job.cron}")
 	private String cronSchedule;
 
     public ScheduledTasks(OverallConfig overallConfig, BatchJobProcessor batchJobProcessor) {

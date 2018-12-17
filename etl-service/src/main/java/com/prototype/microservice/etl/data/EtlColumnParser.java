@@ -14,7 +14,7 @@ public class EtlColumnParser {
 	public static String parseColumnValueForNative(String raw, ColumnMetaInfo columnInfo, List<String> nullValFilter){
 		String value=null;
 		if(StringUtils.isBlank(raw)||columnInfo==null){
-			return value;
+			return null;
 		}
 		if(nullValFilter!=null&&nullValFilter.size()>0){
 			for(String nullVal:nullValFilter){
@@ -23,32 +23,35 @@ public class EtlColumnParser {
 				}
 			}
 		}
-		if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_TIMESTAMP)){
-			String format = columnInfo.getFormat();
-			if(StringUtils.isNotBlank(format)){
-				value = BaseHelper.formatLocalDateTime(raw, format);
-			}
-			value = BaseHelper.timestampFieldToNativeSql(value, AppConstant.SQL_TIMESTAMP_PATTERN);
-			return value;
-		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_DATE)){
-			String format = columnInfo.getFormat();
-			if(StringUtils.isNotBlank(format)){
-				value = BaseHelper.formatLocalDate(raw, format);
-			}
-			value = BaseHelper.dateFieldToNativeSql(value, AppConstant.SQL_DATE_PATTERN);
-			return value;
-		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_CHAR)){
-			value = escapeSpecialChar(raw.trim());
-			value = "'"+value+"'";
-			return value;
-		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_NUMBER)){
-			BigDecimal b = BaseHelper.stringToBigDecimal(raw);
-			if(b!=null){
-				value = b.toString();
-			}else{
-				value = null;
-			}
-			return value;
+		String format = columnInfo.getFormat();
+		if(StringUtils.isBlank(format)){
+			value = raw;
+		}
+		switch (StringUtils.trim(columnInfo.getType()).toLowerCase()) {
+			case ColumnMetaInfo.DB_TYPE_TIMESTAMP:
+				if (StringUtils.isNotBlank(format)) {
+					value = BaseHelper.formatLocalDateTime(raw, format);
+				}
+				value = BaseHelper.timestampFieldToNativeSql(value, AppConstant.SQL_TIMESTAMP_PATTERN);
+				return value;
+			case ColumnMetaInfo.DB_TYPE_DATE:
+				if (StringUtils.isNotBlank(format)) {
+					value = BaseHelper.formatLocalDate(raw, format);
+				}
+				value = BaseHelper.dateFieldToNativeSql(value, AppConstant.SQL_DATE_PATTERN);
+				return value;
+			case ColumnMetaInfo.DB_TYPE_CHAR:
+				value = escapeSpecialChar(raw.trim());
+				value = "'" + value + "'";
+				return value;
+			case ColumnMetaInfo.DB_TYPE_NUMBER:
+				BigDecimal b = BaseHelper.stringToBigDecimal(raw);
+				if (b != null) {
+					value = b.toString();
+				} else {
+					value = null;
+				}
+				return value;
 		}
 		/*else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(AppConstant.BigDecimal_2Decimal_PATTERN)){
 			value = escapeSpecialChar(raw.trim());
@@ -73,51 +76,47 @@ public class EtlColumnParser {
 	public static Object parseColumnForParam(String raw, ColumnMetaInfo columnInfo){
 		Object value=null;
 		if(StringUtils.isBlank(raw)||columnInfo==null){
-			return value;
+			return null;
 		}
-		if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_TIMESTAMP)){
-			String format = columnInfo.getFormat();
-			if(StringUtils.isNotBlank(format)){
-				value = BaseHelper.parseDatetime(raw, format);
+		switch (StringUtils.trim(columnInfo.getType()).toLowerCase()) {
+			case ColumnMetaInfo.DB_TYPE_TIMESTAMP: {
+				String format = columnInfo.getFormat();
+				if (StringUtils.isNotBlank(format)) {
+					value = BaseHelper.parseDatetime(raw, format);
+				}
+				return value;
 			}
-			return value;
-		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_DATE)){
-			String format = columnInfo.getFormat();
-			if(StringUtils.isNotBlank(format)){
-				value = BaseHelper.parseDate(raw, format);
+			case ColumnMetaInfo.DB_TYPE_DATE: {
+				String format = columnInfo.getFormat();
+				if (StringUtils.isNotBlank(format)) {
+					value = BaseHelper.parseDate(raw, format);
+				}
+				return value;
 			}
-			return value;
-		}else if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(ColumnMetaInfo.DB_TYPE_NUMBER)){
-			String format = columnInfo.getFormat();
-			if(StringUtils.isNotBlank(format)){
-				if(format.toLowerCase().equals(ColumnMetaInfo.JAVA_TYPE_BIGDECIMAL)){
-					value = new BigDecimal(raw.trim());
+			case ColumnMetaInfo.DB_TYPE_NUMBER: {
+				String format = columnInfo.getFormat();
+				if (StringUtils.isNotBlank(format)) {
+					if (format.toLowerCase().equals(ColumnMetaInfo.JAVA_TYPE_BIGDECIMAL)) {
+						value = new BigDecimal(raw.trim());
+					}
+					if (format.toLowerCase().equals(ColumnMetaInfo.JAVA_TYPE_INTEGER)) {
+						value = Integer.parseInt(raw.trim());
+					}
+					if (format.toLowerCase().equals(ColumnMetaInfo.JAVA_TYPE_DOUBLE)) {
+						value = Double.parseDouble(raw.trim());
+					}
+					if (StringUtils.trim(columnInfo.getType()).toLowerCase().equals(AppConstant.BigDecimal_2Decimal_PATTERN)) {
+						value = new BigDecimal(escapeSpecialChar(raw.trim())).divide(new BigDecimal("100")).doubleValue();
+					}
+					if (StringUtils.trim(columnInfo.getType()).toLowerCase().equals(AppConstant.BigDecimal_3Decimal_PATTERN)) {
+						value = new BigDecimal(escapeSpecialChar(raw.trim())).divide(new BigDecimal("1000")).doubleValue();
+					}
+					if (StringUtils.trim(columnInfo.getType()).toLowerCase().equals(AppConstant.BigDecimal_4Decimal_PATTERN)) {
+						value = new BigDecimal(escapeSpecialChar(raw.trim())).divide(new BigDecimal("10000")).doubleValue();
+					}
 				}
-				if(format.toLowerCase().equals(ColumnMetaInfo.JAVA_TYPE_INTEGER)){
-					value = Integer.parseInt(raw.trim());
-				}
-				if(format.toLowerCase().equals(ColumnMetaInfo.JAVA_TYPE_DOUBLE)){
-					value = Double.parseDouble(raw.trim());
-				}
-				 if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(AppConstant.BigDecimal_2Decimal_PATTERN)){
-					value = escapeSpecialChar(raw.trim());
-					value = new BigDecimal(raw).divide(new BigDecimal("100")).doubleValue();
-					
-					
-				}
-				 if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(AppConstant.BigDecimal_3Decimal_PATTERN)){
-					value = escapeSpecialChar(raw.trim());
-					value = new BigDecimal(raw).divide(new BigDecimal("1000")).doubleValue();
-					
-				}
-				 if(StringUtils.trim(columnInfo.getType()).toLowerCase().equals(AppConstant.BigDecimal_4Decimal_PATTERN)){
-					value = escapeSpecialChar(raw.trim());
-					value = new BigDecimal(raw).divide(new BigDecimal("10000")).doubleValue();
-					
-					
-				}
+				return value;
 			}
-			return value;
 		}
 		return raw.trim();
 	}
