@@ -3,6 +3,7 @@ package com.prototype.microservice.etl.data;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +96,16 @@ public abstract class EtlFileParser {
 				}
 				List<String> valueStrList = parseColumnValues(row, configInfo.getColumns());
 				Map<String, String> sysColVal = genSysColVal(configInfo.getSystemColumns(), sysColValMap);
-				execNativeSql(configInfo.getDbTableName(), configInfo.getColumns(), valueStrList, sysColVal);
+				//execNativeSql(configInfo.getDbTableName(), configInfo.getColumns(), valueStrList, sysColVal);
+				List<ColumnMetaInfo> allCols = new ArrayList<>();
+				List<String> allValues=new ArrayList<>();
+				allValues.addAll(valueStrList);
+				for(ColumnMetaInfo sysCol: configInfo.getSystemColumns()){
+					allValues.add(sysColValMap.get(sysCol.getTableColName()));
+				}
+				allCols.addAll(configInfo.getColumns());
+				allCols.addAll(configInfo.getSystemColumns());
+				execParamSql(configInfo.getDbTableName(),allCols,allValues);
 				currentRowIndex++;
 				totalRowNum++;
 			} catch(CheckedException e){
@@ -126,9 +136,23 @@ public abstract class EtlFileParser {
 		}
 		return map;
 	}
-	public String execParamiterlizedSql(String tableName,  List<ColumnMetaInfo> columnsInfo, List<String> values){
+	private Map<String, Object> genSysColValForParam(List<ColumnMetaInfo> sysColInfo, Map<String, String> colValMap){
+		Map<String, Object> map = new HashMap<>();
+		if(sysColInfo==null||colValMap==null||sysColInfo.size()!=colValMap.size()){
+			return map;
+		}
+		for (ColumnMetaInfo aSysColInfo : sysColInfo) {
+			String key = aSysColInfo.getTableColName();
+			Object value = null;
+			if (colValMap.containsKey(key)) {
+				value = EtlColumnParser.parseColumnForParam(colValMap.get(key), aSysColInfo);
+			}
+			map.put(key, value);
+		}
+		return map;
+	}
+	public String execParamSql(String tableName,  List<ColumnMetaInfo> columnsInfo, List<String> values){
 		String sql = sqlAssembler.genInsertSqlWithParam(tableName, columnsInfo);
-		System.out.println(sql);
 		List<Object> valueObjList = sqlAssembler.parseValues(columnsInfo, values);
 		etlCommonRepository.insertDataByParams(sql, valueObjList);
 		return sql;

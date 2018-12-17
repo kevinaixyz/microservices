@@ -91,7 +91,19 @@ public class CsvFileParser extends EtlFileParser {
 		}
 		//return sql;
 	}
-	
+
+	public void execJpaSql(String tableName, List<ColumnMetaInfo> columnsInfo, List<String> values, Map<String, String> sysColValMap){
+		String sql = sqlAssembler.genInsertSqlWithParam(tableName, columnsInfo);
+		try{
+			if(StringUtils.isNotBlank(sql)){
+				etlCommonRepository.insertDataByParams(sql, values);
+			}
+		}catch(Exception e){
+			String msg = msgHelper.getMessage("RPT-ERR-003", new Object[]{"[CsvFileParser]", sql, e.getMessage()});
+			throw new RuntimeException(msg);
+		}
+	}
+
 	@Override
 	public List<Integer> getColumnIndices(){
 		List<Integer> indices = new ArrayList<>();
@@ -122,6 +134,7 @@ public class CsvFileParser extends EtlFileParser {
 				valueStrList.add(null);
 			}
 			if(valueStrList.size()!=columnIndices.size()) {
+				System.out.println(valueStrList);
 				throw new CheckedException(msgHelper.getMessage("RPT-ERR-002", new Object[]{colDelimiter}));
 			}
 		}
@@ -158,6 +171,7 @@ public class CsvFileParser extends EtlFileParser {
 	}
 	@Override
 	public void clean() {
+		etlCommonRepository.closeDbConn();
 		currentRowIndex=0;
 		currentLine=null;
 		colDelimiter=null;

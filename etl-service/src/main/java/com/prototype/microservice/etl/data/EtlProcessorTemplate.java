@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import com.prototype.microservice.etl.meta.ColumnMetaInfo;
 import com.prototype.microservice.etl.meta.CommonConfigInfo;
@@ -48,7 +49,11 @@ public abstract class EtlProcessorTemplate {
 	}
 
 	boolean isDataExist(String tableName, List<ColumnMetaInfo> columns, List<String> values) {
-		String sql = sqlAssembler.countDataByColumns(tableName, columns, values);
+		String sql = null;
+		if(columns.size()==values.size()){
+			sql = sqlAssembler.countDataByColumns(tableName, columns, values);
+		}
+
 		if(StringUtils.isNotBlank(sql)){
 			BigDecimal recNo = etlCommonRepository.execCount(sql);
 			rptLogger.info(MessageFormat.format("[{0}] Check data exist...: {1}", this.getClass().getName(),sql));
@@ -72,15 +77,19 @@ public abstract class EtlProcessorTemplate {
 		}
 		if(sysColValMap!=null){
 			List<ColumnMetaInfo> sysColumns = configInfo.getSystemColumns();
+			List<ColumnMetaInfo> checkColumns = new ArrayList<>();
 			List<String> checkVals = new ArrayList<>();
-			sysColumns.forEach(s->{
-				if(sysColValMap.containsKey(s.getTableColName())&&ColumnMetaInfo.SYS_COL_FILE_NAME.equals(s.getTableColName())){
-					checkVals.add(sysColValMap.get(s.getTableColName()));
-				}
-			});
-			boolean isExist = isDataExist(configInfo.getDbTableName(),sysColumns, checkVals);
+			if(sysColValMap.containsKey(ColumnMetaInfo.SYS_COL_FILE_NAME)){
+				IntStream.range(0, sysColumns.size()).forEach(i->{
+					if(ColumnMetaInfo.SYS_COL_FILE_NAME.equalsIgnoreCase(sysColumns.get(i).getTableColName())){
+						checkColumns.add(sysColumns.get(i));
+						checkVals.add(sysColValMap.get(ColumnMetaInfo.SYS_COL_FILE_NAME));
+					}
+				});
+			}
+			boolean isExist = isDataExist(configInfo.getDbTableName(), checkColumns, checkVals);
 			if(isExist){
-				deleteDataByColumns(configInfo.getDbTableName(), sysColumns, checkVals);
+				deleteDataByColumns(configInfo.getDbTableName(), checkColumns, checkVals);
 			}
 		}
 	}

@@ -157,6 +157,7 @@ public class ExcelFileParser extends EtlFileParser {
 
 	@Override
 	public void clean() {
+		etlCommonRepository.closeDbConn();
 		currentRowIndex=0;
 		this.sheet=null;
 		if(workbook!=null){

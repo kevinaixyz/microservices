@@ -14,7 +14,12 @@ import com.prototype.microservice.etl.utils.BaseHelper;
 
 @Component
 public class SqlAssembler {
-	
+	public String countDataByFileName(String tableName, String value){
+		StringBuilder sql = new StringBuilder(" SELECT COUNT(1) FROM ");
+		sql.append(tableName);
+		sql.append(" WHERE FILE_NAME = '").append(value).append("'");
+		return sql.toString();
+	}
 	public String countDataByColumns(String tableName, List<ColumnMetaInfo> columns, List<String> values){
 		StringBuilder sql = new StringBuilder(" SELECT COUNT(1) FROM ");
 		String stmt = getCriteriaStmt(tableName, columns, values);
@@ -107,20 +112,20 @@ public class SqlAssembler {
 			Object v = EtlColumnParser.parseColumnForParam(values.get(i), columnsInfo.get(i));
 			valueList.add(i, v);
 		}
-		appendSysColumnToValue(valueList);
+//		appendSysColumnToValue(valueList);
 		return valueList;
 	}
 	public String genInsertSqlWithParam(String tableName, List<ColumnMetaInfo> columnsInfo){
 		List<String> columns = genColumnNames(columnsInfo);
 		List<String> params = new ArrayList<>(columns.size());
 
-		IntStream.range(0, columnsInfo.size()).forEach(i->params.add(i, String.format("?%d",i)));
+		IntStream.range(0, columnsInfo.size()).forEach(i->params.add(i, String.format("?%d",i+1)));
 
 //		int bound = columnsInfo.size();
 //		for (int i = 0; i < bound; i++) {
 //			params.add(i, String.format("?%d", columnsInfo.get(i).getColIndex()));
 //		}
-		appendSysColumnToParam(columns, params);
+		//appendSysColumnToParam(columns, params);
 		StringBuilder sql = new StringBuilder("INSERT INTO ");
 		String columnsStr =columns.toString();
 		String paramStr = params.toString();
