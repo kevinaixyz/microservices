@@ -13,48 +13,45 @@ import com.prototype.microservice.commons.message.AsyncReportMessage;
 
 /**
  * Abstract JMS message listener for async report AMQ messages.
- *
- *
- *
  */
 public abstract class AbstractAsyncReportMessageAMQListener {
 
-	private final static Logger LOG = LoggerFactory.getLogger(AbstractAsyncReportMessageAMQListener.class);
+    private final static Logger LOG = LoggerFactory.getLogger(AbstractAsyncReportMessageAMQListener.class);
 
-	@Autowired
-	private JsonHelper jsonHelper;
+    @Autowired
+    private JsonHelper jsonHelper;
 
-	/**
-	 * Process the message received from the destination.
-	 *
-	 * @param message
-	 */
-	@JmsListener(destination = "${report-server.jms.topic.asyncReportEvent:topic/unknown}")
-	public void processMessage(String message) {
+    /**
+     * Process the message received from the destination.
+     *
+     * @param message
+     */
+    @JmsListener(destination = "${report-server.jms.topic.asyncReportEvent:topic/unknown}")
+    public void processMessage(String message) {
 
-		try {
-			if (LOG.isInfoEnabled()) {
-				LOG.info(MessageFormat.format(
-						"AsyncReportMessageAMQListener -> Received message [{0}]",
-						new Object[] { StringUtils.trimToEmpty(message) }));
-			}
-			AsyncReportMessage asyncReportMsg = jsonHelper.fromJson(message, AsyncReportMessage.class);
-			doProcessMessage(asyncReportMsg);
-			if (LOG.isInfoEnabled()) {
-				LOG.info(MessageFormat.format(
-						"AsyncReportMessageAMQListener -> Message translated into [{0}]",
-						new Object[] { asyncReportMsg.toString() }));
-			}
-		} catch (Exception e) {
-			if (LOG.isWarnEnabled()) {
-				LOG.warn(MessageFormat.format(
-						"AsyncReportMessageAMQListener -> Unable to convert received message into AsyncReportMessage due to: {0}",
-						new Object[] { e.getLocalizedMessage() }), e);
-			}
-		}
+        try {
+            if (LOG.isInfoEnabled()) {
+                LOG.info(MessageFormat.format(
+                        "AsyncReportMessageAMQListener -> Received message [{0}]",
+                        new Object[]{StringUtils.trimToEmpty(message)}));
+            }
+            AsyncReportMessage asyncReportMsg = jsonHelper.fromJson(message, AsyncReportMessage.class);
+            doProcessMessage(asyncReportMsg);
+            if (LOG.isInfoEnabled()) {
+                LOG.info(MessageFormat.format(
+                        "AsyncReportMessageAMQListener -> Message translated into [{0}]",
+                        new Object[]{asyncReportMsg.toString()}));
+            }
+        } catch (Exception e) {
+            if (LOG.isWarnEnabled()) {
+                LOG.warn(MessageFormat.format(
+                        "AsyncReportMessageAMQListener -> Unable to convert received message into AsyncReportMessage due to: {0}",
+                        new Object[]{e.getLocalizedMessage()}), e);
+            }
+        }
 
-	}
+    }
 
-	public abstract void doProcessMessage(AsyncReportMessage asyncReportMsg);
+    public abstract void doProcessMessage(AsyncReportMessage asyncReportMsg);
 
 }

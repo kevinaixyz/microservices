@@ -17,31 +17,28 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger API tools configuration.
- *
- *
- *
  */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
 
-	@Value("${info.component:CMS Service}")
-	private String componentName;
+    @Value("${info.component:CMS Service}")
+    private String componentName;
 
-	@Bean
-	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.any()).build().apiInfo(apiInfo()).useDefaultResponseMessages(false);
-	}
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any()).build().apiInfo(apiInfo()).useDefaultResponseMessages(false);
+    }
 
-	private ApiInfo apiInfo() {
-		ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
-		apiInfoBuilder.title(MessageFormat.format("{0} APIs", new Object[] { componentName }));
-		apiInfoBuilder.description(MessageFormat.format("{0} API documentation by Swagger2", new Object[] { componentName }));
-		apiInfoBuilder.version("N/A");
-		apiInfoBuilder.contact(new Contact("N/A", "http://http://www.domain.com/", "no-reply@non-existing-domain.com"));
-		apiInfoBuilder.license("www.domain.com");
-		apiInfoBuilder.licenseUrl("http://http://www.domain.com/");
-		return apiInfoBuilder.build();
-	}
+    private ApiInfo apiInfo() {
+        ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
+        apiInfoBuilder.title(MessageFormat.format("{0} APIs", new Object[]{componentName}));
+        apiInfoBuilder.description(MessageFormat.format("{0} API documentation by Swagger2", new Object[]{componentName}));
+        apiInfoBuilder.version("N/A");
+        apiInfoBuilder.contact(new Contact("N/A", "http://http://www.domain.com/", "no-reply@non-existing-domain.com"));
+        apiInfoBuilder.license("www.domain.com");
+        apiInfoBuilder.licenseUrl("http://http://www.domain.com/");
+        return apiInfoBuilder.build();
+    }
 }

@@ -4,53 +4,53 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ColumnMetaInfo {
-	public final static String DB_TYPE_DATE="date";
-	public final static String DB_TYPE_TIMESTAMP="timestamp";
-	public final static String DB_TYPE_CHAR="char";
-	public final static String DB_TYPE_NUMBER="number";
-	
-	public final static String JAVA_TYPE_INTEGER="integer";
-	public final static String JAVA_TYPE_DOUBLE="double";
-	public final static String JAVA_TYPE_BIGDECIMAL="bigdecimal";
+    public final static String DB_TYPE_DATE = "date";
+    public final static String DB_TYPE_TIMESTAMP = "timestamp";
+    public final static String DB_TYPE_CHAR = "char";
+    public final static String DB_TYPE_NUMBER = "number";
 
-	public final static String SYS_COL_FILE_DATE="FILE_DATE";
-	public final static String SYS_COL_FILE_NAME="FILE_NAME";
-	public final static String SYS_COL_CREATE_DATETIME="CREATE_DATETIME";
+    public final static String JAVA_TYPE_INTEGER = "integer";
+    public final static String JAVA_TYPE_DOUBLE = "double";
+    public final static String JAVA_TYPE_BIGDECIMAL = "bigdecimal";
 
-	private String tableColName;
-	private String fileColName;
-	private String type;
-	private String format;
+    public final static String SYS_COL_FILE_DATE = "FILE_DATE";
+    public final static String SYS_COL_FILE_NAME = "FILE_NAME";
+    public final static String SYS_COL_CREATE_DATETIME = "CREATE_DATETIME";
 
-	public String getTableColName() {
-		return tableColName;
-	}
+    private String tableColName;
+    private String fileColName;
+    private String type;
+    private String format;
 
-	public void setTableColName(String tableColName) {
-		this.tableColName = tableColName;
-	}
+    public String getTableColName() {
+        return tableColName;
+    }
 
-	public String getFileColName() {
-		return fileColName;
-	}
+    public void setTableColName(String tableColName) {
+        this.tableColName = tableColName;
+    }
 
-	public void setFileColName(String fileColName) {
-		this.fileColName = fileColName;
-	}
+    public String getFileColName() {
+        return fileColName;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setFileColName(String fileColName) {
+        this.fileColName = fileColName;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getFormat() {
-		return format;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setFormat(String format) {
-		this.format = format;
-	}
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
 }

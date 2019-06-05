@@ -18,19 +18,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-	private final static Logger LOG = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);
+    private final static Logger LOG = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);
 
-	@Override
-	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			if (LOG.isInfoEnabled()) {
-				LOG.info(MessageFormat.format(
-						"User [{0}] is trying to access the protected URL [{1}]",
-						new Object[] { auth.getName(), request.getRequestURI() }));
-			}
-		}
-		response.sendRedirect(request.getContextPath() + "/console/error/403");
-	}
+    @Override
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info(MessageFormat.format(
+                        "User [{0}] is trying to access the protected URL [{1}]",
+                        new Object[]{auth.getName(), request.getRequestURI()}));
+            }
+        }
+        response.sendRedirect(request.getContextPath() + "/console/error/403");
+    }
 
 }

@@ -12,39 +12,39 @@ import com.prototype.microservice.commons.json.ResponseJson;
 
 public class BaseRestController {
 
-	private final static Logger LOG = LoggerFactory.getLogger(BaseRestController.class);
+    private final static Logger LOG = LoggerFactory.getLogger(BaseRestController.class);
 
-	@Value("${spring.application.name:UNKNOWN APPLICATION}")
-	private String appName;
+    @Value("${spring.application.name:UNKNOWN APPLICATION}")
+    private String appName;
 
-	@Value("${eureka.instance.metadataMap.instanceId:UNKNOWN INSTANCE}")
-	private String instanceId;
+    @Value("${eureka.instance.metadataMap.instanceId:UNKNOWN INSTANCE}")
+    private String instanceId;
 
-	private final static String UNKNOWN_ERROR_MSG = "Unknown error";
+    private final static String UNKNOWN_ERROR_MSG = "Unknown error";
 
-	public BaseRestController() {
-		super();
-	}
+    public BaseRestController() {
+        super();
+    }
 
-	protected String getInstanceId() {
-		return StringUtils.trimToEmpty(instanceId);
-	}
+    protected String getInstanceId() {
+        return StringUtils.trimToEmpty(instanceId);
+    }
 
-	protected String getAppName() {
-		return StringUtils.trimToEmpty(appName);
-	}
+    protected String getAppName() {
+        return StringUtils.trimToEmpty(appName);
+    }
 
-	protected ResponseJson getErrorResponseDTO(Exception e) {
-		ErrorResponseJson resp = new ErrorResponseJson(getAppName());
-		resp.setRespCode(EdgeServerAppConstant.JSON_RESP_CODE_ERROR);
-		if (e != null) {
-			resp.setRespMsg(e.getLocalizedMessage());
-			resp.setRespSubCode(e.getClass().getSimpleName());
-		} else {
-			resp.setRespMsg(UNKNOWN_ERROR_MSG);
-		}
-		resp.setErrorTimestamp(DateFormatUtils.format(System.currentTimeMillis(), EdgeServerAppConstant.TIMESTAMP_PATTERN));
-		return resp;
-	}
+    protected ResponseJson getErrorResponseDTO(Exception e) {
+        ErrorResponseJson resp = new ErrorResponseJson(getAppName());
+        resp.setRespCode(EdgeServerAppConstant.JSON_RESP_CODE_ERROR);
+        if (e != null) {
+            resp.setRespMsg(e.getLocalizedMessage());
+            resp.setRespSubCode(e.getClass().getSimpleName());
+        } else {
+            resp.setRespMsg(UNKNOWN_ERROR_MSG);
+        }
+        resp.setErrorTimestamp(DateFormatUtils.format(System.currentTimeMillis(), EdgeServerAppConstant.TIMESTAMP_PATTERN));
+        return resp;
+    }
 
 }

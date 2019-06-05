@@ -7,17 +7,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Base unit test class for testing a Spring Boot application.
- *
- *
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class GenericSpringBootTest {
 
-	@Before
-	public void setup() {
-		// Initialise Mockito
-		MockitoAnnotations.initMocks(this);
-	}
+    @Before
+    public void setup() {
+        // Initialise Mockito
+        MockitoAnnotations.initMocks(this);
+    }
 
 }

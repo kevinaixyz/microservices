@@ -6,7 +6,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 public abstract class AbstractCrmPwmRestfulTest extends CrmPwmBaseSpringBootTest {
 
-	@Autowired
-	protected MockMvc mockMvc;
+    @Autowired
+    protected MockMvc mockMvc;
 
 }

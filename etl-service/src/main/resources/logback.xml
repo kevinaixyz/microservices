@@ -1,8 +1,8 @@
 <configuration>
-	<property name="log.filePath" value="/logs/microservice/" />
-	<property name="log.fileNamePattern" value="etl-service.log.%d{yyyy-MM-dd}" />
+    <property name="log.filePath" value="/logs/microservice/"/>
+    <property name="log.fileNamePattern" value="etl-service.log.%d{yyyy-MM-dd}"/>
     <appender name="DAILY_LOGFILE"
-        class="ch.qos.logback.core.rolling.RollingFileAppender">
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/log/microservice/crmwpm-service.log</file>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -23,8 +23,8 @@
             </pattern>
         </encoder>
     </appender>
-	
-	<appender name="RPT_DAILY_LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <appender name="RPT_DAILY_LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
@@ -37,14 +37,14 @@
             </pattern>
         </encoder>
     </appender>
-    
+
     <logger name="RPT" level="ERROR" additivity="false">
         <appender-ref ref="RPT_DAILY_LOGFILE"/>
     </logger>
-    
+
     <root level="info">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="DAILY_LOGFILE" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DAILY_LOGFILE"/>
     </root>
 
 </configuration>

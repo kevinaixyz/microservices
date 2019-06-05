@@ -12,15 +12,15 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 @EnableEurekaServer
 public class EurekaServerApp {
 
-	private final static Logger LOG = LoggerFactory.getLogger(EurekaServerApp.class);
+    private final static Logger LOG = LoggerFactory.getLogger(EurekaServerApp.class);
 
-	public static void main(String[] args) {
-		if (LOG.isInfoEnabled()) {
-			LOG.info(MessageFormat.format(
-					"Staring up {0}...",
-					new Object[] { EurekaServerApp.class.getName() }));
-		}
-		SpringApplication.run(EurekaServerApp.class, args);
-	}
+    public static void main(String[] args) {
+        if (LOG.isInfoEnabled()) {
+            LOG.info(MessageFormat.format(
+                    "Staring up {0}...",
+                    new Object[]{EurekaServerApp.class.getName()}));
+        }
+        SpringApplication.run(EurekaServerApp.class, args);
+    }
 
 }

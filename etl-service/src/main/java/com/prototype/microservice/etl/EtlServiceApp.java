@@ -20,12 +20,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 public class EtlServiceApp {
 
-	private static final Logger LOG = LoggerFactory.getLogger(EtlServiceApp.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EtlServiceApp.class);
 
-	public static void main(final String[] args) {
-		SpringApplication.run(EtlServiceApp.class, args);
-		if (LOG.isInfoEnabled()) {
-			LOG.info(MessageFormat.format("{0} is running.", EtlServiceApp.class.getName()));
-		}
-	}
+    public static void main(final String[] args) {
+        SpringApplication.run(EtlServiceApp.class, args);
+        if (LOG.isInfoEnabled()) {
+            LOG.info(MessageFormat.format("{0} is running.", EtlServiceApp.class.getName()));
+        }
+    }
 }

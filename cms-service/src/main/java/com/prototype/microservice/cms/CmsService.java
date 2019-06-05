@@ -14,7 +14,7 @@ public class CmsService {
     public static void main(String[] args) {
         SpringApplication.run(CmsService.class, args);
         if (LOG.isInfoEnabled()) {
-            LOG.info(MessageFormat.format("{0} is running.", new Object[] { CmsService.class.getName() }));
+            LOG.info(MessageFormat.format("{0} is running.", new Object[]{CmsService.class.getName()}));
         }
     }
 }

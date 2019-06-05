@@ -16,53 +16,51 @@ import org.apache.http.ssl.SSLContextBuilder;
 
 /**
  * Security related utils.
- *
- *
- *
  */
 public final class SecurityUtils {
 
-	private SecurityUtils() { }
+    private SecurityUtils() {
+    }
 
-	/**
-	 * Workaround the JVM to accept self-signed certs by overriding
-	 * the behaviour of the trust manager.
-	 *
-	 * @throws Exception
-	 */
-	public static void trustSelfSignedCerts() throws Exception {
-		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-			@Override
-			public X509Certificate[] getAcceptedIssuers() {
-				X509Certificate[] myTrustedAnchors = new X509Certificate[0];
-				return myTrustedAnchors;
-			}
+    /**
+     * Workaround the JVM to accept self-signed certs by overriding
+     * the behaviour of the trust manager.
+     *
+     * @throws Exception
+     */
+    public static void trustSelfSignedCerts() throws Exception {
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                X509Certificate[] myTrustedAnchors = new X509Certificate[0];
+                return myTrustedAnchors;
+            }
 
-			@Override
-			public void checkClientTrusted(X509Certificate[] certs, String authType) {
-			}
+            @Override
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            }
 
-			@Override
-			public void checkServerTrusted(X509Certificate[] certs, String authType) {
-			}
-		} };
-		SSLContext sc = SSLContext.getInstance("SSL");
-		sc.init(null, trustAllCerts, new SecureRandom());
-		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-		HttpsURLConnection.setDefaultHostnameVerifier((arg0, session) -> true);
-	}
+            @Override
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            }
+        }};
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, new SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        HttpsURLConnection.setDefaultHostnameVerifier((arg0, session) -> true);
+    }
 
-	/**
-	 * Build an Apache HttpClient that accept self-signed certs.
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	public static HttpClient unquestioningHttpClient() throws Exception {
-		SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(
-				new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build(),
-				SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-		return HttpClients.custom().setSSLSocketFactory(socketFactory).build();
-	}
+    /**
+     * Build an Apache HttpClient that accept self-signed certs.
+     *
+     * @return
+     * @throws Exception
+     */
+    public static HttpClient unquestioningHttpClient() throws Exception {
+        SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(
+                new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build(),
+                SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        return HttpClients.custom().setSSLSocketFactory(socketFactory).build();
+    }
 
 }

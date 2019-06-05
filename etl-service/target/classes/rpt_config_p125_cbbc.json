@@ -1,208 +1,241 @@
 {
-	"fileDateFormat":"yyyyMMdd",
-	"execOnDate":"20180731",
-	"filePath": "\\\\PC003703\\Scan\\rpt_report\\",
-	"fileNamePattern":"CBBC{fileDateFormat}",
-	"fileType":"CSV",
-	"logFilePath":"\\\\PC003703\\Scan\\rpt_report\\log\\",
-	"logFileNamePattern":"rpt-service-error(P125_CBBC).log.%d{yyyy-MM-dd}",
-	"dbTableName": "P125_CBBC",
-	"colDelimiter": "t",
-	"checkDataExistColumns":["FILE_NAME"],
-	"nullValFilter":["null","-"],
-	"headerRowIndex":0,
-	"startRowIndex":1,
-	"endRowIndexFromBottom":3,
-	"columns": [{
-			"tableColName": "CBBC_CODE",
-			"colIndex": 1,
-			"colName": "CBBC Code",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CBBC_NAME",
-			"colIndex": 2,
-			"colName": "CBBC Name",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "TRADE_DATE",
-			"colIndex": 3,
-			"colName": "Trade Date",
-			"type": "Date",
-			"format": "yyyy-MM-dd"
-		}, {
-			"tableColName": "NUM_CBBC_BOUGHT",
-			"colIndex": 4,
-			"colName": "No. of CBBC Bought *",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "AVG_PRIC_CBBC_BOUGHT",
-			"colIndex": 5,
-			"colName": "Average Price per CBBC Bought *",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "NUM_CBBC_SOLD",
-			"colIndex": 6,
-			"colName": "No. of CBBC Sold *",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "AVG_PRIC_CBBC_SOLD",
-			"colIndex": 7,
-			"colName": "Average Price per CBBC Sold *",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "NUM_CBBC_OUT_MKT",
-			"colIndex": 8,
-			"colName": "No. of CBBC still out in market *",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "PCT_ISU_OUT_MKT",
-			"colIndex": 9,
-			"colName": "% of issue still out in market *",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "TT_ISU_SIZE",
-			"colIndex": 10,
-			"colName": "Total Issue Size *",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "TRADE_CURRENCY",
-			"colIndex": 11,
-			"colName": "Trading Currency",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "DAY_HIGH",
-			"colIndex": 12,
-			"colName": "Day High",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "DAY_LOW",
-			"colIndex": 13,
-			"colName": "Day Low",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CLOS_PRIC",
-			"colIndex": 14,
-			"colName": "Closing Price",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "VOLUME",
-			"colIndex": 15,
-			"colName": "Volume",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "TURNOVER",
-			"colIndex": 16,
-			"colName": "Turnover",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "ISSUER",
-			"colIndex": 17,
-			"colName": "Issuer",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "UNDERLY",
-			"colIndex": 18,
-			"colName": "Underlying",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CALL_PUT",
-			"colIndex": 19,
-			"colName": "Bull/Bear",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CBBC_TYPE",
-			"colIndex": 20,
-			"colName": "CBBC Type",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CBBC_CAT",
-			"colIndex": 21,
-			"colName": "CBBC Category",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "LIST_DATE",
-			"colIndex": 22,
-			"colName": "Listing Date",
-			"type": "Date",
-			"format": "yyyy-MM-dd"
-		}, {
-			"tableColName": "LAST_TRAD_DATE",
-			"colIndex": 23,
-			"colName": "Last Trading Date",
-			"type": "Date",
-			"format": "yyyy-MM-dd"
-		}, {
-			"tableColName": "MATR_DATE",
-			"colIndex": 24,
-			"colName": "Maturity Date",
-			"type": "Date",
-			"format": "yyyy-MM-dd"
-		}
-		, {
-			"tableColName": "MCE",
-			"colIndex": 25,
-			"colName": "MCE",
-			"type": "Char",
-			"format": ""
-		}
-		, {
-			"tableColName": "STRK_CUR",
-			"colIndex": 26,
-			"colName": "Strike/Call Currency",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "STRIKE_LVL",
-			"colIndex": 27,
-			"colName": "Strike Level",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "CALL_LVL",
-			"colIndex": 28,
-			"colName": "Call Level",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "ENT_RATIO",
-			"colIndex": 29,
-			"colName": "Ent. Ratio^",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "DELIST_DATE",
-			"colIndex": 30,
-			"colName": "Delisting Date**",
-			"type": "Date",
-			"format": "yyyy-MM-dd"
-		}
-	],
-	"systemColumns":[
-		{
-			"tableColName": "FILE_NAME",
-			"type": "Char",
-			"format":""
-		}
-	],
-	"others": ""
+  "fileDateFormat": "yyyyMMdd",
+  "execOnDate": "20180731",
+  "filePath": "\\\\PC003703\\Scan\\rpt_report\\",
+  "fileNamePattern": "CBBC{fileDateFormat}",
+  "fileType": "CSV",
+  "logFilePath": "\\\\PC003703\\Scan\\rpt_report\\log\\",
+  "logFileNamePattern": "rpt-service-error(P125_CBBC).log.%d{yyyy-MM-dd}",
+  "dbTableName": "P125_CBBC",
+  "colDelimiter": "t",
+  "checkDataExistColumns": [
+    "FILE_NAME"
+  ],
+  "nullValFilter": [
+    "null",
+    "-"
+  ],
+  "headerRowIndex": 0,
+  "startRowIndex": 1,
+  "endRowIndexFromBottom": 3,
+  "columns": [
+    {
+      "tableColName": "CBBC_CODE",
+      "colIndex": 1,
+      "colName": "CBBC Code",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CBBC_NAME",
+      "colIndex": 2,
+      "colName": "CBBC Name",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "TRADE_DATE",
+      "colIndex": 3,
+      "colName": "Trade Date",
+      "type": "Date",
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "tableColName": "NUM_CBBC_BOUGHT",
+      "colIndex": 4,
+      "colName": "No. of CBBC Bought *",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "AVG_PRIC_CBBC_BOUGHT",
+      "colIndex": 5,
+      "colName": "Average Price per CBBC Bought *",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "NUM_CBBC_SOLD",
+      "colIndex": 6,
+      "colName": "No. of CBBC Sold *",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "AVG_PRIC_CBBC_SOLD",
+      "colIndex": 7,
+      "colName": "Average Price per CBBC Sold *",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "NUM_CBBC_OUT_MKT",
+      "colIndex": 8,
+      "colName": "No. of CBBC still out in market *",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "PCT_ISU_OUT_MKT",
+      "colIndex": 9,
+      "colName": "% of issue still out in market *",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "TT_ISU_SIZE",
+      "colIndex": 10,
+      "colName": "Total Issue Size *",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "TRADE_CURRENCY",
+      "colIndex": 11,
+      "colName": "Trading Currency",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "DAY_HIGH",
+      "colIndex": 12,
+      "colName": "Day High",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "DAY_LOW",
+      "colIndex": 13,
+      "colName": "Day Low",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CLOS_PRIC",
+      "colIndex": 14,
+      "colName": "Closing Price",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "VOLUME",
+      "colIndex": 15,
+      "colName": "Volume",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "TURNOVER",
+      "colIndex": 16,
+      "colName": "Turnover",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "ISSUER",
+      "colIndex": 17,
+      "colName": "Issuer",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "UNDERLY",
+      "colIndex": 18,
+      "colName": "Underlying",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CALL_PUT",
+      "colIndex": 19,
+      "colName": "Bull/Bear",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CBBC_TYPE",
+      "colIndex": 20,
+      "colName": "CBBC Type",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CBBC_CAT",
+      "colIndex": 21,
+      "colName": "CBBC Category",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "LIST_DATE",
+      "colIndex": 22,
+      "colName": "Listing Date",
+      "type": "Date",
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "tableColName": "LAST_TRAD_DATE",
+      "colIndex": 23,
+      "colName": "Last Trading Date",
+      "type": "Date",
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "tableColName": "MATR_DATE",
+      "colIndex": 24,
+      "colName": "Maturity Date",
+      "type": "Date",
+      "format": "yyyy-MM-dd"
+    },
+    {
+      "tableColName": "MCE",
+      "colIndex": 25,
+      "colName": "MCE",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "STRK_CUR",
+      "colIndex": 26,
+      "colName": "Strike/Call Currency",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "STRIKE_LVL",
+      "colIndex": 27,
+      "colName": "Strike Level",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "CALL_LVL",
+      "colIndex": 28,
+      "colName": "Call Level",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "ENT_RATIO",
+      "colIndex": 29,
+      "colName": "Ent. Ratio^",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "DELIST_DATE",
+      "colIndex": 30,
+      "colName": "Delisting Date**",
+      "type": "Date",
+      "format": "yyyy-MM-dd"
+    }
+  ],
+  "systemColumns": [
+    {
+      "tableColName": "FILE_NAME",
+      "type": "Char",
+      "format": ""
+    }
+  ],
+  "others": ""
 }

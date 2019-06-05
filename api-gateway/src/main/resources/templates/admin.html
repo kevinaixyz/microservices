@@ -1,105 +1,124 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<!-- HTML head -->
-<div th:replace="fragments/header::header-htmlhead" />
+    <!-- HTML head -->
+    <div th:replace="fragments/header::header-htmlhead"/>
 </head>
 <body>
 
-    <!-- Header with navbar -->
-    <div th:replace="fragments/header::header-commons" />
+<!-- Header with navbar -->
+<div th:replace="fragments/header::header-commons"/>
 
-    <!-- Container -->
-    <div class="container-fluid">
+<!-- Container -->
+<div class="container-fluid">
 
-        <div class="jumbotron">
-            <h2>
+    <div class="jumbotron">
+        <h2>
             <span th:text="${@environment.getProperty('api-gateway.console.banner-text')}">Edge Server Admin Console</span>
-            </h2>
-            <h6>You can monitor and administer the Edge Server here.</h6>
-            <span class="label label-default">Service Instance</span><span th:text="${F_INSTANCE_ID}" class="label label-success">F_INSTANCE_ID</span>
-        </div>
+        </h2>
+        <h6>You can monitor and administer the Edge Server here.</h6>
+        <span class="label label-default">Service Instance</span><span th:text="${F_INSTANCE_ID}"
+                                                                       class="label label-success">F_INSTANCE_ID</span>
+    </div>
 
-        <div class="bs-callout bs-callout-primary">
-            <h4>System Health</h4>
-            <p/>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>CPUs</td><td id="health-processors"></td></tr>
-                    <tr><td>Process Uptime</td><td id="health-uptime-process"></td></tr>
-                    <tr><td>Instance Uptime</td><td id="health-uptime-instance"></td></tr>
-                    <tr><td>Heap Total (KB)</td><td id="health-heap"></td></tr>
-                    <tr><td>Heap Used (KB)</td><td id="health-heap-used"></td></tr>
-                    <tr>
-                        <td>Heap % (Used / Total)</td>
-                        <td>
-                            <div class="progress">
-                              <div id="health-heap-bar" class="progress-bar active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
-                              </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <p/>
-            <div id="health-refresh-rate" class="h6 text-right"></div>
-            <p/>
-        </div>
+    <div class="bs-callout bs-callout-primary">
+        <h4>System Health</h4>
+        <p/>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th>Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>CPUs</td>
+                <td id="health-processors"></td>
+            </tr>
+            <tr>
+                <td>Process Uptime</td>
+                <td id="health-uptime-process"></td>
+            </tr>
+            <tr>
+                <td>Instance Uptime</td>
+                <td id="health-uptime-instance"></td>
+            </tr>
+            <tr>
+                <td>Heap Total (KB)</td>
+                <td id="health-heap"></td>
+            </tr>
+            <tr>
+                <td>Heap Used (KB)</td>
+                <td id="health-heap-used"></td>
+            </tr>
+            <tr>
+                <td>Heap % (Used / Total)</td>
+                <td>
+                    <div class="progress">
+                        <div id="health-heap-bar" class="progress-bar active" role="progressbar" aria-valuemin="0"
+                             aria-valuemax="100" style="min-width: 2em;">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p/>
+        <div id="health-refresh-rate" class="h6 text-right"></div>
+        <p/>
+    </div>
 
-        <div class="bs-callout bs-callout-primary">
-            <h4>Configuration Files</h4>
-            <p/>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Application configuration</td>
-                        <td th:text="${@environment.getProperty('spring.config.location')}">spring.config.location</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p/>
-        </div>
+    <div class="bs-callout bs-callout-primary">
+        <h4>Configuration Files</h4>
+        <p/>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th>Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Application configuration</td>
+                <td th:text="${@environment.getProperty('spring.config.location')}">spring.config.location</td>
+            </tr>
+            </tbody>
+        </table>
+        <p/>
+    </div>
 
-        <div class="bs-callout bs-callout-primary">
-            <h4>Routes <button id="btn-routes-refresh" class="btn btn-primary" >Reload Routes</button></h4>
-            <p/>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Full Path</th>
-                        <th>Target</th>
-                        <th>Retryable</th>
-                        <th>IP Whitelist</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="route : ${F_ZUUL_ROUTES}">
-                        <td th:text="${route.id}">id</td>
-                        <td th:text="${route.fullPath}">fullPath</td>
-                        <td th:text="${route.location}">location</td>
-                        <td>
-                            <div th:switch="${route.retryable}">
-                                <span th:case="'true'" th:text="${route.retryable}" class="label label-success text-uppercase">retryable</span>
-                                <span th:case="'false'" th:text="${route.retryable}" class="label label-danger text-uppercase">retryable</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div th:switch="${route.ipWhitelist}">
-                                <span th:case="''" th:text="'N/A'" class="label label-default text-uppercase">ipWhitelist</span>
-                                <span th:case="*">
+    <div class="bs-callout bs-callout-primary">
+        <h4>Routes
+            <button id="btn-routes-refresh" class="btn btn-primary">Reload Routes</button>
+        </h4>
+        <p/>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Path</th>
+                <th>Target</th>
+                <th>Retryable</th>
+                <th>IP Whitelist</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="route : ${F_ZUUL_ROUTES}">
+                <td th:text="${route.id}">id</td>
+                <td th:text="${route.fullPath}">fullPath</td>
+                <td th:text="${route.location}">location</td>
+                <td>
+                    <div th:switch="${route.retryable}">
+                        <span th:case="'true'" th:text="${route.retryable}" class="label label-success text-uppercase">retryable</span>
+                        <span th:case="'false'" th:text="${route.retryable}" class="label label-danger text-uppercase">retryable</span>
+                    </div>
+                </td>
+                <td>
+                    <div th:switch="${route.ipWhitelist}">
+                        <span th:case="''" th:text="'N/A'" class="label label-default text-uppercase">ipWhitelist</span>
+                        <span th:case="*">
                                     <button
                                             class="label label-primary text-uppercase"
                                             data-toggle="tooltip"
@@ -108,131 +127,141 @@
                                             th:onclick="'BootstrapDialog.show({type: BootstrapDialog.TYPE_DEFAULT, title: \'IP Whitelist\', message: \'' + ${route.ipWhitelist} + '\'});'">
                                             Yes</button>
                                 </span>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="bs-callout bs-callout-primary">
-            <h4>Server Tasks</h4>
-            <p/>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Task</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Restart Edge Server</td>
-                        <td><button id="btn-restart-edge-server" class="btn btn-primary" >Restart</button></td>
-                    </tr>
-                    <tr>
-                        <td>Shutdown Edge Server</td>
-                        <td><button id="btn-shutdown-edge-server" class="btn btn-primary" >Shutdown</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="bs-callout bs-callout-primary">
-            <h4>Performance Metrics - Counters</h4>
-            <p/>
-            <table id="tbl-performance-metrics-counters" class="table table-hover">
-            </table>
-        </div>
-
-        <div class="bs-callout bs-callout-primary">
-            <h4>Performance Metrics - Gauges</h4>
-            <p/>
-            <table id="tbl-performance-metrics-gauges" class="table table-hover">
-            </table>
-        </div>
-
-        <div class="bs-callout bs-callout-primary">
-            <h4>System Access Trace (up to last <span th:text="${@environment.getProperty('api-gateway.trace.history')}"></span> access)</h4>
-            <p/>
-            <table id="tbl-sys-access-trace" class="table table-hover">
-            </table>
-        </div>
-
-        <div class="bs-callout bs-callout-primary">
-            <h4>Swagger API Tools</h4>
-            <p />
-            <div class="embed-responsive embed-responsive-4by3">
-                <iframe class="embed-responsive-item"
-                    th:src="@{/swagger-ui.html}"
-                    allowfullscreen="false"></iframe>
-            </div>
-        </div>
-
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- Footer : tagline -->
-    <div th:replace="fragments/footer::footer-tagline" />
+    <div class="bs-callout bs-callout-primary">
+        <h4>Server Tasks</h4>
+        <p/>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Task</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Restart Edge Server</td>
+                <td>
+                    <button id="btn-restart-edge-server" class="btn btn-primary">Restart</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Shutdown Edge Server</td>
+                <td>
+                    <button id="btn-shutdown-edge-server" class="btn btn-primary">Shutdown</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Footer : scripts -->
-    <div th:replace="fragments/footer::footer-scripts" />
+    <div class="bs-callout bs-callout-primary">
+        <h4>Performance Metrics - Counters</h4>
+        <p/>
+        <table id="tbl-performance-metrics-counters" class="table table-hover">
+        </table>
+    </div>
 
-    <!-- Modals -->
-    <!-- Refresh Routes : Confirm -->
-    <div class="modal fade" id="modal-routes-refresh-confirm" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
+    <div class="bs-callout bs-callout-primary">
+        <h4>Performance Metrics - Gauges</h4>
+        <p/>
+        <table id="tbl-performance-metrics-gauges" class="table table-hover">
+        </table>
+    </div>
+
+    <div class="bs-callout bs-callout-primary">
+        <h4>System Access Trace (up to last <span
+                th:text="${@environment.getProperty('api-gateway.trace.history')}"></span> access)</h4>
+        <p/>
+        <table id="tbl-sys-access-trace" class="table table-hover">
+        </table>
+    </div>
+
+    <div class="bs-callout bs-callout-primary">
+        <h4>Swagger API Tools</h4>
+        <p/>
+        <div class="embed-responsive embed-responsive-4by3">
+            <iframe class="embed-responsive-item"
+                    th:src="@{/swagger-ui.html}"
+                    allowfullscreen="false"></iframe>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer : tagline -->
+<div th:replace="fragments/footer::footer-tagline"/>
+
+<!-- Footer : scripts -->
+<div th:replace="fragments/footer::footer-scripts"/>
+
+<!-- Modals -->
+<!-- Refresh Routes : Confirm -->
+<div class="modal fade" id="modal-routes-refresh-confirm" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
                     Reload Routes
-                    </h4>
-                </div>
+                </h4>
+            </div>
             <div class="modal-body">
                 <div class="alert alert-info">
-                    <h4>Do you confirm to reload all routes?</h4>Routes can only be added/updated but cannot be deleted at runtime. Server restart is required in order to remove routes.
+                    <h4>Do you confirm to reload all routes?</h4>Routes can only be added/updated but cannot be deleted
+                    at runtime. Server restart is required in order to remove routes.
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-modal-routes-refresh-confirm-ok" type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                <button id="btn-modal-routes-refresh-confirm-ok" type="button" class="btn btn-primary"
+                        data-dismiss="modal">Yes
+                </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-            </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Refresh Routes : Success -->
-    <div class="modal fade" id="modal-routes-refresh-success" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
+<!-- Refresh Routes : Success -->
+<div class="modal fade" id="modal-routes-refresh-success" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
                     Reload Routes
-                    </h4>
-                </div>
+                </h4>
+            </div>
             <div class="modal-body">
                 <div class="alert alert-success">
                     <h4>Success</h4>All routes have been reloaded from the configuration file
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-modal-routes-refresh-success-ok" type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-            </div>
+                <button id="btn-modal-routes-refresh-success-ok" type="button" class="btn btn-default"
+                        data-dismiss="modal">OK
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Refresh Routes : Fail -->
-    <div class="modal fade" id="modal-routes-refresh-fail" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
+<!-- Refresh Routes : Fail -->
+<div class="modal fade" id="modal-routes-refresh-fail" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
                     Reload Routes
-                    </h4>
-                </div>
+                </h4>
+            </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h4>Failed</h4>Unable to reload routes
@@ -241,329 +270,337 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
             </div>
-            </div>
         </div>
     </div>
+</div>
 
-    <!-- Restart : confirmation -->
-    <div class="modal fade" id="modal-restart-confirm" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
+<!-- Restart : confirmation -->
+<div class="modal fade" id="modal-restart-confirm" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
                     Restart Edge Server
-                    </h4>
-                </div>
+                </h4>
+            </div>
             <div class="modal-body">
                 <div class="alert alert-warning">
                     <h4>Warning</h4>Do you confirm to restart the Edge Server?
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-modal-restart-confirm-yes" type="button" class="btn btn-warning" data-dismiss="modal">Yes</button>
+                <button id="btn-modal-restart-confirm-yes" type="button" class="btn btn-warning" data-dismiss="modal">
+                    Yes
+                </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-            </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Restart : restarting -->
-    <div class="modal fade" id="modal-restart-restarting" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
+<!-- Restart : restarting -->
+<div class="modal fade" id="modal-restart-restarting" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
                     Restart Edge Server
-                    </h4>
-                </div>
+                </h4>
+            </div>
             <div class="modal-body">
                 <div class="alert alert-info">
                     <h4>Restarting</h4>Please wait for a moment and refresh the page...
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-restart-restarting-confirm-ok" type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-            </div>
+                <button id="btn-restart-restarting-confirm-ok" type="button" class="btn btn-default"
+                        data-dismiss="modal">OK
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Shutdown : confirmation -->
-    <div class="modal fade" id="modal-shutdown-confirm" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
+<!-- Shutdown : confirmation -->
+<div class="modal fade" id="modal-shutdown-confirm" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
                     Shutdown Edge Server
-                    </h4>
-                </div>
+                </h4>
+            </div>
             <div class="modal-body">
                 <div class="alert alert-warning">
-                    <h4>Warning</h4>Do you confirm to shutdown the Edge Server? You will not be able to start the server by this console.
+                    <h4>Warning</h4>Do you confirm to shutdown the Edge Server? You will not be able to start the server
+                    by this console.
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-modal-shutdown-confirm-yes" type="button" class="btn btn-warning" data-dismiss="modal">Yes</button>
+                <button id="btn-modal-shutdown-confirm-yes" type="button" class="btn btn-warning" data-dismiss="modal">
+                    Yes
+                </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-            </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Shutdown : shutdown confirmed -->
-    <div class="modal fade" id="modal-shutdown-inprogress" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
+<!-- Shutdown : shutdown confirmed -->
+<div class="modal fade" id="modal-shutdown-inprogress" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Shutdown Edge Server
-                    </h4>
-                </div>
+                </h4>
+            </div>
             <div class="modal-body">
                 <div class="alert alert-info">
                     <strong>Shutdown in progress </strong> this web console will not be available anymore
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-shutdown-inprogress-ok" type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-            </div>
+                <button id="btn-shutdown-inprogress-ok" type="button" class="btn btn-default" data-dismiss="modal">OK
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Page specific scripts -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
+<!-- Page specific scripts -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
 
-        $(document).ready(function() {
+    $(document).ready(function () {
 
-            // --------------
-            // Onload Actions
-            // --------------
+        // --------------
+        // Onload Actions
+        // --------------
 
-            // Navbar actions
-            $("#navbar-btn-admin").addClass('active');
+        // Navbar actions
+        $("#navbar-btn-admin").addClass('active');
 
-            // System Health Metrics & keep cmsng it every N seconds
-            var healthMetricsReloadInterval = 5000;
-            getHealthMetrics();
-            setInterval(getHealthMetrics, healthMetricsReloadInterval);
+        // System Health Metrics & keep cmsng it every N seconds
+        var healthMetricsReloadInterval = 5000;
+        getHealthMetrics();
+        setInterval(getHealthMetrics, healthMetricsReloadInterval);
 
-            // Counters & Gauges
-            $.ajax({
-                    type : "GET",
-                    contentType : "application/json",
-                    url : /*[[@{/manage/metrics}]]*/,
-                    success : function(data) {
-                        // Counters
-                        $('#tbl-performance-metrics-counters').bootstrapTable({
-                            data: keyValueHandler(data, "counter.servo."),
-                            pagination: true,
-                            sortName: 'key',
-                            sortOrder: 'asc',
-                            silent: true,
-                            columns: [
-                                {
-                                    sortable: true,
-                                    field: 'key',
-                                    title: 'Invocation'
-                                },
-                                {
-                                    sortable: true,
-                                    field: 'value',
-                                    title: 'Count'
-                                }
-                            ]
-                        });
-                        // Gauges
-                        $('#tbl-performance-metrics-gauges').bootstrapTable({
-                            data: keyValueHandler(data, "gauge.servo."),
-                            pagination: true,
-                            sortName: 'key',
-                            sortOrder: 'asc',
-                            silent: true,
-                            columns: [
-                                {
-                                    sortable: true,
-                                    field: 'key',
-                                    title: 'Gauge'
-                                },
-                                {
-                                    sortable: true,
-                                    field: 'value',
-                                    title: 'Value'
-                                }
-                            ]
-                        });
-                    },
-                    error : function(e) {
-                        console.log("manage/metrics [RESPONSE > ERROR] -> error=" + e);
-                    },
-                    beforeSend: function (xhr) {
-                        xhr.withCredentials = true;
-                    },
-            });
-
-            // System access trace logs
-            $('#tbl-sys-access-trace').bootstrapTable({
-                url: /*[[@{/manage/trace}]]*/,
-                pagination: true,
-                sortName: 'timestamp',
-                sortOrder: 'desc',
-                showRefresh: true,
-                columns: [
-                    {
-                        sortable: true,
-                        field: 'timestamp',
-                        title: 'Timestamp'
-                    },
-                    {
-                        sortable: true,
-                        field: 'info.method',
-                        title: 'Method'
-                    },
-                    {
-                        sortable: true,
-                        field: 'info.path',
-                        title: 'Path'
-                    },
-                    {
-                        sortable: true,
-                        field: 'info.headers.request.User-Agent',
-                        title: 'Request User-Agent'
-                    },
-                    {
-                        sortable: true,
-                        field: 'info.headers.response.status',
-                        title: 'Response Status'
-                    },
-                    {
-                        sortable: true,
-                        field: 'info.timeTaken',
-                        title: 'Time Taken (ms)'
-                    }
-                ]
-            });
-
-            // -------
-            // Helpers
-            // -------
-
-            /**
-             * Get health metrics from backend
-             */
-            function getHealthMetrics() {
-                $("#health-refresh-rate").text("Health metrics will be updated every " + Math.round(healthMetricsReloadInterval/1000) + " seconds");
-                $.ajax({
-                    type : "GET",
-                    contentType : "application/json",
-                    url : /*[[@{/manage/metrics}]]*/,
-                    success : function(data) {
-                        // CPUs
-                        $("#health-processors").text(data["processors"]);
-                        // Uptime
-                        $("#health-uptime-process").text(timeConversion(data["uptime"]));
-                        $("#health-uptime-instance").text(timeConversion(data["instance.uptime"]));
-                        // Heap size
-                        $("#health-heap").text(data["heap"]);
-                        $("#health-heap-used").text(data["heap.used"]);
-                        var heapRatio = Math.round((data["heap.used"] /  data["heap"] * 100));
-                        $("#health-heap-bar").css('width', heapRatio + '%').attr('aria-valuenow', heapRatio);
-                        $("#health-heap-bar").text(heapRatio + "%");
-                        if (heapRatio <= 30) {
-                            $("#health-heap-bar").removeClass();
-                            $("#health-heap-bar").addClass("progress-bar progress-bar-success");
-                        } else if (heapRatio > 30 && heapRatio <= 50) {
-                            $("#health-heap-bar").removeClass();
-                            $("#health-heap-bar").addClass("progress-bar progress-bar-info");
-                        } else if (heapRatio > 50 && heapRatio <= 80) {
-                            $("#health-heap-bar").removeClass();
-                            $("#health-heap-bar").addClass("progress-bar progress-bar-warning");
-                        } else {
-                            $("#health-heap-bar").removeClass();
-                            $("#health-heap-bar").addClass("progress-bar progress-bar-danger");
+        // Counters & Gauges
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: /*[[@{/manage/metrics}]]*/,
+            success: function (data) {
+                // Counters
+                $('#tbl-performance-metrics-counters').bootstrapTable({
+                    data: keyValueHandler(data, "counter.servo."),
+                    pagination: true,
+                    sortName: 'key',
+                    sortOrder: 'asc',
+                    silent: true,
+                    columns: [
+                        {
+                            sortable: true,
+                            field: 'key',
+                            title: 'Invocation'
+                        },
+                        {
+                            sortable: true,
+                            field: 'value',
+                            title: 'Count'
                         }
-                    },
-                    error : function(e) {
-                        console.log("manage/metrics [RESPONSE > ERROR] -> error=" + e);
-                    },
-                    beforeSend: function (xhr) {
-                        xhr.withCredentials = true;
-                    },
+                    ]
                 });
-            }
+                // Gauges
+                $('#tbl-performance-metrics-gauges').bootstrapTable({
+                    data: keyValueHandler(data, "gauge.servo."),
+                    pagination: true,
+                    sortName: 'key',
+                    sortOrder: 'asc',
+                    silent: true,
+                    columns: [
+                        {
+                            sortable: true,
+                            field: 'key',
+                            title: 'Gauge'
+                        },
+                        {
+                            sortable: true,
+                            field: 'value',
+                            title: 'Value'
+                        }
+                    ]
+                });
+            },
+            error: function (e) {
+                console.log("manage/metrics [RESPONSE > ERROR] -> error=" + e);
+            },
+            beforeSend: function (xhr) {
+                xhr.withCredentials = true;
+            },
+        });
 
-            function fillText(target, data) {
-                if (data != null) {
-                    $(target).text(data);
-                } else {
-                    $(target).text("No data");
+        // System access trace logs
+        $('#tbl-sys-access-trace').bootstrapTable({
+            url: /*[[@{/manage/trace}]]*/,
+            pagination: true,
+            sortName: 'timestamp',
+            sortOrder: 'desc',
+            showRefresh: true,
+            columns: [
+                {
+                    sortable: true,
+                    field: 'timestamp',
+                    title: 'Timestamp'
+                },
+                {
+                    sortable: true,
+                    field: 'info.method',
+                    title: 'Method'
+                },
+                {
+                    sortable: true,
+                    field: 'info.path',
+                    title: 'Path'
+                },
+                {
+                    sortable: true,
+                    field: 'info.headers.request.User-Agent',
+                    title: 'Request User-Agent'
+                },
+                {
+                    sortable: true,
+                    field: 'info.headers.response.status',
+                    title: 'Response Status'
+                },
+                {
+                    sortable: true,
+                    field: 'info.timeTaken',
+                    title: 'Time Taken (ms)'
                 }
+            ]
+        });
+
+        // -------
+        // Helpers
+        // -------
+
+        /**
+         * Get health metrics from backend
+         */
+        function getHealthMetrics() {
+            $("#health-refresh-rate").text("Health metrics will be updated every " + Math.round(healthMetricsReloadInterval / 1000) + " seconds");
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: /*[[@{/manage/metrics}]]*/,
+                success: function (data) {
+                    // CPUs
+                    $("#health-processors").text(data["processors"]);
+                    // Uptime
+                    $("#health-uptime-process").text(timeConversion(data["uptime"]));
+                    $("#health-uptime-instance").text(timeConversion(data["instance.uptime"]));
+                    // Heap size
+                    $("#health-heap").text(data["heap"]);
+                    $("#health-heap-used").text(data["heap.used"]);
+                    var heapRatio = Math.round((data["heap.used"] / data["heap"] * 100));
+                    $("#health-heap-bar").css('width', heapRatio + '%').attr('aria-valuenow', heapRatio);
+                    $("#health-heap-bar").text(heapRatio + "%");
+                    if (heapRatio <= 30) {
+                        $("#health-heap-bar").removeClass();
+                        $("#health-heap-bar").addClass("progress-bar progress-bar-success");
+                    } else if (heapRatio > 30 && heapRatio <= 50) {
+                        $("#health-heap-bar").removeClass();
+                        $("#health-heap-bar").addClass("progress-bar progress-bar-info");
+                    } else if (heapRatio > 50 && heapRatio <= 80) {
+                        $("#health-heap-bar").removeClass();
+                        $("#health-heap-bar").addClass("progress-bar progress-bar-warning");
+                    } else {
+                        $("#health-heap-bar").removeClass();
+                        $("#health-heap-bar").addClass("progress-bar progress-bar-danger");
+                    }
+                },
+                error: function (e) {
+                    console.log("manage/metrics [RESPONSE > ERROR] -> error=" + e);
+                },
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                },
+            });
+        }
+
+        function fillText(target, data) {
+            if (data != null) {
+                $(target).text(data);
+            } else {
+                $(target).text("No data");
             }
+        }
 
-            function timeConversion(millisec) {
-                var seconds = (millisec / 1000).toFixed(1);
-                var minutes = (millisec / (1000 * 60)).toFixed(1);
-                var hours = (millisec / (1000 * 60 * 60)).toFixed(1);
-                var days = (millisec / (1000 * 60 * 60 * 24)).toFixed(1);
+        function timeConversion(millisec) {
+            var seconds = (millisec / 1000).toFixed(1);
+            var minutes = (millisec / (1000 * 60)).toFixed(1);
+            var hours = (millisec / (1000 * 60 * 60)).toFixed(1);
+            var days = (millisec / (1000 * 60 * 60 * 24)).toFixed(1);
 
-                if (seconds < 60) {
-                    return seconds + " seconds";
-                } else if (minutes < 60) {
-                    return minutes + " minutes";
-                } else if (hours < 24) {
-                    return hours + " hours";
-                } else {
-                    return days + " days"
-                }
+            if (seconds < 60) {
+                return seconds + " seconds";
+            } else if (minutes < 60) {
+                return minutes + " minutes";
+            } else if (hours < 24) {
+                return hours + " hours";
+            } else {
+                return days + " days"
             }
+        }
 
-            function keyValueHandler(srcData, filterKeyPrefix) {
-                var data = [];
-                for (var key in srcData) {
-                    if (key.startsWith(filterKeyPrefix))
+        function keyValueHandler(srcData, filterKeyPrefix) {
+            var data = [];
+            for (var key in srcData) {
+                if (key.startsWith(filterKeyPrefix))
                     data.push({
                         key: key.replace(filterKeyPrefix, ''),
                         value: srcData[key]
                     });
-                }
-                return data;
             }
+            return data;
+        }
 
-            // --------------
-            // Button actions
-            // --------------
+        // --------------
+        // Button actions
+        // --------------
 
-            // Refresh routes button
-            $("#health-heap-used").change(function(event){
-                event.preventDefault();
-                $("#health-heap-used").fadeTo('slow', 0.5).fadeTo('slow', 1.0);
-            })
+        // Refresh routes button
+        $("#health-heap-used").change(function (event) {
+            event.preventDefault();
+            $("#health-heap-used").fadeTo('slow', 0.5).fadeTo('slow', 1.0);
+        })
 
 
-            $('#btn-routes-refresh').click(function(event){
-                event.preventDefault();
-                $("#modal-routes-refresh-confirm").modal();
-            })
+        $('#btn-routes-refresh').click(function (event) {
+            event.preventDefault();
+            $("#modal-routes-refresh-confirm").modal();
+        })
 
-            // Refresh routes confirm button
-            $('#btn-modal-routes-refresh-confirm-ok').click(function(event){
-                event.preventDefault();
-                var httpMethod = "POST";
-                var endpoint = /*[[@{/manage/refresh}]]*/
+        // Refresh routes confirm button
+        $('#btn-modal-routes-refresh-confirm-ok').click(function (event) {
+            event.preventDefault();
+            var httpMethod = "POST";
+            var endpoint = /*[[@{/manage/refresh}]]*/
                 $.ajax({
-                    type : httpMethod,
-                    contentType : "application/json",
-                    url : endpoint,
-                    success : function(data) {
+                    type: httpMethod,
+                    contentType: "application/json",
+                    url: endpoint,
+                    success: function (data) {
                         console.log("ajaxGet [RESPONSE > SUCCESS] -> httpMethod=" + httpMethod + " | endpoint=" + endpoint + " | response=" + data);
                         $("#modal-routes-refresh-success").modal();
                     },
-                    error : function(e) {
+                    error: function (e) {
                         console.log("ajaxGet [RESPONSE > ERROR] -> httpMethod=" + httpMethod + " | endpoint=" + endpoint + " | error=" + e);
                         $("#modal-routes-refresh-fail").modal();
                     },
@@ -571,33 +608,33 @@
                         xhr.withCredentials = true;
                     },
                 });
-            })
+        })
 
-            // Refresh success post action
-            $('#btn-modal-routes-refresh-success-ok').click(function(event){
-                location.reload();
-            })
+        // Refresh success post action
+        $('#btn-modal-routes-refresh-success-ok').click(function (event) {
+            location.reload();
+        })
 
-            // Restart button
-            $('#btn-restart-edge-server').click(function(event){
-                event.preventDefault();
-                $("#modal-restart-confirm").modal();
-            })
+        // Restart button
+        $('#btn-restart-edge-server').click(function (event) {
+            event.preventDefault();
+            $("#modal-restart-confirm").modal();
+        })
 
-            // Confirm restart server
-            $('#btn-modal-restart-confirm-yes').click(function(event){
-                event.preventDefault();
-                var httpMethod = "POST";
-                var endpoint = /*[[@{/manage/restart}]]*/
+        // Confirm restart server
+        $('#btn-modal-restart-confirm-yes').click(function (event) {
+            event.preventDefault();
+            var httpMethod = "POST";
+            var endpoint = /*[[@{/manage/restart}]]*/
                 $.ajax({
-                    type : httpMethod,
-                    contentType : "application/json",
-                    url : endpoint,
-                    success : function(data) {
+                    type: httpMethod,
+                    contentType: "application/json",
+                    url: endpoint,
+                    success: function (data) {
                         console.log("ajaxGet [RESPONSE > SUCCESS] -> httpMethod=" + httpMethod + " | endpoint=" + endpoint + " | response=" + data);
                         $('#modal-restart-restarting').modal();
                     },
-                    error : function(e) {
+                    error: function (e) {
                         console.log("ajaxGet [RESPONSE > ERROR] -> httpMethod=" + httpMethod + " | endpoint=" + endpoint + " | error=" + e);
                         alert("Something went wrong! Action may not be performed properly.");
                     },
@@ -605,34 +642,34 @@
                         xhr.withCredentials = true;
                     },
                 });
-            })
+        })
 
-            // Confirm restart server post action
-            $('#btn-restart-restarting-confirm-ok').click(function(event){
-                event.preventDefault();
-                location.reload();
-            })
+        // Confirm restart server post action
+        $('#btn-restart-restarting-confirm-ok').click(function (event) {
+            event.preventDefault();
+            location.reload();
+        })
 
-            // Shutdown server
-            $('#btn-shutdown-edge-server').click(function(event){
-                event.preventDefault();
-                $("#modal-shutdown-confirm").modal();
-            })
+        // Shutdown server
+        $('#btn-shutdown-edge-server').click(function (event) {
+            event.preventDefault();
+            $("#modal-shutdown-confirm").modal();
+        })
 
-            // Shutdown server post action
-            $('#btn-modal-shutdown-confirm-yes').click(function(event){
-                event.preventDefault();
-                var httpMethod = "POST";
-                var endpoint = /*[[@{/manage/shutdown}]]*/
+        // Shutdown server post action
+        $('#btn-modal-shutdown-confirm-yes').click(function (event) {
+            event.preventDefault();
+            var httpMethod = "POST";
+            var endpoint = /*[[@{/manage/shutdown}]]*/
                 $.ajax({
-                    type : httpMethod,
-                    contentType : "application/json",
-                    url : endpoint,
-                    success : function(data) {
+                    type: httpMethod,
+                    contentType: "application/json",
+                    url: endpoint,
+                    success: function (data) {
                         console.log("ajaxGet [RESPONSE > SUCCESS] -> httpMethod=" + httpMethod + " | endpoint=" + endpoint + " | response=" + data);
                         $('#modal-shutdown-inprogress').modal();
                     },
-                    error : function(e) {
+                    error: function (e) {
                         console.log("ajaxGet [RESPONSE > ERROR] -> httpMethod=" + httpMethod + " | endpoint=" + endpoint + " | error=" + e);
                         alert("Something went wrong! Action may not be performed properly.");
                     },
@@ -640,18 +677,18 @@
                         xhr.withCredentials = true;
                     },
                 });
-            })
-
-            // Close showdown in-progress dialog post action
-            $('#btn-shutdown-inprogress-ok').click(function(event){
-                event.preventDefault();
-                location.reload();
-            })
         })
 
+        // Close showdown in-progress dialog post action
+        $('#btn-shutdown-inprogress-ok').click(function (event) {
+            event.preventDefault();
+            location.reload();
+        })
+    })
 
-        /*]]>*/
-    </script>
+
+    /*]]>*/
+</script>
 
 </body>
 </html>

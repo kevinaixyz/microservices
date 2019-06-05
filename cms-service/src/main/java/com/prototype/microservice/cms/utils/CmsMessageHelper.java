@@ -11,10 +11,11 @@ public class CmsMessageHelper {
     @Autowired
     private MessageSource messageSource;
 
-    public String getMessage(String code, Locale locale){
+    public String getMessage(String code, Locale locale) {
         return messageSource.getMessage(code, null, locale);
     }
-    public String getMessage(String code, Object[] values, Locale locale){
+
+    public String getMessage(String code, Object[] values, Locale locale) {
         return messageSource.getMessage(code, values, locale);
     }
 }

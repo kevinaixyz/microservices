@@ -18,33 +18,35 @@ import com.prototype.microservice.etl.service.EtlService;
 @RestController
 @RequestMapping(value = "/upload")
 public class FileUploadController extends BaseRestController {
-	
-	@Autowired
-	@Qualifier("rptService")
-	private EtlService rptServiceInCtrl;
-	
-	@RequestMapping(path = "/readFile", method = RequestMethod.POST)
-	private ResponseJson readExcelByConfig(@RequestBody final FileUploadRequestJson requestJson) throws IOException {
-		String file = requestJson.getFile();
-		if(StringUtils.isNotBlank(file)){
-			return rptServiceInCtrl.readFileByBase64Sync(file, requestJson.getFileName());
-		}
-		return null;
-	}
-	@RequestMapping(path = "/readFileAsync", method = RequestMethod.POST)
-	private ResponseJson readExcelByConfigAsync(@RequestBody final FileUploadRequestJson requestJson) throws IOException {
-		String file = requestJson.getFile();
-		if(StringUtils.isNotBlank(file)){
-			return rptServiceInCtrl.readFileByBase64Async(file, requestJson.getFileName());
-		}
-		return null;
-	}
-	@RequestMapping(path = "/checkStatus", method = RequestMethod.POST)
-	private ResponseJson checkRptJobStatus(@RequestBody final FileUploadStatusRequestJson requestJson) throws IOException {
-		String jobId = requestJson.getJobId();
-		if(StringUtils.isNotBlank(jobId)){
-			return rptServiceInCtrl.checkRptJobStatus(jobId);
-		}
-		return null;
-	}
+
+    @Autowired
+    @Qualifier("rptService")
+    private EtlService rptServiceInCtrl;
+
+    @RequestMapping(path = "/readFile", method = RequestMethod.POST)
+    private ResponseJson readExcelByConfig(@RequestBody final FileUploadRequestJson requestJson) throws IOException {
+        String file = requestJson.getFile();
+        if (StringUtils.isNotBlank(file)) {
+            return rptServiceInCtrl.readFileByBase64Sync(file, requestJson.getFileName());
+        }
+        return null;
+    }
+
+    @RequestMapping(path = "/readFileAsync", method = RequestMethod.POST)
+    private ResponseJson readExcelByConfigAsync(@RequestBody final FileUploadRequestJson requestJson) throws IOException {
+        String file = requestJson.getFile();
+        if (StringUtils.isNotBlank(file)) {
+            return rptServiceInCtrl.readFileByBase64Async(file, requestJson.getFileName());
+        }
+        return null;
+    }
+
+    @RequestMapping(path = "/checkStatus", method = RequestMethod.POST)
+    private ResponseJson checkRptJobStatus(@RequestBody final FileUploadStatusRequestJson requestJson) throws IOException {
+        String jobId = requestJson.getJobId();
+        if (StringUtils.isNotBlank(jobId)) {
+            return rptServiceInCtrl.checkRptJobStatus(jobId);
+        }
+        return null;
+    }
 }

@@ -14,17 +14,17 @@ import com.prototype.microservice.cms.helper.cmsHelper;
 
 public class LocalDateTimeGsonAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
 
-	@Override
-	public JsonElement serialize(LocalDateTime dateTime, Type type, JsonSerializationContext context) {
-		String dateStr = cmsHelper.getInstance().formatLocalDateTime(dateTime);
-		return new JsonPrimitive(dateStr);
-	}
+    @Override
+    public JsonElement serialize(LocalDateTime dateTime, Type type, JsonSerializationContext context) {
+        String dateStr = cmsHelper.getInstance().formatLocalDateTime(dateTime);
+        return new JsonPrimitive(dateStr);
+    }
 
-	@Override
-	public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-			throws JsonParseException {
-		LocalDateTime dateTime = cmsHelper.getInstance().parseIsoDate(json.getAsString()).atStartOfDay();
-		return dateTime;
-	}
+    @Override
+    public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+            throws JsonParseException {
+        LocalDateTime dateTime = cmsHelper.getInstance().parseIsoDate(json.getAsString()).atStartOfDay();
+        return dateTime;
+    }
 
 }

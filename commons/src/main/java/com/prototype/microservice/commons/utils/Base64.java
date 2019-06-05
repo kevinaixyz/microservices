@@ -1,7 +1,8 @@
 package com.prototype.microservice.commons.utils;
 
 public final class Base64 {
-    private Base64() {}
+    private Base64() {
+    }
 
     /**
      * Decode a Base64 URL Safe encoded string into a byte array.

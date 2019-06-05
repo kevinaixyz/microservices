@@ -18,35 +18,33 @@ import org.springframework.stereotype.Component;
 
 /**
  * Authentication success handler
- *
- *
- *
  */
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-	public CustomAuthenticationSuccessHandler() { }
+    public CustomAuthenticationSuccessHandler() {
+    }
 
-	@Autowired
-	private ApplicationEventPublisher appEventPublisher;
+    @Autowired
+    private ApplicationEventPublisher appEventPublisher;
 
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-	@Override
-	public void onAuthenticationSuccess(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			Authentication authentication) throws IOException, ServletException {
+    @Override
+    public void onAuthenticationSuccess(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Authentication authentication) throws IOException, ServletException {
 
-		appEventPublisher.publishEvent(new AdminConsoleLoginEvent(
-				MessageFormat.format("User ({0}) has logged into the admin console successfully from IP address ({1})",
-						new Object[] {
-								authentication.getPrincipal(),
-								request.getRemoteAddr()
-				})));
+        appEventPublisher.publishEvent(new AdminConsoleLoginEvent(
+                MessageFormat.format("User ({0}) has logged into the admin console successfully from IP address ({1})",
+                        new Object[]{
+                                authentication.getPrincipal(),
+                                request.getRemoteAddr()
+                        })));
 
-		redirectStrategy.sendRedirect(request, response, request.getRequestURL().toString());
+        redirectStrategy.sendRedirect(request, response, request.getRequestURL().toString());
 
-	}
+    }
 
 }

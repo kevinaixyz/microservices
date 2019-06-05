@@ -18,19 +18,19 @@ server:
     enabled: true
 # Logbook
 logbook:
-    filter.enabled: true
-    format.style: http
-    obfuscate:
-        headers:
-            - Authorization
-            - X-Secret
-        parameters:
-            - access_token
-            - password
-    write:
-        category: http.wire-log
-        level: INFO
-        chunk-size: 1000
+  filter.enabled: true
+  format.style: http
+  obfuscate:
+    headers:
+    - Authorization
+    - X-Secret
+    parameters:
+    - access_token
+    - password
+  write:
+    category: http.wire-log
+    level: INFO
+    chunk-size: 1000
 # Jasypt password encryption
 jasypt:
   encryptor:

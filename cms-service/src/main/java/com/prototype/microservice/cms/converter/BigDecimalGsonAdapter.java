@@ -13,15 +13,15 @@ import com.google.gson.JsonSerializer;
 
 public class BigDecimalGsonAdapter implements JsonSerializer<BigDecimal>, JsonDeserializer<BigDecimal> {
 
-	@Override
-	public BigDecimal deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-			throws JsonParseException {
-		return new BigDecimal(json.getAsString());
-	}
+    @Override
+    public BigDecimal deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+            throws JsonParseException {
+        return new BigDecimal(json.getAsString());
+    }
 
-	@Override
-	public JsonElement serialize(BigDecimal src, Type typeOfSrc, JsonSerializationContext context) {
-		return new JsonPrimitive(src.toString());
-	}
+    @Override
+    public JsonElement serialize(BigDecimal src, Type typeOfSrc, JsonSerializationContext context) {
+        return new JsonPrimitive(src.toString());
+    }
 
 }

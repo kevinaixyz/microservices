@@ -46,19 +46,19 @@ server:
     keyAlias: microservices
 # Logbook
 logbook:
-    filter.enabled: true
-    format.style: http
-    obfuscate:
-        headers:
-            - Authorization
-            - X-Secret
-        parameters:
-            - access_token
-            - password
-    write:
-        category: http.wire-log
-        level: INFO
-        chunk-size: 1000
+  filter.enabled: true
+  format.style: http
+  obfuscate:
+    headers:
+    - Authorization
+    - X-Secret
+    parameters:
+    - access_token
+    - password
+  write:
+    category: http.wire-log
+    level: INFO
+    chunk-size: 1000
 # Spring Management and Endpoints
 management:
   security:
@@ -100,17 +100,17 @@ spring:
     test-while-idle: true
     test-on-borrow: true
     tomcat:
-      max-active: 5    
+      max-active: 5
 server:
   port: ${SERVER_PORT:9107}
 cms-service:
   baseDate: 2018-03-28
   systemDate: ${SYS_DATE:20180119}
-  batch: 
-    schedule: 
+  batch:
+    schedule:
       trade-job: 0 */30 10-22 * * MON-FRI
       entity-job: 0 0 23 * * *
-    file: 
+    file:
       path: \\\\PC003428\\test\\Kevin\\Raw Data
       datePattern: yyyyMMdd
       pattern: FileName ${cms-service.batch.file.datePattern}
@@ -123,7 +123,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
-    eureka-connection-idle-timeout-seconds: 60  
+    eureka-connection-idle-timeout-seconds: 60
   instance:
     preferIpAddress: true
     metadataMap:
@@ -141,16 +141,16 @@ spring:
     test-while-idle: true
     test-on-borrow: true
     tomcat:
-      max-active: 5  
+      max-active: 5
 server:
   port: ${SERVER_PORT:9107}
-cms-service:  
+cms-service:
   baseDate: 2018-04-01
-  batch: 
-    schedule: 
+  batch:
+    schedule:
       trade-job: 0 */30 10-22 * * MON-FRI
       entity-job: 0 0 23 * * *
-    file: 
+    file:
       path: /logs/service/microservice/cms/
       datePattern: yyyyMMdd
       pattern: FileName ${cms-service.batch.file.datePattern}
@@ -158,10 +158,10 @@ cms-service:
       titleRowIndex: 2
       descnRowIndex: 0
       descnColIndex: 0
-    test: 
+    test:
       isTest: ${IS_TEST:false}
       systemDate: ${SYS_DATE:20180119}
-      isContinue: ${IS_TEST_CONTINUE:false}  
+      isContinue: ${IS_TEST_CONTINUE:false}
 # Netflix Eureka
 eureka:
   client:
@@ -170,7 +170,7 @@ eureka:
   instance:
     preferIpAddress: true
     metadataMap:
-      instanceId: ${spring.application.name}:${server.port}      
+      instanceId: ${spring.application.name}:${server.port}
 ---
 # UAT profile
 spring:
@@ -184,16 +184,16 @@ spring:
     test-while-idle: true
     test-on-borrow: true
     tomcat:
-      max-active: 5     
+      max-active: 5
 server:
   port: ${SERVER_PORT:9107}
-cms-service:  
+cms-service:
   baseDate: 2018-08-01
-  batch: 
-    schedule: 
+  batch:
+    schedule:
       trade-job: 0 */30 10-22 * * MON-FRI
       entity-job: 0 0 23 * * *
-    file: 
+    file:
       path: /logs/service/microservice/cms/
       datePattern: yyyyMMdd
       pattern: FileName ${cms-service.batch.file.datePattern}
@@ -201,10 +201,10 @@ cms-service:
       titleRowIndex: 2
       descnRowIndex: 0
       descnColIndex: 0
-    test: 
+    test:
       isTest: ${IS_TEST:false}
       systemDate: ${SYS_DATE:20180119}
-      isContinue: ${IS_TEST_CONTINUE:false}  
+      isContinue: ${IS_TEST_CONTINUE:false}
 # Netflix Eureka
 eureka:
   client:
@@ -227,7 +227,7 @@ spring:
     test-while-idle: true
     test-on-borrow: true
     tomcat:
-      max-active: 5  
+      max-active: 5
   jpa:
     properties:
       hibernate:
@@ -235,16 +235,16 @@ spring:
         show_sql: false
         use_sql_comments: true
         format_sql: true
-        enable_lazy_load_no_trans: true     
+        enable_lazy_load_no_trans: true
 server:
   port: ${SERVER_PORT:9107}
-cms-service:  
+cms-service:
   baseDate: 2018-08-01
-  batch: 
-    schedule: 
+  batch:
+    schedule:
       trade-job: 0 */30 10-22 * * MON-FRI
       entity-job: 0 0 23 * * *
-    file: 
+    file:
       path: /mnt/cdms-cms/
       datePattern: yyyyMMdd
       pattern: FileName ${cms-service.batch.file.datePattern}
@@ -252,10 +252,10 @@ cms-service:
       titleRowIndex: 2
       descnRowIndex: 0
       descnColIndex: 0
-    test: 
+    test:
       isTest: ${IS_TEST:false}
       systemDate: ${SYS_DATE:20180119}
-      isContinue: ${IS_TEST_CONTINUE:false}  
+      isContinue: ${IS_TEST_CONTINUE:false}
 # Netflix Eureka
 eureka:
   client:

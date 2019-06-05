@@ -11,50 +11,48 @@ import org.springframework.stereotype.Component;
 
 /**
  * Helper for Spring Boot performance metrics recording.
- *
- *
- *
  */
 @Component
 public class PerformanceMetricsHelper {
 
-	private final static Logger LOG = LoggerFactory.getLogger(PerformanceMetricsHelper.class);
+    private final static Logger LOG = LoggerFactory.getLogger(PerformanceMetricsHelper.class);
 
-	@Autowired
-	private CounterService counterSvc;
+    @Autowired
+    private CounterService counterSvc;
 
-	public PerformanceMetricsHelper() {	}
+    public PerformanceMetricsHelper() {
+    }
 
-	/**
-	 * Increase the performance metrics counter value by 1.
-	 *
-	 * @param counterName
-	 */
-	public void counterIncrement(final String metricName) {
+    /**
+     * Increase the performance metrics counter value by 1.
+     *
+     * @param counterName
+     */
+    public void counterIncrement(final String metricName) {
 
-		try {
-			if (StringUtils.isNotBlank(metricName)) {
+        try {
+            if (StringUtils.isNotBlank(metricName)) {
 
-				counterSvc.increment(metricName);
+                counterSvc.increment(metricName);
 
-			} else {
+            } else {
 
-				if (LOG.isWarnEnabled()) {
-					LOG.warn("Cannot do counterIncrement due to missing metricName!");
-				}
+                if (LOG.isWarnEnabled()) {
+                    LOG.warn("Cannot do counterIncrement due to missing metricName!");
+                }
 
-			}
-		} catch (Exception e) {
+            }
+        } catch (Exception e) {
 
-			// Fail gracefully :)
-			if (LOG.isWarnEnabled()) {
-				LOG.warn(MessageFormat.format(
-						"Can't do counterIncrement for [{0}] due to [{1}]",
-						new Object[] { StringUtils.trimToEmpty(metricName), e.getLocalizedMessage() }));
-			}
+            // Fail gracefully :)
+            if (LOG.isWarnEnabled()) {
+                LOG.warn(MessageFormat.format(
+                        "Can't do counterIncrement for [{0}] due to [{1}]",
+                        new Object[]{StringUtils.trimToEmpty(metricName), e.getLocalizedMessage()}));
+            }
 
-		}
+        }
 
-	}
+    }
 
 }

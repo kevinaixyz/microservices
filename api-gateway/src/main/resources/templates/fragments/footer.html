@@ -5,29 +5,29 @@
 </head>
 <body>
 
-    <!-- Footer : tagline -->
-    <div th:fragment="footer-tagline">
-        <div class="container-fluid">
-            <div class="footer-template">
-                <span th:text="'prototype International Securities Group Limited - ' + ${F_COMPONENT_NAME}"></span>
-            </div>
+<!-- Footer : tagline -->
+<div th:fragment="footer-tagline">
+    <div class="container-fluid">
+        <div class="footer-template">
+            <span th:text="'prototype International Securities Group Limited - ' + ${F_COMPONENT_NAME}"></span>
         </div>
     </div>
+</div>
 
-    <!-- Footer : scripts -->
-    <div th:fragment="footer-scripts">
-        <div class="se-pre-con"></div>
-        <script type="text/javascript" th:src="@{/public/jquery/js/jquery-3.2.1.min.js}"></script>
-        <script type="text/javascript" th:src="@{/public/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
-        <script type="text/javascript" th:src="@{/public/bootstrap/3.3.7/js/bootstrap-dialog.min.js}"></script>
-        <script type="text/javascript" th:src="@{/public/bootstrap-table/js/bootstrap-table.min.js}"></script>
-        <script type="text/javascript" th:src="@{/public/lightbox2/js/lightbox.min.js}"></script>
-        <script type="text/javascript" th:src="@{/public/custom/js/webapp.js}"></script>
+<!-- Footer : scripts -->
+<div th:fragment="footer-scripts">
+    <div class="se-pre-con"></div>
+    <script type="text/javascript" th:src="@{/public/jquery/js/jquery-3.2.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/public/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/public/bootstrap/3.3.7/js/bootstrap-dialog.min.js}"></script>
+    <script type="text/javascript" th:src="@{/public/bootstrap-table/js/bootstrap-table.min.js}"></script>
+    <script type="text/javascript" th:src="@{/public/lightbox2/js/lightbox.min.js}"></script>
+    <script type="text/javascript" th:src="@{/public/custom/js/webapp.js}"></script>
 
-        <script th:inline="javascript">
+    <script th:inline="javascript">
         /*<![CDATA[*/
 
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             // ----------------
             // Bootstrap Modals
@@ -42,20 +42,21 @@
             // Button actions
             // --------------
             // Login button
-            $('#btn-navbar-login').click(function(){
+            $('#btn-navbar-login').click(function () {
                 event.preventDefault();
-                window.location=/*[[@{/console/login}]]*/
+                window.location =
+                /*[[@{/console/login}]]*/
             })
 
             // Logout button (nav-bar)
-            $("#btn-navbar-logout").click(function(event) {
+            $("#btn-navbar-logout").click(function (event) {
                 console.log("#btn-navbar-logout -> click:" + event);
                 event.preventDefault();
                 openLogoutModel();
             })
 
             // Logout button (logout modal)
-            $("#btn-logoutmodal-yes").click(function(event) {
+            $("#btn-logoutmodal-yes").click(function (event) {
                 console.log("#btn-logoutmodal-yes -> click:" + event);
                 event.preventDefault();
                 var endpoint = /*[[@{/console/logout}]]*/;
@@ -66,9 +67,9 @@
 
 
         /*]]>*/
-        </script>
+    </script>
 
-    </div>
+</div>
 
 </body>
 </html>

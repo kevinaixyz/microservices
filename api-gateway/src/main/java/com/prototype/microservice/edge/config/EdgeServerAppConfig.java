@@ -15,64 +15,61 @@ import com.prototype.microservice.edge.filter.CustomPreFilter;
 
 /**
  * Generic application configuration
- *
- *
- *
  */
 @Configuration
 public class EdgeServerAppConfig {
 
-	@Value("${api-gateway.trace.history:100}")
-	private int traceHistory;
+    @Value("${api-gateway.trace.history:100}")
+    private int traceHistory;
 
-	/**
-	 * Zuul routes pre-filter
-	 *
-	 * @return
-	 */
-	@Bean
-	public CustomPreFilter customPreFilter() {
-		return new CustomPreFilter();
-	}
+    /**
+     * Zuul routes pre-filter
+     *
+     * @return
+     */
+    @Bean
+    public CustomPreFilter customPreFilter() {
+        return new CustomPreFilter();
+    }
 
-	/**
-	 * Global definition of the password encoder
-	 *
-	 * @return
-	 */
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		//		return new Base64BCryptPasswordEncoder();
-		return new Pbkdf2PasswordEncoder();
-	}
+    /**
+     * Global definition of the password encoder
+     *
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        //		return new Base64BCryptPasswordEncoder();
+        return new Pbkdf2PasswordEncoder();
+    }
 
-	/**
-	 * Thymeleaf template engine
-	 *
-	 * @param templateResolver
-	 * @return
-	 */
-	@Bean
-	public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
-		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver);
-		templateEngine.addDialect(new SpringSecurityDialect());
-		StandardCacheManager cacheManager = new StandardCacheManager();
-		cacheManager.setTemplateCacheMaxSize(100);
-		templateEngine.setCacheManager(cacheManager);
-		return templateEngine;
-	}
+    /**
+     * Thymeleaf template engine
+     *
+     * @param templateResolver
+     * @return
+     */
+    @Bean
+    public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver);
+        templateEngine.addDialect(new SpringSecurityDialect());
+        StandardCacheManager cacheManager = new StandardCacheManager();
+        cacheManager.setTemplateCacheMaxSize(100);
+        templateEngine.setCacheManager(cacheManager);
+        return templateEngine;
+    }
 
-	/**
-	 * SpringBoot Actuator trace repo.
-	 *
-	 * @return
-	 */
-	@Bean
-	public InMemoryTraceRepository inMemoryTraceRepository() {
-		InMemoryTraceRepository traceRepo = new InMemoryTraceRepository();
-		traceRepo.setCapacity(traceHistory);
-		return traceRepo;
-	}
+    /**
+     * SpringBoot Actuator trace repo.
+     *
+     * @return
+     */
+    @Bean
+    public InMemoryTraceRepository inMemoryTraceRepository() {
+        InMemoryTraceRepository traceRepo = new InMemoryTraceRepository();
+        traceRepo.setCapacity(traceHistory);
+        return traceRepo;
+    }
 
 }

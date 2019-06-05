@@ -1,248 +1,289 @@
 {
-	"fileDateFormat":"yyyyMMdd",
-	"execOnDate":"20180710",
-	"filePath": "\\\\PC003703\\Scan\\rpt_report\\",
-	"fileNamePattern":"export-{fileDateFormat}.txt",
-	"fileType":"TXT",
-	"logFilePath":"\\\\PC003703\\Scan\\rpt_report\\log\\",
-	"logFileNamePattern":"rpt-service-error(txt).log.%d{yyyy-MM-dd}",
-	"dbTableName": "FICC_TRADE_SNP",
-	"colDelimiter": "|",
-	"checkDataExistColumns":["FILE_DATE=null"],
-	"nullValFilter":["null"],
-	"headerRowIndex":0,
-	"startRowIndex":1,
-	"endRowIndexFromBottom":0,
-	"columns": [{
-			"tableColName": "REC_INDEX",
-			"colIndex": 1,
-			"colName": "index",
-			"type": "Number",
-			"format": "BigDecimal"
-		}, {
-			"tableColName": "INSTU_CODE",
-			"colIndex": 2,
-			"colName": "instrumentCode",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "INSTU_NAME",
-			"colIndex": 3,
-			"colName": "instrumentName",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "MKT_CODE",
-			"colIndex": 4,
-			"colName": "marketCode",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "ISIN_CODE",
-			"colIndex": 5,
-			"colName": "isinCode",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "TRADE_SIDE",
-			"colIndex": 6,
-			"colName": "tradeSide",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "ACCT_ID",
-			"colIndex": 7,
-			"colName": "accountId",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "OUR_REF_NO",
-			"colIndex": 8,
-			"colName": "ourRefNumber",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "IS_SHORT_SELL",
-			"colIndex": 9,
-			"colName": "isShortSell",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "UNIT_PRICE",
-			"colIndex": 10,
-			"colName": "unitPrice",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "TRADE_QTY",
-			"colIndex": 11,
-			"colName": "tradeQuantity",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "TRADE_NO",
-			"colIndex": 12,
-			"colName": "tradeNum",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "EXEC_DATETIME",
-			"colIndex": 13,
-			"colName": "executionDateTime",
-			"type": "Timestamp",
-			"format": "yyyyMMddHHmmss"
-		}, {
-			"tableColName": "BROKER_ID",
-			"colIndex": 14,
-			"colName": "brokerId",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "COUNTER_PTY",
-			"colIndex": 15,
-			"colName": "counterParty",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "MRKT_MAKER",
-			"colIndex": 16,
-			"colName": "mrktMaker",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "INVTR_ID",
-			"colIndex": 17,
-			"colName": "investorId",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "INVTR_ORD_NO",
-			"colIndex": 18,
-			"colName": "investorOrderNum",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "ORD_ID",
-			"colIndex": 19,
-			"colName": "OrderID",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "ETF_QTY",
-			"colIndex": 20,
-			"colName": "ETFQty",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "DTYPE",
-			"colIndex": 21,
-			"colName": "dType",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "MAN_TRADE_KEY",
-			"colIndex": 22,
-			"colName": "manualTradeKey",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "HOUSE_ACCT_ID",
-			"colIndex": 23,
-			"colName": "houseAccountId",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "TRADER_ID",
-			"colIndex": 24,
-			"colName": "traderID",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "OUR_ORD_ID",
-			"colIndex": 25,
-			"colName": "ourOrderID",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CL_CLIENT_ID",
-			"colIndex": 26,
-			"colName": "clClientID",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "IS_ORD_FULL_FILL",
-			"colIndex": 27,
-			"colName": "isOrderFullyFilled",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CHANNEL",
-			"colIndex": 28,
-			"colName": "Channel",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "SEHK_TRADE_REF",
-			"colIndex": 29,
-			"colName": "SEHKTradeRef",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "BROKER_CODE",
-			"colIndex": 30,
-			"colName": "brokerCode",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "BROKER_ACCT",
-			"colIndex": 31,
-			"colName": "BrokerAccount",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "DESK",
-			"colIndex": 32,
-			"colName": "Desk",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "EX_VENUE",
-			"colIndex": 33,
-			"colName": "exVenue",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "EXEC_ACT",
-			"colIndex": 34,
-			"colName": "execAction",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CLIENT_LEI",
-			"colIndex": 35,
-			"colName": "clientLEI",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "OUR_LEI",
-			"colIndex": 36,
-			"colName": "ourLEI",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CL_TRADER_ID",
-			"colIndex": 37,
-			"colName": "clTraderId",
-			"type": "Char",
-			"format": ""
-		}
-	],
-	"systemColumns":[
-		{
-			"tableColName": "FILE_DATE",
-			"type": "Date",
-			"formate":"yyyyMMdd"
-		}
-	],
-	"others": ""
+  "fileDateFormat": "yyyyMMdd",
+  "execOnDate": "20180710",
+  "filePath": "\\\\PC003703\\Scan\\rpt_report\\",
+  "fileNamePattern": "export-{fileDateFormat}.txt",
+  "fileType": "TXT",
+  "logFilePath": "\\\\PC003703\\Scan\\rpt_report\\log\\",
+  "logFileNamePattern": "rpt-service-error(txt).log.%d{yyyy-MM-dd}",
+  "dbTableName": "FICC_TRADE_SNP",
+  "colDelimiter": "|",
+  "checkDataExistColumns": [
+    "FILE_DATE=null"
+  ],
+  "nullValFilter": [
+    "null"
+  ],
+  "headerRowIndex": 0,
+  "startRowIndex": 1,
+  "endRowIndexFromBottom": 0,
+  "columns": [
+    {
+      "tableColName": "REC_INDEX",
+      "colIndex": 1,
+      "colName": "index",
+      "type": "Number",
+      "format": "BigDecimal"
+    },
+    {
+      "tableColName": "INSTU_CODE",
+      "colIndex": 2,
+      "colName": "instrumentCode",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "INSTU_NAME",
+      "colIndex": 3,
+      "colName": "instrumentName",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "MKT_CODE",
+      "colIndex": 4,
+      "colName": "marketCode",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "ISIN_CODE",
+      "colIndex": 5,
+      "colName": "isinCode",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "TRADE_SIDE",
+      "colIndex": 6,
+      "colName": "tradeSide",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "ACCT_ID",
+      "colIndex": 7,
+      "colName": "accountId",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "OUR_REF_NO",
+      "colIndex": 8,
+      "colName": "ourRefNumber",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "IS_SHORT_SELL",
+      "colIndex": 9,
+      "colName": "isShortSell",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "UNIT_PRICE",
+      "colIndex": 10,
+      "colName": "unitPrice",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "TRADE_QTY",
+      "colIndex": 11,
+      "colName": "tradeQuantity",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "TRADE_NO",
+      "colIndex": 12,
+      "colName": "tradeNum",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "EXEC_DATETIME",
+      "colIndex": 13,
+      "colName": "executionDateTime",
+      "type": "Timestamp",
+      "format": "yyyyMMddHHmmss"
+    },
+    {
+      "tableColName": "BROKER_ID",
+      "colIndex": 14,
+      "colName": "brokerId",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "COUNTER_PTY",
+      "colIndex": 15,
+      "colName": "counterParty",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "MRKT_MAKER",
+      "colIndex": 16,
+      "colName": "mrktMaker",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "INVTR_ID",
+      "colIndex": 17,
+      "colName": "investorId",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "INVTR_ORD_NO",
+      "colIndex": 18,
+      "colName": "investorOrderNum",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "ORD_ID",
+      "colIndex": 19,
+      "colName": "OrderID",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "ETF_QTY",
+      "colIndex": 20,
+      "colName": "ETFQty",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "DTYPE",
+      "colIndex": 21,
+      "colName": "dType",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "MAN_TRADE_KEY",
+      "colIndex": 22,
+      "colName": "manualTradeKey",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "HOUSE_ACCT_ID",
+      "colIndex": 23,
+      "colName": "houseAccountId",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "TRADER_ID",
+      "colIndex": 24,
+      "colName": "traderID",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "OUR_ORD_ID",
+      "colIndex": 25,
+      "colName": "ourOrderID",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CL_CLIENT_ID",
+      "colIndex": 26,
+      "colName": "clClientID",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "IS_ORD_FULL_FILL",
+      "colIndex": 27,
+      "colName": "isOrderFullyFilled",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CHANNEL",
+      "colIndex": 28,
+      "colName": "Channel",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "SEHK_TRADE_REF",
+      "colIndex": 29,
+      "colName": "SEHKTradeRef",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "BROKER_CODE",
+      "colIndex": 30,
+      "colName": "brokerCode",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "BROKER_ACCT",
+      "colIndex": 31,
+      "colName": "BrokerAccount",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "DESK",
+      "colIndex": 32,
+      "colName": "Desk",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "EX_VENUE",
+      "colIndex": 33,
+      "colName": "exVenue",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "EXEC_ACT",
+      "colIndex": 34,
+      "colName": "execAction",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CLIENT_LEI",
+      "colIndex": 35,
+      "colName": "clientLEI",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "OUR_LEI",
+      "colIndex": 36,
+      "colName": "ourLEI",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CL_TRADER_ID",
+      "colIndex": 37,
+      "colName": "clTraderId",
+      "type": "Char",
+      "format": ""
+    }
+  ],
+  "systemColumns": [
+    {
+      "tableColName": "FILE_DATE",
+      "type": "Date",
+      "formate": "yyyyMMdd"
+    }
+  ],
+  "others": ""
 }

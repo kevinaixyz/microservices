@@ -15,21 +15,21 @@ import com.prototype.microservice.edge.helper.AppHelper;
 @Component
 public class EdgeServerAppRunner implements ApplicationRunner {
 
-	private final static Logger LOG = LoggerFactory.getLogger(EdgeServerAppRunner.class);
+    private final static Logger LOG = LoggerFactory.getLogger(EdgeServerAppRunner.class);
 
-	@Autowired
-	private AppHelper appHelper;
+    @Autowired
+    private AppHelper appHelper;
 
-	@Override
-	public void run(ApplicationArguments args) throws Exception {
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
 
-		if (LOG.isInfoEnabled()) {
-			LOG.info(MessageFormat.format(
-					"=========> {0} started with instanceId [{1}]",
-					new Object[] { this.getClass().getSimpleName(), appHelper.getInstanceId() } ));
-		}
-		MDC.put("eureka.instance.metadataMap.instanceId", appHelper.getInstanceId());
+        if (LOG.isInfoEnabled()) {
+            LOG.info(MessageFormat.format(
+                    "=========> {0} started with instanceId [{1}]",
+                    new Object[]{this.getClass().getSimpleName(), appHelper.getInstanceId()}));
+        }
+        MDC.put("eureka.instance.metadataMap.instanceId", appHelper.getInstanceId());
 
-	}
+    }
 
 }

@@ -15,17 +15,17 @@ import com.prototype.microservice.cms.helper.cmsHelper;
 
 public class LocalDateGsonAdapter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
 
-	@Override
-	public JsonElement serialize(LocalDate date, Type type, JsonSerializationContext context) {
-		String dateStr = cmsHelper.getInstance().formatLocalDate(date);
-		return new JsonPrimitive(dateStr);
-	}
+    @Override
+    public JsonElement serialize(LocalDate date, Type type, JsonSerializationContext context) {
+        String dateStr = cmsHelper.getInstance().formatLocalDate(date);
+        return new JsonPrimitive(dateStr);
+    }
 
-	@Override
-	public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-			throws JsonParseException {
-		LocalDate localDate = cmsHelper.getInstance().parseIsoDate(json.getAsString());
-		return localDate;
-	}
+    @Override
+    public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+            throws JsonParseException {
+        LocalDate localDate = cmsHelper.getInstance().parseIsoDate(json.getAsString());
+        return localDate;
+    }
 
 }

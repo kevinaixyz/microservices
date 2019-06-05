@@ -6,7 +6,7 @@ schedule:
   cron: 0 20 11 * * ?
 
 # Bespoke setting
-etl-service: 
+etl-service:
   trust-self-signed-certs: true
   users:
     admin:
@@ -49,7 +49,7 @@ server:
     key-store: classpath:keystore.p12
     key-store-password: ENC(CDCDA755EFB15EF83D8E01FDD45276330289D16E15E7DBD9)
     keyStoreType: PKCS12
-    keyAlias: microservices        
+    keyAlias: microservices
 # Spring Management and Endpoints
 management:
   security:
@@ -76,9 +76,9 @@ eureka:
 etl:
   warrant:
     fileNamePattern: dwAQList
-    schedule-job: 
+    schedule-job:
       immediate: true
-      cron: 0 */30 * * * ? 
+      cron: 0 */30 * * * ?
 spring:
   profiles: dev
   datasource:
@@ -89,8 +89,8 @@ spring:
 
   http:
     multipart:
-        max-file-size: 10MB
-        max-request-size: 10MB   
+      max-file-size: 10MB
+      max-request-size: 10MB
 server:
   port: ${SERVER_PORT:9101}
 # Netflix Eureka
@@ -98,7 +98,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://127.0.0.1:9900/eureka}
-    eureka-connection-idle-timeout-seconds: 60 
+    eureka-connection-idle-timeout-seconds: 60
   instance:
     preferIpAddress: true
     metadataMap:
@@ -120,7 +120,7 @@ eureka:
   instance:
     preferIpAddress: true
     metadataMap:
-      instanceId: ${spring.application.name}:${server.port}      
+      instanceId: ${spring.application.name}:${server.port}
 config:
   configFilePath: ${CONFIG_FILE_PATH:./}
   configFileNameKeywords: ${CONFIG_FILE_KEYWORD:etl-service} ## Notice: the extension of the config file must be .request
@@ -129,9 +129,9 @@ config:
 p125:
   fireprice:
     fileNamePattern: Imagine_FairPrice_
-    schedule-job: 
+    schedule-job:
       immediate: true
-      cron: 0 18 30 * * MON-FRI 
+      cron: 0 18 30 * * MON-FRI
 spring:
   profiles: uat
 server:
@@ -152,9 +152,9 @@ config:
 p125:
   fireprice:
     fileNamePattern: Imagine_FairPrice_
-    schedule-job: 
+    schedule-job:
       immediate: false
-      cron: 0 18 30 * * MON-FRI 
+      cron: 0 18 30 * * MON-FRI
 spring:
   profiles: prod
   datasource-cdms:
@@ -172,7 +172,7 @@ eureka:
   instance:
     preferIpAddress: true
     metadataMap:
-      instanceId: ${spring.application.name}:${server.port}  
+      instanceId: ${spring.application.name}:${server.port}
 config:
   configFilePath: ${CONFIG_FILE_PATH:./}
   configFileNameKeywords: ${CONFIG_FILE_KEYWORD:etl_config} ## Notice: the extension of the config file must be .request

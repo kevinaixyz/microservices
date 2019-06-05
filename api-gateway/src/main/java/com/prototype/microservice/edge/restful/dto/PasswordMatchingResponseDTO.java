@@ -4,27 +4,27 @@ import com.prototype.microservice.commons.json.SimpleResponseJson;
 
 public class PasswordMatchingResponseDTO extends SimpleResponseJson {
 
-	private Boolean matched;
-	private String encoder;
+    private Boolean matched;
+    private String encoder;
 
-	public PasswordMatchingResponseDTO(String instanceId) {
-		super(instanceId);
-	}
+    public PasswordMatchingResponseDTO(String instanceId) {
+        super(instanceId);
+    }
 
-	public void setMatched(Boolean matched) {
-		this.matched = matched;
-	}
+    public void setMatched(Boolean matched) {
+        this.matched = matched;
+    }
 
-	public Boolean getMatched() {
-		return matched;
-	}
+    public Boolean getMatched() {
+        return matched;
+    }
 
-	public String getEncoder() {
-		return encoder;
-	}
+    public String getEncoder() {
+        return encoder;
+    }
 
-	public void setEncoder(String encoder) {
-		this.encoder = encoder;
-	}
+    public void setEncoder(String encoder) {
+        this.encoder = encoder;
+    }
 
 }

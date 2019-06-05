@@ -19,31 +19,33 @@ import java.util.Map;
 public class RptTaskBase {
     protected BatchJobProcessor batchJobProcessor;
     protected OverallConfig overallConfig;
+
     @Autowired
     public RptTaskBase(OverallConfig overallConfig, BatchJobProcessor batchJobProcessor) {
         this.overallConfig = overallConfig;
         this.batchJobProcessor = batchJobProcessor;
     }
-    protected void loadConfig(CommonConfigInfo configInfo) throws Exception{
+
+    protected void loadConfig(CommonConfigInfo configInfo) throws Exception {
         List<File> files;
-        if(configInfo.getIsLoadAll()){
+        if (configInfo.getIsLoadAll()) {
             files = BaseHelper.getFiles(configInfo);
-        }else{
+        } else {
             LocalDate scheduleFileDate = LocalDate.now();
-            if(configInfo.getScheduleDaysOffset()!=0){
+            if (configInfo.getScheduleDaysOffset() != 0) {
                 scheduleFileDate = LocalDate.now().plusDays(configInfo.getScheduleDaysOffset());
             }
-            String asOfDate = BaseHelper.formatDate(scheduleFileDate, configInfo.getFileDateFormat()==null? AppConstant.ISO_DATE_PATTERN:configInfo.getFileDateFormat());
+            String asOfDate = BaseHelper.formatDate(scheduleFileDate, configInfo.getFileDateFormat() == null ? AppConstant.ISO_DATE_PATTERN : configInfo.getFileDateFormat());
             files = BaseHelper.getFiles(configInfo, asOfDate);
         }
 
-        if(files==null||files.size()==0){
+        if (files == null || files.size() == 0) {
             return;
         }
-        if(configInfo.getFileType()==null){
+        if (configInfo.getFileType() == null) {
             return;
         }
-        for(File file:files){
+        for (File file : files) {
             Map<String, String> sysColValMap = genSysColValue(configInfo, file);
             batchJobProcessor.setConfigInfo(configInfo);
             batchJobProcessor.setFile(file);
@@ -52,20 +54,20 @@ public class RptTaskBase {
         }
     }
 
-    private Map<String, String> genSysColValue(CommonConfigInfo configInfo, File file){
-        if(configInfo==null||configInfo.getSystemColumns()==null){
+    private Map<String, String> genSysColValue(CommonConfigInfo configInfo, File file) {
+        if (configInfo == null || configInfo.getSystemColumns() == null) {
             return null;
         }
         List<ColumnMetaInfo> sysCols = configInfo.getSystemColumns();
         Map<String, String> map = new HashMap<>();
-        for(ColumnMetaInfo sysCol: sysCols){
+        for (ColumnMetaInfo sysCol : sysCols) {
             String key = sysCol.getTableColName();
-            if(ColumnMetaInfo.SYS_COL_FILE_DATE.equalsIgnoreCase(key)){
+            if (ColumnMetaInfo.SYS_COL_FILE_DATE.equalsIgnoreCase(key)) {
                 map.put(key, BaseHelper.getFileDateStr(file, configInfo.getFileDateFormat()));
-            } else if(ColumnMetaInfo.SYS_COL_CREATE_DATETIME.equalsIgnoreCase(key)){
+            } else if (ColumnMetaInfo.SYS_COL_CREATE_DATETIME.equalsIgnoreCase(key)) {
                 String createdDate = BaseHelper.getCurrentDatetimeStr();
                 map.put(key, createdDate);
-            } else if(ColumnMetaInfo.SYS_COL_FILE_NAME.equalsIgnoreCase(key)){
+            } else if (ColumnMetaInfo.SYS_COL_FILE_NAME.equalsIgnoreCase(key)) {
                 map.put(key, file.getName());
             }
         }

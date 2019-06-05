@@ -6,48 +6,48 @@
 </head>
 <body>
 
-    <!-- Definition of all modals -->
-    <div th:fragment="modals-commons">
-        <!-- Modal : modal-test-backend-resp -->
-        <div class="modal fade" id="modal-test-backend-resp" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Resposne from backend</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p id="greetingId"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+<!-- Definition of all modals -->
+<div th:fragment="modals-commons">
+    <!-- Modal : modal-test-backend-resp -->
+    <div class="modal fade" id="modal-test-backend-resp" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Resposne from backend</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="greetingId"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-
-        <!-- Logout modal -->
-        <div class="modal fade" id="modal-logout" role="dialog">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">
-                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Logout
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        Do you want to logout the system?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" id="btn-logoutmodal-yes">Yes</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+
+    <!-- Logout modal -->
+    <div class="modal fade" id="modal-logout" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Logout
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    Do you want to logout the system?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btn-logoutmodal-yes">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

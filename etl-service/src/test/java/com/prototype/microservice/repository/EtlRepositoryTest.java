@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EtlRepositoryTest extends AbstractCrmPwmServiceTest {
     private EtlCommonRepository etlCommonRepository;
+
     @Autowired
-    public void setEtlCommonRepository(EtlCommonRepository etlCommonRepository){
+    public void setEtlCommonRepository(EtlCommonRepository etlCommonRepository) {
         this.etlCommonRepository = etlCommonRepository;
     }
+
     @Test
-    public void testSearch(){
+    public void testSearch() {
         etlCommonRepository.test();
     }
 

@@ -23,9 +23,6 @@ import com.prototype.microservice.commons.json.SimpleResponseJson;
 
 /**
  * auditlog-service integrator
- *
- * 
- *
  */
 @Service
 public class AuditLogServiceIntegrator {
@@ -65,7 +62,7 @@ public class AuditLogServiceIntegrator {
         if (LOG.isInfoEnabled()) {
             LOG.info(MessageFormat.format(
                     "RestTemplate constructed [{0}]",
-                    new Object[]{ restTemplate }));
+                    new Object[]{restTemplate}));
         }
     }
 

@@ -9,22 +9,19 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 /**
  * CMS general app config.
- *
- * 
- *
  */
 @Configuration
 public class CmsServiceAppConfig {
 
-	/**
-	 * Event multicaster that makes all event async.
-	 *
-	 * @return
-	 */
-	@Bean(name = "applicationEventMulticaster")
-	public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
-		SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
-		eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
-		return eventMulticaster;
-	}
+    /**
+     * Event multicaster that makes all event async.
+     *
+     * @return
+     */
+    @Bean(name = "applicationEventMulticaster")
+    public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+        SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
+        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        return eventMulticaster;
+    }
 }

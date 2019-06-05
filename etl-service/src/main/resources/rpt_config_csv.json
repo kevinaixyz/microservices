@@ -1,187 +1,217 @@
 {
-	"fileDateFormat":"yyyyMMdd",
-	"execOnDate":"20180710",
-	"filePath": "\\\\PC003703\\Scan\\rpt_report\\",
-	"fileNamePattern":"export-order{fileDateFormat}.csv",
-	"fileType":"CSV",
-	"logFilePath":"\\\\PC003703\\Scan\\rpt_report\\log\\",
-	"logFileNamePattern":"rpt-service-error(csv).log.%d{yyyy-MM-dd}",
-	"dbTableName": "FICC_TRADE_SNP_CSV",
-	"colDelimiter": "|",
-	"nullValFilter":["null","-"],
-	"headerRowIndex":0,
-	"startRowIndex":1,
-	"endRowIndexFromBottom":0,
-	"columns": [{
-			"tableColName": "REC_INDEX",
-			"colIndex": 1,
-			"colName": "index",
-			"type": "Number",
-			"format": "BigDecimal"
-		}, {
-			"tableColName": "TRAN_TIME",
-			"colIndex": 2,
-			"colName": "transactionTime",
-			"type": "TIMESTAMP",
-			"format": "yyyyMMddHHmmss.SSS"
-		}, {
-			"tableColName": "CLIENT",
-			"colIndex": 3,
-			"colName": "Client",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "ACCOUNT",
-			"colIndex": 4,
-			"colName": "Account",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "BROKER",
-			"colIndex": 5,
-			"colName": "Broker",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CLIENT_ORD_ID ",
-			"colIndex": 6,
-			"colName": "clientOrderId",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "GID",
-			"colIndex": 7,
-			"colName": "gId",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "OMS_DLR_PARENT_ORD_ID",
-			"colIndex": 8,
-			"colName": "omsDEALERPARENTORDERID",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "DESTINATION",
-			"colIndex": 9,
-			"colName": "isShortSell",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "MSGTYPE",
-			"colIndex": 10,
-			"colName": "unitPrice",
-			"type": "Char",
-			"format": "Double"
-		}, {
-			"tableColName": "EXECTYPE",
-			"colIndex": 11,
-			"colName": "tradeQuantity",
-			"type": "Char",
-			"format": "Integer"
-		}, {
-			"tableColName": "CCY",
-			"colIndex": 12,
-			"colName": "tradeNum",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "SYMBOL",
-			"colIndex": 13,
-			"colName": "executionDateTime",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "EXC_CODE",
-			"colIndex": 14,
-			"colName": "brokerId",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "MARKET",
-			"colIndex": 15,
-			"colName": "counterParty",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "SIDE",
-			"colIndex": 16,
-			"colName": "mrktMaker",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "PRICE",
-			"colIndex": 17,
-			"colName": "investorId",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "QTY",
-			"colIndex": 18,
-			"colName": "investorOrderNum",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "CUMQTY",
-			"colIndex": 19,
-			"colName": "OrderID",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "LEAVE_QTY",
-			"colIndex": 20,
-			"colName": "ETFQty",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "LAST_QTY",
-			"colIndex": 21,
-			"colName": "dType",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "AVGPX",
-			"colIndex": 22,
-			"colName": "manualTradeKey",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "ORD_TYPE",
-			"colIndex": 23,
-			"colName": "houseAccountId",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "TIF",
-			"colIndex": 24,
-			"colName": "traderID",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "EXP_DATE",
-			"colIndex": 25,
-			"colName": "ourOrderID",
-			"type": "TIMESTAMP",
-			"format": "yyyyMMddHHmmss"
-		}, {
-			"tableColName": "TRADER",
-			"colIndex": 26,
-			"colName": "clClientID",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "TEXT",
-			"colIndex": 27,
-			"colName": "isOrderFullyFilled",
-			"type": "Char",
-			"format": ""
-		}
-	],
-	"systemColumns":[
-		{
-			"tableColName": "FILE_DATE",
-			"type": "Date",
-			"formate":"yyyyMMdd"
-		}
-	],
-	"others": ""
+  "fileDateFormat": "yyyyMMdd",
+  "execOnDate": "20180710",
+  "filePath": "\\\\PC003703\\Scan\\rpt_report\\",
+  "fileNamePattern": "export-order{fileDateFormat}.csv",
+  "fileType": "CSV",
+  "logFilePath": "\\\\PC003703\\Scan\\rpt_report\\log\\",
+  "logFileNamePattern": "rpt-service-error(csv).log.%d{yyyy-MM-dd}",
+  "dbTableName": "FICC_TRADE_SNP_CSV",
+  "colDelimiter": "|",
+  "nullValFilter": [
+    "null",
+    "-"
+  ],
+  "headerRowIndex": 0,
+  "startRowIndex": 1,
+  "endRowIndexFromBottom": 0,
+  "columns": [
+    {
+      "tableColName": "REC_INDEX",
+      "colIndex": 1,
+      "colName": "index",
+      "type": "Number",
+      "format": "BigDecimal"
+    },
+    {
+      "tableColName": "TRAN_TIME",
+      "colIndex": 2,
+      "colName": "transactionTime",
+      "type": "TIMESTAMP",
+      "format": "yyyyMMddHHmmss.SSS"
+    },
+    {
+      "tableColName": "CLIENT",
+      "colIndex": 3,
+      "colName": "Client",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "ACCOUNT",
+      "colIndex": 4,
+      "colName": "Account",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "BROKER",
+      "colIndex": 5,
+      "colName": "Broker",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CLIENT_ORD_ID ",
+      "colIndex": 6,
+      "colName": "clientOrderId",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "GID",
+      "colIndex": 7,
+      "colName": "gId",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "OMS_DLR_PARENT_ORD_ID",
+      "colIndex": 8,
+      "colName": "omsDEALERPARENTORDERID",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "DESTINATION",
+      "colIndex": 9,
+      "colName": "isShortSell",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "MSGTYPE",
+      "colIndex": 10,
+      "colName": "unitPrice",
+      "type": "Char",
+      "format": "Double"
+    },
+    {
+      "tableColName": "EXECTYPE",
+      "colIndex": 11,
+      "colName": "tradeQuantity",
+      "type": "Char",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "CCY",
+      "colIndex": 12,
+      "colName": "tradeNum",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "SYMBOL",
+      "colIndex": 13,
+      "colName": "executionDateTime",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "EXC_CODE",
+      "colIndex": 14,
+      "colName": "brokerId",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "MARKET",
+      "colIndex": 15,
+      "colName": "counterParty",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "SIDE",
+      "colIndex": 16,
+      "colName": "mrktMaker",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "PRICE",
+      "colIndex": 17,
+      "colName": "investorId",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "QTY",
+      "colIndex": 18,
+      "colName": "investorOrderNum",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "CUMQTY",
+      "colIndex": 19,
+      "colName": "OrderID",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "LEAVE_QTY",
+      "colIndex": 20,
+      "colName": "ETFQty",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "LAST_QTY",
+      "colIndex": 21,
+      "colName": "dType",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "AVGPX",
+      "colIndex": 22,
+      "colName": "manualTradeKey",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "ORD_TYPE",
+      "colIndex": 23,
+      "colName": "houseAccountId",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "TIF",
+      "colIndex": 24,
+      "colName": "traderID",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "EXP_DATE",
+      "colIndex": 25,
+      "colName": "ourOrderID",
+      "type": "TIMESTAMP",
+      "format": "yyyyMMddHHmmss"
+    },
+    {
+      "tableColName": "TRADER",
+      "colIndex": 26,
+      "colName": "clClientID",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "TEXT",
+      "colIndex": 27,
+      "colName": "isOrderFullyFilled",
+      "type": "Char",
+      "format": ""
+    }
+  ],
+  "systemColumns": [
+    {
+      "tableColName": "FILE_DATE",
+      "type": "Date",
+      "formate": "yyyyMMdd"
+    }
+  ],
+  "others": ""
 }

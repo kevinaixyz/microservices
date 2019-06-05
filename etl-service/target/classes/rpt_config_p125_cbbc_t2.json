@@ -1,224 +1,262 @@
 {
-	"fileDateFormat":"yyyyMMdd",
-	"execOnDate":"20180731",
-	"filePath": "\\\\PC003703\\Scan\\rpt_report\\",
-	"fileNamePattern":"P125_CBBC-{fileDateFormat}",
-	"fileType":"EXCEL",
-	"fileEncoding":"UTF-16BE",
-	"logFilePath":"\\\\PC003703\\Scan\\rpt_report\\log\\",
-	"logFileNamePattern":"rpt-service-error(P125_CBBC).log.%d{yyyy-MM-dd}",
-	"dbTableName": "P125_CBBC_T2",
-	"colDelimiter": "",
-	"checkDataExistColumns":["CRE_DATE=20180815","FILE_DATE=null"],
-	"nullValFilter":["null","-"],
-	"headerRowIndex":0,
-	"startRowIndex":2,
-	"endRowIndexFromBottom":9,
-	"columns": [{
-			"tableColName": "WART_CODE",
-			"colIndex": 1,
-			"colName": "Warrant Code",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "WART_NAME",
-			"colIndex": 2,
-			"colName": "Warrant Name",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "WART_NAME_CN",
-			"colIndex": 3,
-			"colName": "Warrant Name CN",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "TRADE_DATE",
-			"colIndex": 4,
-			"colName": "Trade Date",
-			"type": "Date",
-			"format": "dd/MM/yyyy"
-		}, {
-			"tableColName": "NUM_WART_BOUGHT",
-			"colIndex": 5,
-			"colName": "No. of Warrants Bought *",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "AVG_PRIC_WART_BOUGHT",
-			"colIndex": 6,
-			"colName": "Average Price per Warrants Bought *",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "NUM_WART_SOLD",
-			"colIndex": 7,
-			"colName": "No. of Warrants Sold *",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "AVG_PRIC_WART_SOLD",
-			"colIndex": 8,
-			"colName": "Average Price per Warrants Sold *",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "NUM_WART_OUT_MKT",
-			"colIndex": 9,
-			"colName": "No. of Warrants still out in market *",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "PCT_ISU_OUT_MKT",
-			"colIndex": 10,
-			"colName": "% of issue still out in market *",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "TT_ISU_SIZE",
-			"colIndex": 11,
-			"colName": "Total Issue Size *",
-			"type": "Number",
-			"format": "Integer"
-		}, {
-			"tableColName": "DELTA",
-			"colIndex": 12,
-			"colName": "Delta (%)",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "IMP_VOLTY",
-			"colIndex": 13,
-			"colName": "Implied Volatility (%)",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "TRADE_CUR",
-			"colIndex": 14,
-			"colName": "Trading Currency",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "DAY_HIGH",
-			"colIndex": 15,
-			"colName": "Day High",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "DAY_LOW",
-			"colIndex": 16,
-			"colName": "Day Low",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "CLOS_PRIC",
-			"colIndex": 17,
-			"colName": "Closing Price",
-			"type": "Number",
-			"format": "Double"
-		}, {
-			"tableColName": "VOLUME",
-			"colIndex": 18,
-			"colName": "Volume",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "TURNOVER",
-			"colIndex": 19,
-			"colName": "Turnover",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "ISSUER",
-			"colIndex": 20,
-			"colName": "Issuer",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "UNDERLY",
-			"colIndex": 21,
-			"colName": "Underlying",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CALL_PUT",
-			"colIndex": 22,
-			"colName": "Call/Put",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "CALL_PUT_CN",
-			"colIndex": 23,
-			"colName": "Call/Put CN",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "WART_TYPE",
-			"colIndex": 24,
-			"colName": "Warrant Type",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "WART_TYPE_CN",
-			"colIndex": 25,
-			"colName": "Warrant Type CN",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "LIST_DATE",
-			"colIndex": 26,
-			"colName": "Listing Date",
-			"type": "Date",
-			"format": "dd/MM/yyyy"
-		}, {
-			"tableColName": "LAST_TRAD_DATE",
-			"colIndex": 27,
-			"colName": "Last Trading Date",
-			"type": "Date",
-			"format": "dd/MM/yyyy"
-		}, {
-			"tableColName": "MATR_DATE",
-			"colIndex": 28,
-			"colName": "Maturity Date",
-			"type": "Date",
-			"format": "dd/MM/yyyy"
-		}, {
-			"tableColName": "STRK_CUR",
-			"colIndex": 29,
-			"colName": "Strike Currency",
-			"type": "Char",
-			"format": ""
-		}, {
-			"tableColName": "STRIKE",
-			"colIndex": 30,
-			"colName": "Strike",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "ENT_RATIO",
-			"colIndex": 31,
-			"colName": "Ent. Ratio^",
-			"type": "Number",
-			"format": ""
-		}, {
-			"tableColName": "DELIST_DATE",
-			"colIndex": 32,
-			"colName": "Delisting Date**",
-			"type": "Date",
-			"format": "dd/MM/yyyy"
-		}
-	],
-	"systemColumns":[
-		{
-			"tableColName": "CRE_DATE",
-			"type": "Date",
-			"format":"yyyyMMdd"
-		},
-		{
-			"tableColName": "FILE_DATE",
-			"type": "Date",
-			"format":"yyyyMMdd"
-		}
-	],
-	"others": ""
+  "fileDateFormat": "yyyyMMdd",
+  "execOnDate": "20180731",
+  "filePath": "\\\\PC003703\\Scan\\rpt_report\\",
+  "fileNamePattern": "P125_CBBC-{fileDateFormat}",
+  "fileType": "EXCEL",
+  "fileEncoding": "UTF-16BE",
+  "logFilePath": "\\\\PC003703\\Scan\\rpt_report\\log\\",
+  "logFileNamePattern": "rpt-service-error(P125_CBBC).log.%d{yyyy-MM-dd}",
+  "dbTableName": "P125_CBBC_T2",
+  "colDelimiter": "",
+  "checkDataExistColumns": [
+    "CRE_DATE=20180815",
+    "FILE_DATE=null"
+  ],
+  "nullValFilter": [
+    "null",
+    "-"
+  ],
+  "headerRowIndex": 0,
+  "startRowIndex": 2,
+  "endRowIndexFromBottom": 9,
+  "columns": [
+    {
+      "tableColName": "WART_CODE",
+      "colIndex": 1,
+      "colName": "Warrant Code",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "WART_NAME",
+      "colIndex": 2,
+      "colName": "Warrant Name",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "WART_NAME_CN",
+      "colIndex": 3,
+      "colName": "Warrant Name CN",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "TRADE_DATE",
+      "colIndex": 4,
+      "colName": "Trade Date",
+      "type": "Date",
+      "format": "dd/MM/yyyy"
+    },
+    {
+      "tableColName": "NUM_WART_BOUGHT",
+      "colIndex": 5,
+      "colName": "No. of Warrants Bought *",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "AVG_PRIC_WART_BOUGHT",
+      "colIndex": 6,
+      "colName": "Average Price per Warrants Bought *",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "NUM_WART_SOLD",
+      "colIndex": 7,
+      "colName": "No. of Warrants Sold *",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "AVG_PRIC_WART_SOLD",
+      "colIndex": 8,
+      "colName": "Average Price per Warrants Sold *",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "NUM_WART_OUT_MKT",
+      "colIndex": 9,
+      "colName": "No. of Warrants still out in market *",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "PCT_ISU_OUT_MKT",
+      "colIndex": 10,
+      "colName": "% of issue still out in market *",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "TT_ISU_SIZE",
+      "colIndex": 11,
+      "colName": "Total Issue Size *",
+      "type": "Number",
+      "format": "Integer"
+    },
+    {
+      "tableColName": "DELTA",
+      "colIndex": 12,
+      "colName": "Delta (%)",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "IMP_VOLTY",
+      "colIndex": 13,
+      "colName": "Implied Volatility (%)",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "TRADE_CUR",
+      "colIndex": 14,
+      "colName": "Trading Currency",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "DAY_HIGH",
+      "colIndex": 15,
+      "colName": "Day High",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "DAY_LOW",
+      "colIndex": 16,
+      "colName": "Day Low",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "CLOS_PRIC",
+      "colIndex": 17,
+      "colName": "Closing Price",
+      "type": "Number",
+      "format": "Double"
+    },
+    {
+      "tableColName": "VOLUME",
+      "colIndex": 18,
+      "colName": "Volume",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "TURNOVER",
+      "colIndex": 19,
+      "colName": "Turnover",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "ISSUER",
+      "colIndex": 20,
+      "colName": "Issuer",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "UNDERLY",
+      "colIndex": 21,
+      "colName": "Underlying",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CALL_PUT",
+      "colIndex": 22,
+      "colName": "Call/Put",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "CALL_PUT_CN",
+      "colIndex": 23,
+      "colName": "Call/Put CN",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "WART_TYPE",
+      "colIndex": 24,
+      "colName": "Warrant Type",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "WART_TYPE_CN",
+      "colIndex": 25,
+      "colName": "Warrant Type CN",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "LIST_DATE",
+      "colIndex": 26,
+      "colName": "Listing Date",
+      "type": "Date",
+      "format": "dd/MM/yyyy"
+    },
+    {
+      "tableColName": "LAST_TRAD_DATE",
+      "colIndex": 27,
+      "colName": "Last Trading Date",
+      "type": "Date",
+      "format": "dd/MM/yyyy"
+    },
+    {
+      "tableColName": "MATR_DATE",
+      "colIndex": 28,
+      "colName": "Maturity Date",
+      "type": "Date",
+      "format": "dd/MM/yyyy"
+    },
+    {
+      "tableColName": "STRK_CUR",
+      "colIndex": 29,
+      "colName": "Strike Currency",
+      "type": "Char",
+      "format": ""
+    },
+    {
+      "tableColName": "STRIKE",
+      "colIndex": 30,
+      "colName": "Strike",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "ENT_RATIO",
+      "colIndex": 31,
+      "colName": "Ent. Ratio^",
+      "type": "Number",
+      "format": ""
+    },
+    {
+      "tableColName": "DELIST_DATE",
+      "colIndex": 32,
+      "colName": "Delisting Date**",
+      "type": "Date",
+      "format": "dd/MM/yyyy"
+    }
+  ],
+  "systemColumns": [
+    {
+      "tableColName": "CRE_DATE",
+      "type": "Date",
+      "format": "yyyyMMdd"
+    },
+    {
+      "tableColName": "FILE_DATE",
+      "type": "Date",
+      "format": "yyyyMMdd"
+    }
+  ],
+  "others": ""
 }

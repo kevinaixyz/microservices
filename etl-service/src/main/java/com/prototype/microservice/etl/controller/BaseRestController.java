@@ -13,25 +13,26 @@ import com.prototype.microservice.commons.json.SimpleResponseJson;
 
 public class BaseRestController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(BaseRestController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseRestController.class);
 
-	@Value("${eureka.instance.metadataMap.instanceId:UNKNOWN_EUREKA_CLIENT_INSTANCE}")
-	private String instanceId;
+    @Value("${eureka.instance.metadataMap.instanceId:UNKNOWN_EUREKA_CLIENT_INSTANCE}")
+    private String instanceId;
 
-	public BaseRestController() {
-		super();
+    public BaseRestController() {
+        super();
 
-	}
-	protected String getInstanceId() {
-		return StringUtils.trimToEmpty(instanceId);
-	}
+    }
 
-	@RequestMapping("/")
-	public ResponseJson home() {
-		final SimpleResponseJson resp = new SimpleResponseJson(getInstanceId());
-		resp.setRespCode(ResponseJson.JSON_RESP_CODE_OK);
-		resp.setRespMsg(MessageFormat.format("Welcome to {0}", instanceId));
-		return resp;
-	}
+    protected String getInstanceId() {
+        return StringUtils.trimToEmpty(instanceId);
+    }
+
+    @RequestMapping("/")
+    public ResponseJson home() {
+        final SimpleResponseJson resp = new SimpleResponseJson(getInstanceId());
+        resp.setRespCode(ResponseJson.JSON_RESP_CODE_OK);
+        resp.setRespMsg(MessageFormat.format("Welcome to {0}", instanceId));
+        return resp;
+    }
 
 }

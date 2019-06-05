@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OverallConfig {
-	List<CommonConfigInfo> configList;
+    List<CommonConfigInfo> configList;
 
-	public List<CommonConfigInfo> getConfigList() {
-		return configList;
-	}
+    public List<CommonConfigInfo> getConfigList() {
+        return configList;
+    }
 
-	public void setConfigList(List<CommonConfigInfo> configList) {
-		this.configList = configList;
-	}
+    public void setConfigList(List<CommonConfigInfo> configList) {
+        this.configList = configList;
+    }
 }

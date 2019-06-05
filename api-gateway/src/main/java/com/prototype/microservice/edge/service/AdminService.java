@@ -11,22 +11,20 @@ import org.springframework.stereotype.Service;
 
 /**
  * Administrative service.
- *
- *
- *
  */
 @Service
 public class AdminService {
 
-	private final static Logger LOG = LoggerFactory.getLogger(AdminService.class);
+    private final static Logger LOG = LoggerFactory.getLogger(AdminService.class);
 
-	@Autowired
-	private SimpleRouteLocator routeLocator;
+    @Autowired
+    private SimpleRouteLocator routeLocator;
 
-	public AdminService() {	}
+    public AdminService() {
+    }
 
-	public List<Route> getAllRoutes() {
-		return routeLocator.getRoutes();
-	}
+    public List<Route> getAllRoutes() {
+        return routeLocator.getRoutes();
+    }
 
 }

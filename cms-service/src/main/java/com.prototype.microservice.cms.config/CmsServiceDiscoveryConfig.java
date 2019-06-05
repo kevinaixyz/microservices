@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * Service discovery config.
- *
- * 
- *
  */
 @Profile("!test") // disable service discovery in junit
 @Configuration

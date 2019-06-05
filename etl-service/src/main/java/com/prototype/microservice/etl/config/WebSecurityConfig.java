@@ -27,99 +27,99 @@ import com.prototype.microservice.commons.utils.SecurityUtils;
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final static Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
+    private final static Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-	@Value("${etl-service.trust-self-signed-certs:false}")
-	private boolean trustSelfSignedCerts;
+    @Value("${etl-service.trust-self-signed-certs:false}")
+    private boolean trustSelfSignedCerts;
 
-	@Value("${etl-service.users.admin.username:admin}")
-	private String adminUsername;
+    @Value("${etl-service.users.admin.username:admin}")
+    private String adminUsername;
 
-	@Value("${etl-service.users.admin.password}")
-	private String adminPassword;
+    @Value("${etl-service.users.admin.password}")
+    private String adminPassword;
 
-	@Value("${etl-service.users.apiClient.username:apiClient}")
-	private String apiClientUsername;
+    @Value("${etl-service.users.apiClient.username:apiClient}")
+    private String apiClientUsername;
 
-	@Value("${etl-service.users.apiClient.password}")
-	private String apiClientPassword;
+    @Value("${etl-service.users.apiClient.password}")
+    private String apiClientPassword;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().authorizeRequests()
+        http.csrf().disable().authorizeRequests()
 
-		// Permit anonymous access to /public/**
-		.antMatchers("/public/**")
-		.permitAll()
+                // Permit anonymous access to /public/**
+                .antMatchers("/public/**")
+                .permitAll()
 
-		// Protect everything else
-		.antMatchers("/**")
-		.authenticated().and().httpBasic();
-		//		.antMatchers("/**").permitAll();
+                // Protect everything else
+                .antMatchers("/**")
+                .authenticated().and().httpBasic();
+        //		.antMatchers("/**").permitAll();
 
-	}
+    }
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		if (LOG.isInfoEnabled()) {
-			LOG.info(MessageFormat.format("*** USER MANAGEMENT *** admin usernmae=[{0}]", new Object[] { adminUsername }));
-		}
-		if (StringUtils.isBlank(adminPassword)) {
-			adminPassword = generateDefaultPasswordFor(adminUsername);
-		}
+        if (LOG.isInfoEnabled()) {
+            LOG.info(MessageFormat.format("*** USER MANAGEMENT *** admin usernmae=[{0}]", new Object[]{adminUsername}));
+        }
+        if (StringUtils.isBlank(adminPassword)) {
+            adminPassword = generateDefaultPasswordFor(adminUsername);
+        }
 
-		if (LOG.isInfoEnabled()) {
-			LOG.info(MessageFormat.format("*** USER MANAGEMENT *** apiClient usernmae=[{0}]", new Object[] { apiClientUsername }));
-		}
-		if (StringUtils.isBlank(apiClientPassword)) {
-			apiClientPassword = generateDefaultPasswordFor(apiClientUsername);
-		}
+        if (LOG.isInfoEnabled()) {
+            LOG.info(MessageFormat.format("*** USER MANAGEMENT *** apiClient usernmae=[{0}]", new Object[]{apiClientUsername}));
+        }
+        if (StringUtils.isBlank(apiClientPassword)) {
+            apiClientPassword = generateDefaultPasswordFor(apiClientUsername);
+        }
 
-		auth.inMemoryAuthentication()
-		.withUser(adminUsername).password(adminPassword).authorities("ROLE_ADMIN", "ROLE_ACTUATOR")
-		.and()
-		.withUser(apiClientUsername).password(apiClientPassword).authorities("ROLE_USER")
-		;
+        auth.inMemoryAuthentication()
+                .withUser(adminUsername).password(adminPassword).authorities("ROLE_ADMIN", "ROLE_ACTUATOR")
+                .and()
+                .withUser(apiClientUsername).password(apiClientPassword).authorities("ROLE_USER")
+        ;
 
-	}
+    }
 
-	private String generateDefaultPasswordFor(final String username) {
-		String secret = Base64Utils.encodeToUrlSafeString(UUID.randomUUID().toString().getBytes());
-		if (LOG.isWarnEnabled()) {
-			LOG.warn(MessageFormat.format(
-					"*** USER MANAGEMENT *** [generateDefaultPassword] -> Password is not set for user [{0}]! Generated default password=[{1}]",
-					new Object[] { username, secret }));
-		}
-		return secret;
-	}
+    private String generateDefaultPasswordFor(final String username) {
+        String secret = Base64Utils.encodeToUrlSafeString(UUID.randomUUID().toString().getBytes());
+        if (LOG.isWarnEnabled()) {
+            LOG.warn(MessageFormat.format(
+                    "*** USER MANAGEMENT *** [generateDefaultPassword] -> Password is not set for user [{0}]! Generated default password=[{1}]",
+                    new Object[]{username, secret}));
+        }
+        return secret;
+    }
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		AuthenticationManager manager = super.authenticationManagerBean();
-		return manager;
-	}
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        AuthenticationManager manager = super.authenticationManagerBean();
+        return manager;
+    }
 
-	@PostConstruct
-	public void postConstruct() {
-		try {
-			if (trustSelfSignedCerts) {
-				if (LOG.isWarnEnabled()) {
-					LOG.warn("Overriding JVM default TrustManager...");
-				}
-				SecurityUtils.trustSelfSignedCerts();
-				if (LOG.isWarnEnabled()) {
-					LOG.warn("Overriding JVM default TrustManager completed. "
-							+ "All SSL certs, including self-signed ones, will be trusted. "
-							+ "DO NOT do this in a production environment!");
-				}
-			}
+    @PostConstruct
+    public void postConstruct() {
+        try {
+            if (trustSelfSignedCerts) {
+                if (LOG.isWarnEnabled()) {
+                    LOG.warn("Overriding JVM default TrustManager...");
+                }
+                SecurityUtils.trustSelfSignedCerts();
+                if (LOG.isWarnEnabled()) {
+                    LOG.warn("Overriding JVM default TrustManager completed. "
+                            + "All SSL certs, including self-signed ones, will be trusted. "
+                            + "DO NOT do this in a production environment!");
+                }
+            }
 
-		} catch (Exception e) {
-			LOG.error("Error occurred in WebSecurityConfig.postConstruct()", e);
-		}
-	}
+        } catch (Exception e) {
+            LOG.error("Error occurred in WebSecurityConfig.postConstruct()", e);
+        }
+    }
 
 }

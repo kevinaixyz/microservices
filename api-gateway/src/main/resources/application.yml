@@ -35,19 +35,19 @@ server:
     max-http-post-size: 1000000
 # Logbook
 logbook:
-    filter.enabled: true
-    format.style: http
-    obfuscate:
-        headers:
-            - Authorization
-            - X-Secret
-        parameters:
-            - access_token
-            - password
-    write:
-        category: http.wire-log
-        level: INFO
-        chunk-size: 1000
+  filter.enabled: true
+  format.style: http
+  obfuscate:
+    headers:
+    - Authorization
+    - X-Secret
+    parameters:
+    - access_token
+    - password
+  write:
+    category: http.wire-log
+    level: INFO
+    chunk-size: 1000
 # Spring Management and Endpoints
 management:
   security:
@@ -89,7 +89,7 @@ ribbon:
     enabled: true
   IsSecure: true
   TrustStore: keystore.p12
-  TrustStorePassword : prototype
+  TrustStorePassword: prototype
   ReadTimeout: 180000
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 10
@@ -137,12 +137,12 @@ zuul:
       path: /crmpwm-service/**
       serviceId: crmpwm-service-${spring.profiles.active}
       retryable: true
-#      ipWhitelist: 10.168.55.38
-#      serverPortWhitelist: 80
-#      localPortWhitelist: 8009
-#      ipWhitelist: 10.168.55.39
-#      serverPortWhitelist: 9906
-#      localPortWhitelist: 9906
+    #      ipWhitelist: 10.168.55.38
+    #      serverPortWhitelist: 80
+    #      localPortWhitelist: 8009
+    #      ipWhitelist: 10.168.55.39
+    #      serverPortWhitelist: 9906
+    #      localPortWhitelist: 9906
     # CEN service
     cen-service:
       path: /cen-service/**
@@ -165,7 +165,7 @@ zuul:
     rmm-service:
       path: /rmm-service/**
       serviceId: rmm-service-${spring.profiles.active}
-      retryable: true   
+      retryable: true
 # Netflix Hystrix (Circuit Breaker)
 hystrix:
   command:
