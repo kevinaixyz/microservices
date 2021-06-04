@@ -16,7 +16,7 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd/HH:mm:ss.SSSZ</maven.build.timestamp.format>
         <apache-commons-lang3.version>3.0</apache-commons-lang3.version>
-        <apache-httpclient.version>4.5.5</apache-httpclient.version>
+        <apache-httpclient.version>4.5.13</apache-httpclient.version>
         <swagger.version>2.7.0</swagger.version>
         <jscrypt-spring-boot.version>1.16</jscrypt-spring-boot.version>
         <logbook.version>1.5.5</logbook.version>
