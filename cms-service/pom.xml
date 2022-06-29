@@ -63,7 +63,7 @@
         <oracle-jars.version>12.2.0.1</oracle-jars.version>
         <swagger.version>2.7.0</swagger.version>
         <jscrypt-spring-boot.version>1.16</jscrypt-spring-boot.version>
-        <poi.version>3.17</poi.version>
+        <poi.version>4.1.1</poi.version>
         <lombok.verison>1.16.20</lombok.verison>
         <lib.version>1.0.0-RELEASE</lib.version>
     </properties>
