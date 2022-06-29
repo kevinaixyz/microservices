@@ -27,7 +27,7 @@
         <jscrypt-spring-boot.version>1.16</jscrypt-spring-boot.version>
         <h2.version>1.4.197</h2.version>
         <swagger.version>2.7.0</swagger.version>
-        <poi.version>3.17</poi.version>
+        <poi.version>4.1.1</poi.version>
     </properties>
 
     <!-- Build -->
